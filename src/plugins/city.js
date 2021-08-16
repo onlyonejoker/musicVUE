@@ -1,7 +1,7 @@
 import axios from "axios";
 import Vue from "../main";
 let config = {
-  baseURL: "https://quhua.ipchaxun.com/api/areas/data",
+  baseURL: "https://quhua.ipchaxun.com/api/areas",
   timeout: 5 * 1000,
   withCredentials: true, // Check cross-site Access-Control
 };

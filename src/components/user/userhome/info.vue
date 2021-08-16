@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { city } from "@/request/city";
 export default {
   name: "info",
   data() {
@@ -57,8 +58,24 @@ export default {
       }
     },
   },
-  watch: {},
-  mounted() {},
+  methods: {
+    citys() {
+      console.log(this.info.profile.city);
+      city(440300)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch();
+      city(this.info.profile.province)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch();
+    },
+  },
+  mounted() {
+    this.citys();
+  },
 };
 </script>
 

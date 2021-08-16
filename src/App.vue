@@ -30,7 +30,6 @@ export default {
       this.res = JSON.parse(sessionStorage.getItem("res"));
       console.log(this.res);
       if (this.res == null) return;
-
       this.$store.commit("token", this.res.token);
       this.$store.commit("login", this.res);
       loginStatus()
