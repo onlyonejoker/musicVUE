@@ -1,0 +1,45 @@
+@import url(./normalize.css);
+*,
+*::before,
+*::after {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+:root {}
+body {
+	font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+	user-select: none; /* 禁止用户选中文字 */
+	width: 100vw;
+	background-color: #c4c4c4;
+}
+html::-webkit-scrollbar {
+	width: 0;
+}
+ul {
+	list-style: none;
+}
+a {
+	text-decoration: none;
+	color: black;
+}
+.clear-fix::after {
+	clear: both;
+	content: "";
+	display: block;
+	width: 0;
+	height: 0;
+	visibility: hidden;
+}
+.clear-fix {
+	zoom: 1;
+}
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
+img {
+	vertical-align: middle;
+}
