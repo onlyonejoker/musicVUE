@@ -76,27 +76,27 @@ export default {
       loginPhone(this.input1, this.input2)
         .then((res) => {
           console.log(res);
-          this.$store.commit("login", res);
-          this.$store.commit("token", res.token);
-          for (const k in res) {
-            if (k == "msg") {
-              this.$bus.$emit("error", "密码");
-            } else {
-              document.cookie = this.input1 + "=" + this.input2;
-              this.closeLogin();
-            }
-          }
-          if (document.cookie.length > 10) {
-            sessionStorage.setItem("res", JSON.stringify(res));
+          let user = {
+            account: res.account,
+            profile: res.profile,
+          };
+          if (Object.prototype.hasOwnProperty.call(res, "msg")) {
+            this.$bus.$emit("error", "密码");
+          } else {
+            this.$store.commit("login", res);
+            this.$store.commit("token", false);
+            document.cookie = this.input1 + "=" + this.input2;
+            sessionStorage.setItem("token", false);
+            sessionStorage.setItem("user", JSON.stringify(user));
+            this.closeLogin();
           }
         })
-        .catch((err) => {
+        .catch(() => {
           this.$bus.$emit("error", "登录");
-          console.log(err);
         });
     },
   },
-  mounted() {
+  created() {
     this.loginBox();
   },
 };

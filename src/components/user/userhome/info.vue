@@ -25,7 +25,7 @@
       </section>
 
       <section>
-        <p>所在地区{{info.profile.city}}</p>
+        <p>所在地区： {{city}}</p>
       </section>
     </div>
   </div>
@@ -33,10 +33,13 @@
 
 <script>
 import { city } from "@/request/city";
+
 export default {
   name: "info",
   data() {
-    return {};
+    return {
+      city: "",
+    };
   },
   props: { level: Object },
   computed: {
@@ -60,21 +63,18 @@ export default {
   },
   methods: {
     citys() {
-      console.log(this.info.profile.city);
-      city(440300)
+      city(this.info.profile.city)
         .then((res) => {
-          console.log(res);
-        })
-        .catch();
-      city(this.info.profile.province)
-        .then((res) => {
-          console.log(res);
+          this.city = res.data.results[0].province + res.data.results[0].city;
         })
         .catch();
     },
   },
   mounted() {
     this.citys();
+  },
+  updata() {
+    console.log(1);
   },
 };
 </script>

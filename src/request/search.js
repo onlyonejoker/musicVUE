@@ -1,9 +1,9 @@
 import {
-  installApi
+  install
 } from "@/plugins/axios";
 
 export function _search(keywords) {
-  return installApi.axios({
+  return install({
     url: "/cloudsearch",
     params: {
       keywords

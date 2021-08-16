@@ -43,16 +43,16 @@ const routes = [{
         name: "userSet",
         component: userSet,
         children: [{
-            path: "/user/userSet",
-            redirect: "/user/userSet/updata",
+            path: "/user/set",
+            redirect: "/user/set/updata",
           },
           {
-            path: "/updata",
+            path: "updata",
             name: "updata",
             component: updata,
           },
           {
-            path: "/bind",
+            path: "bind",
             name: "bind",
             component: bind,
           }

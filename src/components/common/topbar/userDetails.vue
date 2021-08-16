@@ -45,17 +45,15 @@ export default {
       this.$bus.$on("out", () => {
         setTimeout(() => {
           this.enter ? (this.block = true) : (this.block = false);
-        }, 46);
+        }, 47);
       });
     },
     loginOut() {
       loginOut()
-        .then((res) => {
-          this.$store.commit("login", res);
-          this.$store.commit("token", "");
-          res = JSON.stringify(res);
-          sessionStorage.setItem("res", res);
-          console.log(JSON.parse(sessionStorage.getItem("res")));
+        .then(() => {
+          this.$store.commit("token", true);
+          sessionStorage.setItem("token", true);
+          sessionStorage.setItem("user", null);
         })
         .catch();
     },

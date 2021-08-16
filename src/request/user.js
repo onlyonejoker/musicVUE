@@ -33,7 +33,6 @@ export function level() {
     method: "post",
   })
 }
-
 //更新用户信息
 export function update() {
   return install({
@@ -53,12 +52,23 @@ export function update() {
 export function upload(file) {
   let param = new FormData() // 创建form对象
   param.append('file', file) // 通过append向form对象添加数据
-  console.log(param.get('file'))
-  return install({
-    url: "/avatar/upload",
+  let config = {
     method: "post",
     headers: {
       'Content-Type': 'multipart/form-data'
+    }
+  }
+  return install('/avatar/upload', param, config)
+}
+//获取用户歌单
+export function playlist(uid, limit, offset) {
+  return install({
+    url: "/user/playlist",
+    method: "post",
+    params: {
+      uid,
+      limit,
+      offset,
     }
   })
 }

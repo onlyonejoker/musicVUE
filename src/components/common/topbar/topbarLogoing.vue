@@ -22,13 +22,21 @@ export default {
   },
   computed: {
     token() {
-      return this.$store.state.token.length < 10;
+      return this.$store.state.token;
     },
     userimg() {
-      return this.$store.state.login.profile.avatarUrl;
+      if (this.$store.state.login !== null) {
+        return this.$store.state.login.profile.avatarUrl;
+      } else {
+        return null;
+      }
     },
     userId() {
-      return this.$store.state.login.profile.nickname;
+      if (this.$store.state.login !== null) {
+        return this.$store.state.login.profile.nickname;
+      } else {
+        return null;
+      }
     },
   },
   methods: {

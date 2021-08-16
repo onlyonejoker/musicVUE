@@ -3,28 +3,98 @@
     <div class="create">
       <div class="title">歌手({{subcount.artistCount}})</div>
       <div class="content">
-        <div v-for="(item,index) in null" :key="index"></div>
+        <div class="play" v-for="(item,index) in myPlay" :key="index">
+          <div><img :src="item.coverImgUrl" alt="">
+            <div>
+              <span>
+                <i class="el-icon-headset"></i>
+                {{item.playCount>10000?
+               Math.floor(item.playCount/100)/100 +"万"
+               :item.playCount}}
+              </span>
+              <span><i class="el-icon-video-play"></i></span>
+            </div>
+          </div>
+          <p>{{item.name}}</p>
+        </div>
       </div>
     </div>
     <div class="create">
       <div class="title">我创建的歌单({{subcount.createdPlaylistCount}})</div>
       <div class="content">
-        <div v-for="(item,index) in null" :key="index"></div>
+        <div class="play" v-for="(item,index) in myPlay" :key="index">
+          <div>
+            <img :src="item.coverImgUrl" alt="">
+            <div>
+              <span>
+                <i class="el-icon-headset"></i>
+                {{item.playCount>10000?
+                 Math.floor(item.playCount/100)/100 +"万"
+                 :item.playCount}}
+              </span>
+              <span><i class="el-icon-video-play"></i></span>
+            </div>
+          </div>
+          <p>{{item.name}}</p>
+        </div>
       </div>
     </div>
     <div class="create">
       <div class="title">我收藏的歌单({{subcount.subPlaylistCount}})</div>
       <div class="content">
-        <div v-for="(item,index) in null" :key="index"></div>
+        <div class="play" v-for="(item,index) in collectPlay" :key="index">
+          <div>
+            <img :src="item.coverImgUrl" alt="">
+            <div>
+              <span>
+                <i class="el-icon-headset"></i>
+                {{item.playCount>10000?
+                Math.floor(item.playCount/100)/100 +"万"
+                :item.playCount}}
+              </span>
+              <span><i class="el-icon-video-play"></i></span>
+            </div>
+          </div>
+          <p>{{item.name}}</p>
+
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { playlist } from "@/request/user";
 export default {
   name: "createPlay",
   props: { subcount: Object },
+  data() {
+    return {
+      myPlay: [],
+      collectPlay: [],
+    };
+  },
+  methods: {
+    playlists() {
+      Math.floor();
+      let uid = this.$store.state.login.account.id;
+      playlist(uid, 30, 0)
+        .then((res) => {
+          console.log(res);
+          res.playlist.forEach((e) => {
+            if (e.userId == uid) {
+              this.myPlay.push(e);
+            } else {
+              this.collectPlay.push(e);
+            }
+          });
+        })
+        .catch();
+    },
+  },
+  created() {
+    this.playlists();
+  },
 };
 </script>
 
@@ -43,6 +113,38 @@ export default {
       .content {
         padding: 20px 0;
         height: calc(100% - 30px);
+        display: flex;
+        .play {
+          display: flex;
+          width: 220px;
+          height: 100%;
+          flex-flow: column;
+          justify-content: space-between;
+          padding-bottom: 10px;
+          > div {
+            position: relative;
+            img {
+              width: 188px;
+              height: 188px;
+            }
+            div {
+              width: 188px;
+              padding: 0 10px;
+              position: absolute;
+              left: 0;
+              bottom: 0;
+              display: flex;
+              justify-content: space-between;
+            }
+          }
+          p {
+            font-size: 14px;
+            width: 188px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
       }
     }
   }

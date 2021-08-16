@@ -39,7 +39,7 @@ export default {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(194, 194, 194, 0.1);
+    background-color: rgba(2, 2, 2, 0.384);
     display: flex;
     justify-content: center;
     align-items: center;

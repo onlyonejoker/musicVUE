@@ -43,14 +43,21 @@
     <section>
       <div>
         <img :src="userimg" alt="">
-        <p>更换图像</p>
+
+        <div class="imgFileBox">
+          <div class="imgFile">
+            <input type="file" name="imgFile" @change="upimg">
+            <p>更换图像</p>
+          </div>
+        </div>
       </div>
     </section>
   </div>
 </template>
 
 <script>
-import { update } from "@/request/user.js";
+import { update, upload } from "@/request/user.js";
+
 export default {
   name: "updata",
   data() {
@@ -62,6 +69,7 @@ export default {
       city: null,
       isActive: 1,
       click: false,
+      imgFile: null,
     };
   },
   computed: {
@@ -86,10 +94,17 @@ export default {
     userUpdate() {
       let time = new Date(this.birthday).getTime();
       update(this.nickname, this.textarea, this.sex, time)
+        .then(() => {
+          alert("保存成功");
+        })
+        .catch(() => {});
+    },
+    upimg(e) {
+      upload(e.target.files[0])
         .then((res) => {
           console.log(res);
         })
-        .catch(() => {});
+        .catch();
     },
   },
 };
@@ -169,15 +184,36 @@ export default {
             width: 188px;
             height: 188px;
           }
-          p {
+          .imgFileBox {
             width: 100%;
             height: 20px;
             background-color: rgba(0, 0, 0, 0.418);
+            padding: 0;
+            margin: 0;
             position: absolute;
             bottom: 0;
             left: 0;
             color: white;
             text-align: center;
+            .imgFile {
+              position: relative;
+              width: 100%;
+              height: 100%;
+              padding: 0;
+              margin: 0;
+              display: flex;
+              input {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+              }
+              p {
+                width: 100%;
+                height: 100%;
+                text-align: center;
+              }
+            }
           }
         }
       }

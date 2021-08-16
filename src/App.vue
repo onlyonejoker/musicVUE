@@ -21,25 +21,23 @@ export default {
     error,
   },
   data() {
-    return {
-      res: null,
-    };
+    return {};
   },
   methods: {
     status() {
-      this.res = JSON.parse(sessionStorage.getItem("res"));
-      console.log(this.res);
-      if (this.res == null) return;
-      this.$store.commit("token", this.res.token);
-      this.$store.commit("login", this.res);
+      let token = sessionStorage.getItem("token");
+      if (token === "true" || token == null) return;
+      let user = JSON.parse(sessionStorage.getItem("user"));
+      this.$store.commit("login", user);
+      this.$store.commit("token", false);
       loginStatus()
         .then((res) => {
-          console.log(res);
+          this.$store.commit("login", res.data);
         })
         .catch();
     },
   },
-  mounted() {
+  created() {
     this.status();
   },
 };
