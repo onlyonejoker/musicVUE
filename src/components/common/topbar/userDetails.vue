@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import { logout } from "../../../request/logoin";
-import { detail, subcount } from "../../../request/user";
+import { loginOut } from "@/request/logoin";
+import { detail, subcount } from "@/request/user";
 export default {
   name: "userDetails",
   data() {
@@ -49,7 +49,7 @@ export default {
       });
     },
     loginOut() {
-      logout()
+      loginOut()
         .then((res) => {
           this.$store.commit("login", res);
           this.$store.commit("token", "");

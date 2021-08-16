@@ -1,10 +1,10 @@
 import {
-  installApi
+  install
 } from "@/plugins/axios";
 
 //获取用户信息
 export function detail(uid) {
-  return installApi({
+  return install({
     url: "/user/detail",
     method: "post",
     params: {
@@ -14,21 +14,21 @@ export function detail(uid) {
 }
 //获取账号信息
 export function account() {
-  return installApi({
+  return install({
     url: "/user/account",
     method: "post",
   })
 }
 //获取用户信息 , 歌单，收藏，mv, dj 数量
 export function subcount() {
-  return installApi({
+  return install({
     url: "/user/subcount",
     method: "post",
   })
 }
 //用户等级level
 export function level() {
-  return installApi({
+  return install({
     url: "/user/level",
     method: "post",
   })
@@ -36,7 +36,7 @@ export function level() {
 
 //更新用户信息
 export function update() {
-  return installApi({
+  return install({
     url: "/user/update",
     method: "post",
     params: {
@@ -54,7 +54,7 @@ export function upload(file) {
   let param = new FormData() // 创建form对象
   param.append('file', file) // 通过append向form对象添加数据
   console.log(param.get('file'))
-  return installApi({
+  return install({
     url: "/avatar/upload",
     method: "post",
     headers: {

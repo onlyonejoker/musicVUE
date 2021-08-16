@@ -1,8 +1,7 @@
-"use strict";
 import axios from "axios";
 import Vue from "../main";
 let config = {
-  baseURL: "https://netease-cloud-music-api-ochre-nine.vercel.app",
+  baseURL: "https://quhua.ipchaxun.com/api/areas/data",
   timeout: 5 * 1000,
   withCredentials: true, // Check cross-site Access-Control
 };
@@ -32,6 +31,6 @@ _axios.interceptors.response.use(
 
 
 
-export function install(params) {
+export function install1(params) {
   return _axios(params);
 }

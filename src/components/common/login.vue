@@ -73,7 +73,6 @@ export default {
       this.display = false;
     },
     login() {
-      console.log(loginPhone());
       loginPhone(this.input1, this.input2)
         .then((res) => {
           console.log(res);
