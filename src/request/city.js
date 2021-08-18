@@ -18,6 +18,7 @@ export function city(code) {
 }
 export function ip(ip) {
   return install1({
+    withCredentials: false,
     url: "http://ip-api.com/json/" + ip + "?lang=zh-CN",
   })
 }

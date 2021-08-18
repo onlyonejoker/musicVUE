@@ -84,9 +84,9 @@ export default {
             this.$bus.$emit("error", "密码");
           } else {
             this.$store.commit("login", res);
-            this.$store.commit("token", false);
+            this.$store.commit("token", res.token);
             document.cookie = this.input1 + "=" + this.input2;
-            sessionStorage.setItem("token", false);
+            sessionStorage.setItem("token", JSON.stringify(res.token));
             sessionStorage.setItem("user", JSON.stringify(user));
             this.closeLogin();
           }

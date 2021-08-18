@@ -45,15 +45,15 @@ export default {
       this.$bus.$on("out", () => {
         setTimeout(() => {
           this.enter ? (this.block = true) : (this.block = false);
-        }, 47);
+        }, 50);
       });
     },
     loginOut() {
       loginOut()
         .then(() => {
-          this.$store.commit("token", true);
-          sessionStorage.setItem("token", true);
-          sessionStorage.setItem("user", null);
+          this.$store.commit("token", null);
+          sessionStorage.clear("token");
+          sessionStorage.clear("user");
         })
         .catch();
     },
@@ -87,6 +87,7 @@ export default {
     width: 100px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     z-index: 999;
+    background-color: #c4c4c4;
     div {
       height: 30px;
       line-height: 30px;

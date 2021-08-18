@@ -1,70 +1,33 @@
 <template>
   <div class="createPlay">
+
     <div class="create">
       <div class="title">歌手({{subcount.artistCount}})</div>
       <div class="content">
-        <div class="play" v-for="(item,index) in myPlay" :key="index">
-          <div><img :src="item.coverImgUrl" alt="">
-            <div>
-              <span>
-                <i class="el-icon-headset"></i>
-                {{item.playCount>10000?
-               Math.floor(item.playCount/100)/100 +"万"
-               :item.playCount}}
-              </span>
-              <span><i class="el-icon-video-play"></i></span>
-            </div>
-          </div>
-          <p>{{item.name}}</p>
-        </div>
+        <playItem v-for="(item,index) in myPlay" :key="index" :playUrl="item.coverImgUrl" :playName="item.name" :id="{id:item.id,e:1}" />
       </div>
     </div>
+
     <div class="create">
       <div class="title">我创建的歌单({{subcount.createdPlaylistCount}})</div>
       <div class="content">
-        <div class="play" v-for="(item,index) in myPlay" :key="index">
-          <div>
-            <img :src="item.coverImgUrl" alt="">
-            <div>
-              <span>
-                <i class="el-icon-headset"></i>
-                {{item.playCount>10000?
-                 Math.floor(item.playCount/100)/100 +"万"
-                 :item.playCount}}
-              </span>
-              <span><i class="el-icon-video-play"></i></span>
-            </div>
-          </div>
-          <p>{{item.name}}</p>
-        </div>
+        <playItem v-for="(item,index) in myPlay" :key="index" :playUrl="item.coverImgUrl" :playName="item.name" :id="{id:item.id,e:2}" />
       </div>
     </div>
+
     <div class="create">
       <div class="title">我收藏的歌单({{subcount.subPlaylistCount}})</div>
       <div class="content">
-        <div class="play" v-for="(item,index) in collectPlay" :key="index">
-          <div>
-            <img :src="item.coverImgUrl" alt="">
-            <div>
-              <span>
-                <i class="el-icon-headset"></i>
-                {{item.playCount>10000?
-                Math.floor(item.playCount/100)/100 +"万"
-                :item.playCount}}
-              </span>
-              <span><i class="el-icon-video-play"></i></span>
-            </div>
-          </div>
-          <p>{{item.name}}</p>
-
-        </div>
+        <playItem v-for="(item,index) in collectPlay" :key="index" :playUrl="item.coverImgUrl" :playName="item.name" :id="{id:item.id,e:3}" />
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
 import { playlist } from "@/request/user";
+import playItem from "../../common/play/playItem.vue";
 export default {
   name: "createPlay",
   props: { subcount: Object },
@@ -72,15 +35,19 @@ export default {
     return {
       myPlay: [],
       collectPlay: [],
+      data() {
+        return {};
+      },
     };
+  },
+  components: {
+    playItem,
   },
   methods: {
     playlists() {
-      Math.floor();
       let uid = this.$store.state.login.account.id;
       playlist(uid, 30, 0)
         .then((res) => {
-          console.log(res);
           res.playlist.forEach((e) => {
             if (e.userId == uid) {
               this.myPlay.push(e);
@@ -114,37 +81,6 @@ export default {
         padding: 20px 0;
         height: calc(100% - 30px);
         display: flex;
-        .play {
-          display: flex;
-          width: 220px;
-          height: 100%;
-          flex-flow: column;
-          justify-content: space-between;
-          padding-bottom: 10px;
-          > div {
-            position: relative;
-            img {
-              width: 188px;
-              height: 188px;
-            }
-            div {
-              width: 188px;
-              padding: 0 10px;
-              position: absolute;
-              left: 0;
-              bottom: 0;
-              display: flex;
-              justify-content: space-between;
-            }
-          }
-          p {
-            font-size: 14px;
-            width: 188px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-        }
       }
     }
   }

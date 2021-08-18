@@ -32,46 +32,39 @@
 </template>
 
 <script>
-import { city } from "@/request/city";
-
+import { ip } from "@/request/city";
+import { detail } from "@/request/user";
 export default {
   name: "info",
   data() {
     return {
       city: "",
+      info: this.$store.state.login,
     };
   },
   props: { level: Object },
-  computed: {
-    info() {
-      let defineinfo = {
-        profile: {
-          avatarUrl: "",
-          nickname: "",
-          eventCount: "",
-          follows: "",
-          followeds: "",
-          city: "",
-        },
-      };
-      if (this.$store.state.login !== null) {
-        return this.$store.state.login;
-      } else {
-        return defineinfo;
-      }
-    },
-  },
+  computed: {},
   methods: {
-    citys() {
-      city(this.info.profile.city)
+    ips() {
+      ip(this.info.profile.lastLoginIP)
         .then((res) => {
-          this.city = res.data.results[0].province + res.data.results[0].city;
+          if (Object.prototype.hasOwnProperty.call(res, "country")) {
+            this.city = res.country + "   " + res.regionName;
+          } else {
+            this.city = null;
+          }
         })
         .catch();
     },
+    details() {
+      detail(this.info.account.id).then((res) => {
+        this.info = res;
+      });
+    },
   },
-  mounted() {
-    this.citys();
+  created() {
+    this.ips();
+    this.details();
   },
   updata() {
     console.log(1);

@@ -14,15 +14,15 @@
       <div class="row">
         <label for="sex">性别:</label>
         <div class="sex">
-          <p :class="{active:isActive==1}" @click="active(1)">
+          <p :class="{active:sex==1}" @click="active(1)">
             <span><i></i></span>
             <span>男</span>
           </p>
-          <p :class="{active:isActive==2}" @click="active(2)">
+          <p :class="{active:sex==2}" @click="active(2)">
             <span><i></i></span>
             <span>女</span>
           </p>
-          <p :class="{active:isActive==0}" @click="active(0)">
+          <p :class="{active:sex==0}" @click="active(0)">
             <span><i></i></span>
             <span>保密</span>
           </p>
@@ -62,12 +62,11 @@ export default {
   name: "updata",
   data() {
     return {
-      nickname: "",
-      sex: 3,
-      textarea: "",
+      nickname: this.$store.state.login.profile.nickname,
+      sex: this.$store.state.login.profile.gender,
+      textarea: this.$store.state.login.profile.signature,
       birthday: null,
       city: null,
-      isActive: 1,
       click: false,
       imgFile: null,
     };
@@ -83,7 +82,7 @@ export default {
   },
   methods: {
     active(i) {
-      this.isActive = i;
+      this.sex = i;
     },
     mousedown() {
       this.click = true;
@@ -100,7 +99,9 @@ export default {
         .catch(() => {});
     },
     upimg(e) {
-      upload(e.target.files[0])
+      let formData = new FormData();
+      formData.append("imgFile", e.target.files[0]);
+      upload(formData)
         .then((res) => {
           console.log(res);
         })
@@ -185,14 +186,14 @@ export default {
             height: 188px;
           }
           .imgFileBox {
-            width: 100%;
+            width: 188px;
             height: 20px;
             background-color: rgba(0, 0, 0, 0.418);
-            padding: 0;
             margin: 0;
+            padding: 0;
             position: absolute;
             bottom: 0;
-            left: 0;
+            left: 12px;
             color: white;
             text-align: center;
             .imgFile {
@@ -205,12 +206,12 @@ export default {
               input {
                 position: absolute;
                 width: 100%;
-                height: 100%;
+                height: 20px;
                 opacity: 0;
               }
               p {
                 width: 100%;
-                height: 100%;
+                height: 20px;
                 text-align: center;
               }
             }

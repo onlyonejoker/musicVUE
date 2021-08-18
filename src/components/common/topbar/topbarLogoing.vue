@@ -1,13 +1,14 @@
 <template>
-  <div class="logoing" v-if="token">
-    <span @click="login">登录</span>
-    <span @click="signIn">注册</span>
-  </div>
-  <div v-else class="user">
+  <div v-if="token" class="user">
     <span><img :src="userimg" alt=""></span>
     <span @mouseover="mouseover" @mouseout="mouseout">{{userId}}</span>
     <userDetails />
   </div>
+  <div class="logoing" v-else>
+    <span @click="login">登录</span>
+    <span @click="signIn">注册</span>
+  </div>
+
 </template>
 
 <script>
@@ -90,6 +91,7 @@ export default {
       }
       &:nth-child(2) {
         font-size: 14px;
+        line-height: 44px;
       }
     }
   }

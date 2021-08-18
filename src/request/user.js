@@ -50,15 +50,15 @@ export function update() {
 }
 //更新头像
 export function upload(file) {
-  let param = new FormData() // 创建form对象
-  param.append('file', file) // 通过append向form对象添加数据
-  let config = {
+  return install({
+    url: "/avatar/upload",
     method: "post",
+    timeout: 60 * 1000,
     headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  }
-  return install('/avatar/upload', param, config)
+      'Content-Type': 'multipart/form-data',
+    },
+    data: file,
+  })
 }
 //获取用户歌单
 export function playlist(uid, limit, offset) {
