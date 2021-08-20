@@ -2,17 +2,25 @@
   <div id="app">
     <router-view></router-view>
     <login />
-
+    <music />
+    <footers />
+    <playCreate />
   </div>
 </template>
 
 <script>
 import login from "./components/common/login.vue";
+import music from "./views/musicplay/music.vue";
+import footers from "./components/common/footer.vue";
+import playCreate from "./components/common/play/playCreate.vue";
 import { loginStatus } from "./request/logoin";
 export default {
   name: "app",
   components: {
     login,
+    music,
+    footers,
+    playCreate,
   },
   data() {
     return {};
@@ -39,5 +47,5 @@ export default {
 </script>
 
 <style less>
-  @import url(./assets/css/base.css);
+@import url(./assets/css/base.css);
 </style>

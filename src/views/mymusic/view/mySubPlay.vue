@@ -1,6 +1,7 @@
+
 <template>
-  <div class="Play">
-    <playItem v-for="(item,index) in myPlay" :key="index" :playUrl="item.coverImgUrl" :playName="item.name" :id="{id:item.id,e:2}" />
+  <div class="mySubPlay">
+    <playItem v-for="(item,index) in collectPlay" :key="index" :play="item" />
   </div>
 </template>
 
@@ -8,7 +9,7 @@
 import playItem from "@/components/common/play/playItem.vue";
 
 export default {
-  name: "Play",
+  name: "mySubPlay",
   components: {
     playItem,
   },
@@ -16,15 +17,19 @@ export default {
     return {};
   },
   computed: {
-    myPlay() {
-      return this.$bus.play.myPlay;
+    collectPlay() {
+      if (this.$store.state.play !== null) {
+        return this.$store.state.play.collectPlay;
+      } else {
+        return null;
+      }
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-  .Play {
+  .mySubPlay {
     display: flex;
     flex-wrap: wrap;
   }

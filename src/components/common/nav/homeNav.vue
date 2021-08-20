@@ -4,7 +4,7 @@
       <router-link to="/" :class="{active:isActive==0}">首页</router-link>
     </div>
     <div @click="active(1)">
-      <router-link to="/playDetails" :class="{active:isActive==1}">我的音乐</router-link>
+      <router-link to="/user/home" :class="{active:isActive==1}">我的音乐</router-link>
     </div>
     <div @click="active(2)">
       <router-link to="/artistItem" :class="{active:isActive==2}">歌手列表</router-link>

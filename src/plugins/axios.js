@@ -7,7 +7,8 @@ import {
 
 let config = {
   baseURL: "https://netease-cloud-music-api-ochre-nine.vercel.app",
-  timeout: 5 * 1000,
+  //baseURL: " http://localhost:3000",
+  timeout: 10 * 1000,
   withCredentials: true, // Check cross-site Access-Control
 };
 

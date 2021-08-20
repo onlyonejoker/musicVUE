@@ -23,6 +23,7 @@ export default {
 <style lang="less" scoped>
   .topbar {
     width: 100%;
+    min-width: 800px;
     height: 44px;
     display: flex;
     justify-content: space-between;

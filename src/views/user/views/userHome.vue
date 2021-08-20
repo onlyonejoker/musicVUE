@@ -1,53 +1,48 @@
 <template>
   <div class="userHome">
-    <info :level="level" />
-    <createPlay :subcount="subcount" />
+    <info />
+    <router-view />
   </div>
 </template>
 
 <script>
-import { subcount, level } from "@/request/user.js";
 import info from "@/components/user/userhome/info.vue";
-import createPlay from "@/components/user/userhome/createPlay.vue";
 export default {
   name: "userhome",
-  data() {
-    return {
-      level: {},
-      subcount: {},
-    };
-  },
   components: {
     info,
-    createPlay,
   },
   methods: {
-    userSubcount() {
-      subcount().then((res) => {
-        this.subcount = res;
-      });
+    //写入路由id
+    setRouterId() {
+      this.$route.query.id
+        ? (sessionStorage.setItem("others", this.$route.query.id),
+          this.$store.commit("others", this.$route.query.id))
+        : null;
     },
-    userLevel() {
-      level().then((res) => {
-        this.level = res.data;
-      });
+    //读取漏油id
+    getRouterId() {
+      sessionStorage.getItem("others")
+        ? this.$store.commit("others", sessionStorage.getItem("others"))
+        : this.$store.commit("others", null);
     },
   },
-  mounted() {
-    this.userSubcount(); //歌单
-    this.userLevel();
+  created() {
+    this.setRouterId();
+    this.getRouterId();
+  },
+  beforeRouteLeave(to, from, next) {
+    sessionStorage.removeItem("others");
+    next();
   },
 };
 </script>
 
 <style lang="less" scoped>
-  .userHome {
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-start;
-    align-items: center;
-    width: 70%;
-    margin: 0 auto;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-  }
+.userHome {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+}
 </style>
