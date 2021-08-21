@@ -6,7 +6,7 @@
     <div class="block">
       <span @click="reducePage" class="el-icon-arrow-left"></span>
       <span>{{ page }}</span>
-      <span @click="addPage" class="el-icon-arrow-right"></span>
+      <span @click="addPage" class="el-icon-arrow-right" ref="addPage"></span>
     </div>
   </div>
 </template>
@@ -46,6 +46,9 @@ export default {
       this.page--;
       this.page <= 0 ? (this.page = 0) : this.page;
     },
+    forbidClick(more) {
+      !more ? (this.$refs.addPage.style.pointerEvents = "none") : null;
+    },
     getPlayList() {
       playlist(this.uid, 12, this.page * 12)
         .then((res) => {
@@ -53,6 +56,7 @@ export default {
           res.playlist.forEach((e) => {
             !e.subscribed ? this.playlist.push(e) : null;
           });
+          this.forbidClick(res.more);
         })
         .catch();
     },

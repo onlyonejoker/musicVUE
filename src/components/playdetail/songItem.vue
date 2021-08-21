@@ -1,30 +1,7 @@
 <template>
   <div class="play-song">
     <section class="song-conter">
-      <div class="song-title">
-        <span>歌曲</span>
-        <span></span>
-        <span>歌手</span>
-        <span>专辑</span>
-        <span>时长</span>
-      </div>
-      <div class="song-body" v-for="(item, index) in song.songs" :key="index">
-        <span>{{ index + 1 }}.{{ item.name }}</span>
-        <span class="play-btn">
-          <span class="el-icon-video-play" @click="playMusic(item)"></span>
-          <span class="el-icon-circle-plus-outline"></span>
-          <span class="el-icon-share"></span>
-        </span>
-        <span>{{ item.al.name }}</span>
-        <span>{{ item.ar[0].name }}</span>
-        <span
-          >{{ Math.floor(item.dt / 1000 / 60) }}:{{
-            Math.floor((item.dt / 1000) % 60) > 10
-              ? Math.floor((item.dt / 1000) % 60)
-              : "0" + Math.floor((item.dt / 1000) % 60)
-          }}</span
-        >
-      </div>
+      <songItem :song="song" />
     </section>
     <section class="intro">
       <p>简介</p>
@@ -34,13 +11,17 @@
 </template>
 
 <script>
+import songItem from "../common/song/songItem.vue";
 export default {
   name: "playSong",
   data() {
     return {
       playlist: {},
-      song: {},
+      song: [],
     };
+  },
+  components: {
+    songItem,
   },
   methods: {
     playMusic(songs) {
@@ -50,7 +31,7 @@ export default {
   mounted() {
     this.$bus.$on("playItem", (res, play) => {
       this.playlist = play;
-      this.song = res;
+      this.song = res.songs;
     });
   },
 };

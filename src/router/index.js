@@ -11,18 +11,14 @@ const userFans = () => import("userView/userhome/userFans.vue");
 const userEvent = () => import("userView/userhome/userEvent.vue");
 const song = () => import("userView/userhome/userFocus/song.vue");
 const user = () => import("userView/userhome/userFocus/user.vue");
-
 const userSet = () => import("userView/userSet.vue");
 const updata = () => import("userView/userset/updata.vue");
 const bind = () => import("userView/userset/bind.vue");
-
 const userLeave = () => import("userView/userLeave.vue");
 
-const myMusic = () => import("@/views/mymusic/myMusic.vue");
-const mySubPlay = () => import("@/views/mymusic/view/mySubPlay.vue");
-const myPlay = () => import("@/views/mymusic/view/myPlay.vue");
-const myArtist = () => import("@/views/mymusic/view/myArtist.vue");
-const playDetail = () => import("@/views/playdetail/playDetail.vue");
+const play = () => import("@/views/play/play.vue");
+const playDetail = () => import("@/views/play/playDetail/playDetail.vue");
+const playUpdata = () => import("@/views/play/playUpdata/playUpdata.vue");
 
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -144,36 +140,27 @@ const routes = [
       },
     ],
   },
+
   {
-    path: "/myMusic",
-    name: "myMusic",
-    component: myMusic,
+    path: "/play",
+    name: "play",
+    component: play,
     children: [
       {
-        path: "/myMusic",
-        redirect: "/myMusic/myPlay",
+        path: "/play",
+        redirect: "/play/Detail",
       },
       {
-        path: "myPlay",
-        name: "myPlay",
-        component: myPlay,
+        path: "Detail",
+        name: "playDetail",
+        component: playDetail,
       },
       {
-        path: "myArtist",
-        name: "myArtist",
-        component: myArtist,
-      },
-      {
-        path: "mySubPlay",
-        name: "mySubPlay",
-        component: mySubPlay,
+        path: "updata",
+        name: "updataPlay",
+        component: playUpdata,
       },
     ],
-  },
-  {
-    path: "/playDetail",
-    name: "playDetail",
-    component: playDetail,
   },
 ];
 

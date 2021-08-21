@@ -1,7 +1,15 @@
 <template>
   <el-collapse-transition>
-    <div class="userDetails" v-if="block" @mouseenter="mouseenter" @mouseleave="mouseout">
-      <router-link to="/user/home">
+    <div
+      class="userDetails"
+      v-if="block"
+      @mouseenter="mouseenter"
+      @mouseleave="mouseout"
+    >
+      <router-link
+        @click.native="reload"
+        :to="{ path: '/user/home', query: { id } }"
+      >
         <div>我的主页</div>
       </router-link>
       <router-link to="/user/set">
@@ -25,10 +33,15 @@ export default {
     return {
       block: false,
       enter: false,
+      id: this.$store.state.login.account.id,
     };
   },
   watch: {},
   methods: {
+    //刷新
+    reload() {
+      location.reload();
+    },
     mouseout() {
       this.block = false;
       this.enter = false;
@@ -58,8 +71,7 @@ export default {
         .catch();
     },
     userDetails() {
-      let id = this.$store.state.login.account.id;
-      detail(id)
+      detail(this.id)
         .then((res) => {
           console.log(res);
         })
@@ -81,22 +93,22 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .userDetails {
-    position: absolute;
-    top: 44px;
-    width: 100px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    z-index: 999;
-    background-color: #c4c4c4;
-    div {
-      height: 30px;
-      line-height: 30px;
-      text-align: center;
-      font-size: 14px;
-      font-family: "宋体";
-      &:hover {
-        background-color: rgba(226, 226, 226, 0.5);
-      }
+.userDetails {
+  position: absolute;
+  top: 44px;
+  width: 100px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  background-color: #c4c4c4;
+  div {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 14px;
+    font-family: "宋体";
+    &:hover {
+      background-color: rgba(226, 226, 226, 0.5);
     }
   }
+}
 </style>

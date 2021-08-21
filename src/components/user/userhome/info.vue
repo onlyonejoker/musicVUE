@@ -56,7 +56,7 @@
         >动态</router-link
       >
       <btn
-        v-if="uid !== this.$store.state.login.account.id"
+        v-if="uid != this.$store.state.login.account.id"
         icon="el-icon-plus"
         text="关注"
       ></btn>

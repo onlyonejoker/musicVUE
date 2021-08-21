@@ -11,6 +11,7 @@ export default new Vuex.Store({
     play: null,
     musicInfo: null,
     others: null,
+    myCreatPlay: null,
   },
   mutations: {
     loading(state) {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     others(state, data) {
       state.others = data;
+    },
+    myCreatPlay(state, data) {
+      state.myCreatPlay = data;
     },
   },
   actions: {},

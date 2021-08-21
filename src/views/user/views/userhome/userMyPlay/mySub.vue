@@ -39,6 +39,9 @@ export default {
     },
   },
   methods: {
+    forbidClick(more) {
+      !more ? (this.$refs.addPage.style.pointerEvents = "none") : null;
+    },
     addPage() {
       this.page++;
     },
@@ -47,16 +50,14 @@ export default {
       this.page <= 0 ? (this.page = 0) : this.page;
     },
     getPlayList() {
-      console.log(this.uid);
       playlist(this.uid, 10, this.page * 10)
         .then((res) => {
           this.playlist.splice(0, this.playlist.length);
-          let subPlayId = [];
           console.log(res);
           res.playlist.forEach((e) => {
-            e.subscribed ? (subPlayId.push(e.id), this.playlist.push(e)) : null;
+            e.subscribed ? this.playlist.push(e) : null;
           });
-          sessionStorage.setItem("mySubPlay", JSON.stringify(subPlayId));
+          this.forbidClick(res.more);
         })
         .catch();
     },

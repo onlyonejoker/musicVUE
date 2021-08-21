@@ -1,10 +1,12 @@
 <template>
   <div class="detail">
-    <section>
+    <section class="img">
       <img :src="play.coverImgUrl" alt="img" />
     </section>
     <section>
-      <p class="title">{{ play.name }}</p>
+      <p class="title">
+        {{ play.name }}
+      </p>
       <p class="author">
         <i class="el-icon-user"></i>
         <!-- 查看用户详情 -->
@@ -44,61 +46,125 @@
           <span v-if="play.subscribedCount > 10000">万</span>
         </p>
       </div>
-      <div>
-        <el-button type="success" @click="allPlay" round>全部播放</el-button>
-        <el-button type="info" :class="{ sub: isSub }" round>
-          <span v-if="!isSub">收藏</span>
-          <span v-else>已收藏</span>
-        </el-button>
-        <el-button type="info" round>评论{{ play.commentCount }}</el-button>
-        <el-button
-          type="info"
-          @click="updataPlay"
-          v-if="play.userId == myId"
-          round
-          >修改</el-button
-        >
+      <div class="btn-list">
+        <btn
+          icon="el-icon-video-play"
+          text="全部播放"
+          @click.native="allPlay"
+          class="btn1"
+        />
+        <btn
+          :class="{ btn2: play.subscribed }"
+          icon="el-icon-folder-add"
+          :text="sub"
+          v-if="myId !== play.userId"
+          @click.native="subPlay"
+        />
+        <btn
+          class="btn3"
+          icon="el-icon-edit-outline"
+          text="编辑歌单"
+          v-if="myId == play.userId"
+          @click.native="edit"
+        />
+        <btn
+          class="btn4"
+          icon="el-icon-chat-dot-square"
+          :text="'留言(' + play.commentCount + ')'"
+          @click.native="linkComment"
+        />
+        <btn
+          class="btn5"
+          icon="el-icon-s-operation"
+          text="更多"
+          @click.native="fall"
+        />
       </div>
     </section>
   </div>
 </template>
 
 <script>
-import { playDetail } from "../../request/playList";
+import { playDetail, subscribe } from "../../request/playList";
 import { songDetail } from "../../request/song";
+import { Notification } from "element-ui";
+import btn from "btn/btn.vue";
 export default {
   name: "detail",
   data() {
     return {
       myId: this.$store.state.login.profile.userId,
-      //歌单id
       playId: this.$route.query.id,
-      //歌单详情
       play: {
         coverImgUrl: null,
         name: null,
-        creator: { nickname: null },
+        subscribed: null,
+        creator: { nickname: null, userId: null },
+        id: null,
       },
-      //歌曲详情
       song: null,
-      //读取我收藏的歌单id
-      mySubPlayId: JSON.parse(sessionStorage.getItem("mySubPlay")),
+      switch: true,
+      t: 0,
     };
   },
   computed: {
-    //检测是否已收藏
-    isSub() {
-      return this.mySubPlayId.indexOf((e) => e == this.playId) !== -1;
+    sub() {
+      if (this.play.subscribed) {
+        return "已收藏";
+      } else {
+        return "收藏";
+      }
     },
   },
-  watch: {
-    //监听歌单是否请求成功，成功后获取歌单详情
-    play() {
-      let songIds = this.play.trackIds.map((e) => e.id).join(",");
-      this.playSong(songIds);
-    },
+  components: {
+    btn,
   },
   methods: {
+    //updata歌单
+    edit() {
+      if (this.play.id !== null) {
+        this.$router.push({ path: "/play/updata", query: { paly: this.play } });
+      } else {
+        Notification.success({ type: "warning", message: "加载中" });
+      }
+    },
+    //跟多
+    fall() {},
+    //跳转品论
+    linkComment() {
+      document.querySelector("footer").scrollIntoView({
+        behavior: "smooth",
+      });
+    },
+    //取消/关注
+    subPlay() {
+      //必须歌单加载完毕
+      if (this.play.id !== null) {
+        //做一个开关在用户不刷新的情况下也可以正确的使用
+        if (this.switch) {
+          //第一次修改状态必须使用请求的关注作为参照
+          //如果关注了 ，那么这次点击就是取消关注
+          //如果关注了 ，那么这次点击就是取消关注
+          this.play.subscribed ? (this.t = 2) : (this.t = 1);
+          //关闭开关，第一次之后的状态就是自己操作的状态
+          this.switch = false;
+        } else {
+          //根据之前修改的状态来决定
+          this.t == 1 ? (this.t = 2) : (this.t = 1);
+        }
+        //发送请求
+        subscribe(this.t, this.play.id)
+          .then(() => {
+            this.play.subscribed = !this.play.subscribed;
+          })
+          .catch(() => {
+            //失败重新打开开关
+            this.switch = true;
+          });
+      } else {
+        Notification.success({ type: "warning", message: "加载中" });
+      }
+    },
     //获取歌曲全部id，并发送到播放页面
     allPlay() {
       if (this.song !== null) {
@@ -107,15 +173,17 @@ export default {
         alert("加载中");
       }
     },
-    //获取歌单详情
+    //获取歌单详情,里面什么都有
     playlists() {
       playDetail(this.playId)
         .then((res) => {
+          console.log(res);
           this.play = res.playlist;
+          this.playSong(this.play.trackIds.map((e) => e.id).join(","));
         })
         .catch();
     },
-    //获取单个歌曲详情并发送到歌曲列表
+    //获取歌曲详情
     playSong(ids) {
       songDetail(ids)
         .then((res) => {
@@ -124,7 +192,6 @@ export default {
         })
         .catch();
     },
-    updataPlay() {},
   },
   created() {
     this.playlists();
@@ -192,21 +259,30 @@ export default {
           }
         }
       }
-      div {
-        &:last-child {
-          .el-button--success {
-            color: #fff;
-            background-color: red;
-            border-color: red;
+      .btn-list {
+        .btn {
+          margin-right: 5px;
+        }
+        .btn1 {
+          color: #fff;
+          background-color: rgba(255, 0, 0, 0.678) !important;
+          border-color: rgba(255, 0, 0, 0.678) !important;
+          &:hover {
+            background-color: red !important;
+            border-color: red !important;
           }
         }
       }
     }
   }
 }
-.sub {
+.btn2 {
   color: #fff;
-  background-color: red !important;
-  border-color: red !important;
+  background-color: rgba(255, 0, 0, 0.678) !important;
+  border-color: rgba(255, 0, 0, 0.678) !important;
+  &:hover {
+    background-color: red !important;
+    border-color: red !important;
+  }
 }
 </style>

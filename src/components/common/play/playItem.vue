@@ -18,7 +18,7 @@ export default {
   methods: {
     PlayItem(play) {
       console.log(play);
-      this.$router.push({ path: "/playDetail", query: { id: play.id } });
+      this.$router.push({ path: "/play", query: { id: play.id } });
     },
   },
 };

@@ -19,3 +19,25 @@ export function playCreate(name) {
     },
   });
 }
+
+//歌单收藏者判断歌单我是否已收藏
+export function play(name) {
+  return install({
+    url: "/playlist/detail/dynamic",
+    method: "post",
+    params: {
+      name,
+    },
+  });
+}
+//取消/收藏
+export function subscribe(t, id) {
+  return install({
+    url: "/playlist/subscribe",
+    method: "post",
+    params: {
+      t,
+      id,
+    },
+  });
+}
