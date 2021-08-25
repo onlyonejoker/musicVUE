@@ -12,6 +12,12 @@ export default {
   components: {
     info,
   },
+  watch: {
+    //监听路由，很重要
+    $route() {
+      this.$router.go(0);
+    },
+  },
   methods: {
     //写入路由id
     setRouterId() {

@@ -1,24 +1,37 @@
 const Home = () => import("@/views/home/Home.vue");
-
+//用户相关
 const User = () => import("@/views/user/user.vue");
 const userHome = () => import("userView/userHome.vue");
 const userLike = () => import("userView/userhome/userLike.vue");
 const userMyPlay = () => import("userView/userhome/userMyPlay.vue");
 const mySub = () => import("userView/userhome/userMyPlay/mySub.vue");
 const myCreat = () => import("userView/userhome/userMyPlay/myCreat.vue");
+const myDj = () => import("userView/userhome/userMyPlay/myDj.vue");
 const userFocus = () => import("userView/userhome/userFocus.vue");
-const userFans = () => import("userView/userhome/userFans.vue");
-const userEvent = () => import("userView/userhome/userEvent.vue");
 const song = () => import("userView/userhome/userFocus/song.vue");
 const user = () => import("userView/userhome/userFocus/user.vue");
+const userFans = () => import("userView/userhome/userFans.vue");
+const userEvent = () => import("userView/userhome/userEvent.vue");
+const comment = () => import("userView/userhome/userEvent/comment.vue");
+const event = () => import("userView/userhome/userEvent/event.vue");
 const userSet = () => import("userView/userSet.vue");
 const updata = () => import("userView/userset/updata.vue");
 const bind = () => import("userView/userset/bind.vue");
 const userLeave = () => import("userView/userLeave.vue");
+const userHistory = () => import("userHistory/userHistory.vue");
 
+//歌单相关
 const play = () => import("@/views/play/play.vue");
 const playDetail = () => import("@/views/play/playDetail/playDetail.vue");
 const playUpdata = () => import("@/views/play/playUpdata/playUpdata.vue");
+
+//详情相关
+const albumDetail = () => import("@/views/albumDetail/albumDetail.vue");
+const songDetail = () => import("@/views/songDetail/songDetail.vue");
+const artistDetail = () => import("@/views/artistDetail/artistDetail.vue");
+
+//热门
+const hot = () => import("@/views/hot/hot.vue");
 
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -30,11 +43,13 @@ const routes = [
     path: "",
     redirect: "/home",
   },
+  //首页相关路由
   {
     path: "/home",
     name: "Home",
     component: Home,
   },
+  //用户相关路由
   {
     path: "/user",
     name: "User",
@@ -77,6 +92,11 @@ const routes = [
                 name: "mySub",
                 component: mySub,
               },
+              {
+                path: "myDj",
+                name: "myDj",
+                component: myDj,
+              },
             ],
           },
           {
@@ -109,6 +129,22 @@ const routes = [
             path: "event",
             name: "event",
             component: userEvent,
+            children: [
+              {
+                path: "/user/home/event",
+                redirect: "/user/home/event/comment",
+              },
+              {
+                path: "comment",
+                name: "comment",
+                component: comment,
+              },
+              {
+                path: "events",
+                name: "events",
+                component: event,
+              },
+            ],
           },
         ],
       },
@@ -138,9 +174,14 @@ const routes = [
           },
         ],
       },
+      {
+        path: "history",
+        name: "history",
+        component: userHistory,
+      },
     ],
   },
-
+  //歌单详情路由
   {
     path: "/play",
     name: "play",
@@ -161,6 +202,30 @@ const routes = [
         component: playUpdata,
       },
     ],
+  },
+  //专辑详情路由
+  {
+    path: "/albumDetail",
+    name: "albumDetail",
+    component: albumDetail,
+  },
+  //歌手详情路由
+  {
+    path: "/artistDetail",
+    name: "artistDetail",
+    component: artistDetail,
+  },
+  //歌曲详情路由
+  {
+    path: "/songDetail",
+    name: "songDetail",
+    component: songDetail,
+  },
+  //热门路由
+  {
+    path: "/hot",
+    name: "hot",
+    component: hot,
   },
 ];
 

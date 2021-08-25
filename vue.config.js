@@ -5,6 +5,7 @@ module.exports = {
         btn: "@/components/common/button",
         common: "@/components/common",
         userView: "@/views/user/views",
+        userHistory: "@/views/user/views/userHistory",
       },
     },
   },

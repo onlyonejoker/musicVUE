@@ -1,27 +1,24 @@
 <template>
-  <el-collapse-transition>
-    <div
-      class="userDetails"
-      v-if="block"
-      @mouseenter="mouseenter"
-      @mouseleave="mouseout"
-    >
-      <router-link
-        @click.native="reload"
-        :to="{ path: '/user/home', query: { id } }"
-      >
-        <div>我的主页</div>
-      </router-link>
-      <router-link to="/user/set">
-        <div>个人设置</div>
-      </router-link>
-      <router-link to="/user/leave">
-        <div>我的等级</div>
-      </router-link>
-      <div>保留</div>
-      <div @click="loginOut">退出登录</div>
-    </div>
-  </el-collapse-transition>
+  <div
+    class="userDetails"
+    :class="{ over: block }"
+    @mouseenter="mouseenter"
+    @mouseleave="mouseout"
+  >
+    <router-link :to="{ path: '/user/home', query: { id } }">
+      <div>我的主页</div>
+    </router-link>
+    <router-link to="/user/set">
+      <div>个人设置</div>
+    </router-link>
+    <router-link to="/user/leave">
+      <div>我的等级</div>
+    </router-link>
+    <router-link to="/user/history">
+      <div>播放历史</div>
+    </router-link>
+    <div @click="loginOut">退出登录</div>
+  </div>
 </template>
 
 <script>
@@ -39,9 +36,6 @@ export default {
   watch: {},
   methods: {
     //刷新
-    reload() {
-      location.reload();
-    },
     mouseout() {
       this.block = false;
       this.enter = false;
@@ -98,11 +92,12 @@ export default {
   top: 44px;
   width: 100px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  z-index: 999;
+  z-index: -999;
   background-color: #c4c4c4;
+  transition: all 0.5s ease-out;
+  opacity: 0;
+  line-height: 0px;
   div {
-    height: 30px;
-    line-height: 30px;
     text-align: center;
     font-size: 14px;
     font-family: "宋体";
@@ -110,5 +105,12 @@ export default {
       background-color: rgba(226, 226, 226, 0.5);
     }
   }
+}
+.over {
+  top: 44px;
+  line-height: 30px;
+  z-index: 999;
+  transition: all 0.5 cubic-bezier(0.8, -0.15, 1, 0.71);
+  opacity: 1;
 }
 </style>

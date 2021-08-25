@@ -1,14 +1,15 @@
 <template>
   <div v-if="token" class="user">
-    <span><img :src="userimg" alt=""></span>
-    <span @mouseover="mouseover" @mouseout="mouseout">{{userId}}</span>
+    <div class="user-info">
+      <span><img :src="userimg" alt="" /></span>
+      <span @mouseover="mouseover" @mouseout="mouseout">{{ userId }}</span>
+    </div>
     <userDetails />
   </div>
   <div class="logoing" v-else>
     <span @click="login">登录</span>
     <span @click="signIn">注册</span>
   </div>
-
 </template>
 
 <script>
@@ -59,23 +60,25 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .logoing {
-    width: 30%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    span:nth-child(2) {
-      margin-left: 20px;
-    }
+.logoing {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span:nth-child(2) {
+    margin-left: 20px;
   }
-  .user {
-    width: 30%;
+}
+.user {
+  position: relative;
+  .user-info {
+    width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+
     span {
       &:nth-child(1) {
         width: 40px;
@@ -95,4 +98,5 @@ export default {
       }
     }
   }
+}
 </style>

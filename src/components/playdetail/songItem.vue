@@ -1,7 +1,7 @@
 <template>
   <div class="play-song">
     <section class="song-conter">
-      <songItem :song="song" />
+      <songItem :song="song" @del="del" :uid="playlist.creator.userId" />
     </section>
     <section class="intro">
       <p>简介</p>
@@ -12,11 +12,12 @@
 
 <script>
 import songItem from "../common/song/songItem.vue";
+import { playTracks } from "@/request/playList";
 export default {
   name: "playSong",
   data() {
     return {
-      playlist: {},
+      playlist: { id: null, creator: { userId: 0 } },
       song: [],
     };
   },
@@ -24,11 +25,21 @@ export default {
     songItem,
   },
   methods: {
+    //发射歌曲到播放器
     playMusic(songs) {
       this.$store.commit("musicInfo", songs);
     },
+    //删除歌单歌曲
+    del(id) {
+      playTracks("del", this.playlist.id, id)
+        .then(() => {
+          this.$router.go(0);
+        })
+        .catch();
+    },
   },
   mounted() {
+    //接受歌单详情
     this.$bus.$on("playItem", (res, play) => {
       this.playlist = play;
       this.song = res.songs;

@@ -6,7 +6,7 @@
     <div class="block">
       <span @click="reducePage" class="el-icon-arrow-left"></span>
       <span>{{ page }}</span>
-      <span @click="addPage" class="el-icon-arrow-right"></span>
+      <span @click="addPage" ref="addPage" class="el-icon-arrow-right"></span>
     </div>
   </div>
 </template>

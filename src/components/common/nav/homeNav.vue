@@ -1,22 +1,32 @@
 <template>
   <div class="nav">
-    <div @click="active(0)">
-      <router-link to="/" :class="{active:isActive==0}">首页</router-link>
+    <div>
+      <router-link to="/" active-class="active">首页</router-link>
     </div>
-    <div @click="active(1)">
-      <router-link to="/user/home" :class="{active:isActive==1}">我的音乐</router-link>
+    <div>
+      <router-link
+        :to="{
+          path: '/user/home',
+          query: { id: this.$store.state.login.account.id },
+        }"
+        :class="{ active: isActive == 1 }"
+        >我的音乐</router-link
+      >
     </div>
-    <div @click="active(2)">
-      <router-link to="/artistItem" :class="{active:isActive==2}">歌手列表</router-link>
+    <div>
+      <router-link to="/hot" active-class="active">热门</router-link>
     </div>
-    <div @click="active(3)">
-      <router-link to="/ranking" :class="{active:isActive==3}">排行</router-link>
+    <div>
+      <router-link to="/artistItem" active-class="active">歌手列表</router-link>
     </div>
-    <div @click="active(4)">
-      <router-link to="/MV" :class="{active:isActive==4}"> MV</router-link>
+    <div>
+      <router-link to="/ranking" active-class="active">排行</router-link>
     </div>
-    <div @click="active(5)">
-      <router-link to="" :class="{active:isActive==5}">电台</router-link>
+    <div>
+      <router-link to="/MV" active-class="active"> MV</router-link>
+    </div>
+    <div>
+      <router-link to="" active-class="active">电台</router-link>
     </div>
   </div>
 </template>
@@ -54,26 +64,26 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .nav {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    padding: 0 15%;
-    div {
-      width: 10%;
-      height: 44px;
-      a {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-    .active {
-      color: red;
+.nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  padding: 0 15%;
+  div {
+    width: 10%;
+    height: 44px;
+    a {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
     }
   }
+  .active {
+    color: red;
+  }
+}
 </style>

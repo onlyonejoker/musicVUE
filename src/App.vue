@@ -5,6 +5,8 @@
     <music />
     <footers />
     <playCreate />
+    <zhuanfa />
+    <fenxiang />
     <back-top :style="{ display: backTop }" />
   </div>
 </template>
@@ -14,9 +16,10 @@ import login from "./components/common/login.vue";
 import music from "./views/musicplay/music.vue";
 import footers from "./components/common/footer.vue";
 import playCreate from "./components/common/play/playCreate.vue";
-import { loginStatus } from "./request/logoin";
-import { playlist } from "@/request/user";
 import BackTop from "./components/common/backTop.vue";
+import zhuanfa from "./components/common/zhuanfa/zhuanfa.vue";
+import fenxiang from "./components/common/zhuanfa/fenxiang.vue";
+import { loginStatus } from "./request/logoin";
 export default {
   name: "app",
   components: {
@@ -25,6 +28,8 @@ export default {
     footers,
     playCreate,
     BackTop,
+    zhuanfa,
+    fenxiang,
   },
   data() {
     return {
@@ -45,29 +50,10 @@ export default {
         .then((res) => {
           console.log(res.data);
           this.$store.commit("login", res.data); //更新数据
-          this.myCreatPlay(res.data.account.id);
         })
         .catch();
     },
-    //获取我收藏的歌单的id和name
-    myCreatPlay(uid) {
-      playlist(uid, 1000, 0)
-        .then((res) => {
-          let myCreatPlay = [];
-          res.playlist.forEach((e) => {
-            !e.subscribed ? myCreatPlay.push({ id: e.id, name: e.name }) : null;
-          });
-          this.$store.commit("myCreatPlay", myCreatPlay);
-        })
-        .catch(() => {
-          if (this.num >= 3) {
-            null;
-          } else {
-            this.myCreatPlay(this.$store.state.login.account.id);
-            this.num++;
-          }
-        });
-    },
+
     backTopFn() {
       if (window.pageYOffset >= 500) {
         this.backTop = "block";

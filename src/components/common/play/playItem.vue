@@ -1,5 +1,6 @@
 <template>
   <div class="play">
+    <i class="el-icon-delete" @click="delPlayList" v-if="checked"></i>
     <div @click="PlayItem(play)">
       <section class="shade">
         <i class="el-icon-video-play"> </i>
@@ -12,14 +13,32 @@
 </template>
 
 <script>
+import { playDelete } from "@/request/playList";
 export default {
   name: "playItem",
-  props: { play: Object },
+  props: { play: [Object, Array] },
+  data() {
+    return {
+      checked: false,
+    };
+  },
   methods: {
     PlayItem(play) {
-      console.log(play);
-      this.$router.push({ path: "/play", query: { id: play.id } });
+      this.$router.push({
+        path: "/play",
+        query: { id: play.id },
+      });
     },
+    delPlayList() {
+      playDelete(this.play.id)
+        .then(() => {})
+        .catch();
+    },
+  },
+  mounted() {
+    this.$bus.$on("delPlayList", (del) => {
+      this.checked = del;
+    });
   },
 };
 </script>
@@ -28,7 +47,7 @@ export default {
 .play {
   width: 188px;
   height: 218px;
-  div {
+  > div {
     width: 168px;
     height: 168px;
     position: relative;

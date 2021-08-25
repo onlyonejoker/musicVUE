@@ -3,7 +3,9 @@
     <audio :src="music" controls autoplay @ended="autoNext" ref="audio"></audio>
     <div class="music-list-box">
       <div class="music-list">
-        <p v-for="(item,index) in musicName" :key="index">{{index+1+item}}</p>
+        <p v-for="(item, index) in musicName" :key="index">
+          {{ index + 1 + item }}
+        </p>
       </div>
     </div>
   </div>
@@ -100,13 +102,13 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .music-play {
-    width: 100%;
-    min-width: 800px;
-    height: 44px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    padding: 0 15%;
-  }
+.music-play {
+  width: 100%;
+  min-width: 800px;
+  height: 44px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 0 15%;
+}
 </style>

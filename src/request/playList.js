@@ -19,7 +19,6 @@ export function playCreate(name) {
     },
   });
 }
-
 //歌单收藏者判断歌单我是否已收藏
 export function play(name) {
   return install({
@@ -39,5 +38,34 @@ export function subscribe(t, id) {
       t,
       id,
     },
+  });
+}
+//添加/删除歌曲到歌单
+export function playTracks(op, pid, tracks) {
+  return install({
+    url: "/playlist/tracks",
+    method: "post",
+    params: {
+      op,
+      pid,
+      tracks,
+    },
+  });
+}
+//删除歌单
+export function playDelete(id) {
+  return install({
+    url: "/playlist/delete",
+    method: "post",
+    params: {
+      id,
+    },
+  });
+}
+//获取歌单标签列表
+export function playTags() {
+  return install({
+    url: "/playlist/highquality/tags",
+    method: "post",
   });
 }

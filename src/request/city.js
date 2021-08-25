@@ -1,6 +1,4 @@
-import {
-  install1
-} from "../plugins/city";
+import { install1 } from "../plugins/city";
 
 //城市查询
 /* 
@@ -14,11 +12,11 @@ children	否	0	往下查找多少级，0-4之间
 export function city(code) {
   return install1({
     url: "/city?code=" + code,
-  })
+  });
 }
 export function ip(ip) {
   return install1({
     withCredentials: false,
     url: "http://ip-api.com/json/" + ip + "?lang=zh-CN",
-  })
+  });
 }

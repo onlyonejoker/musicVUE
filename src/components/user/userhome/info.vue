@@ -17,24 +17,36 @@
       <div class="user-sub">
         <p>
           <span>
-            <router-link to="/user/home/focus">
-              {{ info.profile.followeds }}
+            <router-link to="/user/home/fans">
+              {{
+                info.profile.followeds > 10000
+                  ? Math.floor(info.profile.followeds / 100) / 100 + "万"
+                  : info.profile.followeds
+              }}
             </router-link>
-          </span>
-          <span>关注</span>
-        </p>
-        <p>
-          <span
-            ><router-link to="/user/home/fans">{{
-              info.profile.follows
-            }}</router-link>
           </span>
           <span>粉丝</span>
         </p>
         <p>
           <span>
+            <router-link to="/user/home/focus">
+              {{
+                info.profile.follows > 10000
+                  ? Math.floor(info.profile.follows / 100) / 100 + "万"
+                  : info.profile.follows
+              }}
+            </router-link>
+          </span>
+          <span>关注</span>
+        </p>
+        <p>
+          <span>
             <router-link to="/user/home/event">
-              {{ info.profile.eventCount }}
+              {{
+                info.profile.eventCount > 10000
+                  ? Math.floor(info.profile.eventCount / 100) / 100 + "万"
+                  : info.profile.eventCount
+              }}
             </router-link>
           </span>
           <span>动态</span>
@@ -42,23 +54,28 @@
       </div>
     </div>
     <nav>
-      <router-link active-class="active" to="/user/home/like"
-        >我喜欢</router-link
-      >
-      <router-link active-class="active" to="/user/home/myPlay"
-        >我的歌单</router-link
-      >
-      <router-link active-class="active" to="/user/home/focus"
-        >关注</router-link
-      >
-      <router-link active-class="active" to="/user/home/fans">粉丝</router-link>
-      <router-link active-class="active" to="/user/home/event"
-        >动态</router-link
-      >
+      <router-link active-class="active" to="/user/home/like">
+        我喜欢
+      </router-link>
+      <router-link active-class="active" to="/user/home/myPlay">
+        我的歌单
+      </router-link>
+      <router-link active-class="active" to="/user/home/focus">
+        关注
+      </router-link>
+      <router-link active-class="active" to="/user/home/fans">
+        粉丝
+      </router-link>
+      <router-link active-class="active" to="/user/home/event">
+        动态
+      </router-link>
+
       <btn
         v-if="uid != this.$store.state.login.account.id"
         icon="el-icon-plus"
-        text="关注"
+        @click.native="followUser(uid)"
+        :class="{ isFollow: followInfo == '已关注' }"
+        :text="followInfo"
       ></btn>
       <span>{{ city }}</span>
     </nav>
@@ -66,7 +83,7 @@
 </template>
 
 <script>
-import { detail } from "@/request/user";
+import { detail, follow } from "@/request/user";
 import btn from "btn/btn.vue";
 export default {
   name: "info",
@@ -81,6 +98,7 @@ export default {
           followeds: null,
         },
       },
+      followInfo: "关注",
     };
   },
   components: {
@@ -99,7 +117,23 @@ export default {
     details() {
       detail(this.uid).then((res) => {
         this.info = res;
+        res.profile.followed
+          ? (this.followInfo = "已关注")
+          : (this.followInfo = "关注");
       });
+    },
+    //关注用户
+    followUser(id) {
+      let t = 0;
+      this.followInfo == "关注" ? (t = 1) : (t = 2);
+      follow(id, t)
+        .then((res) => {
+          console.log(res);
+          this.followInfo == "关注"
+            ? (this.followInfo = "已关注")
+            : (this.followInfo = "关注");
+        })
+        .catch();
     },
   },
   created() {
@@ -152,7 +186,7 @@ export default {
       display: flex;
       justify-content: center;
       p {
-        width: 80px;
+        width: 120px;
         height: 40px;
         display: flex;
         flex-flow: column;
@@ -197,5 +231,8 @@ export default {
   .active {
     color: red !important;
   }
+}
+.isFollow {
+  background-color: red !important;
 }
 </style>

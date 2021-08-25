@@ -26,6 +26,7 @@ export default {
     };
   },
   watch: {
+    //分页
     page() {
       this.getPlayList();
     },
@@ -42,13 +43,16 @@ export default {
     addPage() {
       this.page++;
     },
+    //分页限制
     reducePage() {
       this.page--;
       this.page <= 0 ? (this.page = 0) : this.page;
     },
+    //判断是否可以分页
     forbidClick(more) {
       !more ? (this.$refs.addPage.style.pointerEvents = "none") : null;
     },
+    //获取歌单详情，里面什么都有
     getPlayList() {
       playlist(this.uid, 12, this.page * 12)
         .then((res) => {

@@ -79,6 +79,15 @@
           text="更多"
           @click.native="fall"
         />
+        <p class="fall" v-if="display">
+          <btn
+            class="btn6"
+            icon="el-icon-sort"
+            text="排序"
+            @click.native="fall"
+          />
+          <btn class="btn7" text="分享" @click.native="share" />
+        </p>
       </div>
     </section>
   </div>
@@ -87,6 +96,7 @@
 <script>
 import { playDetail, subscribe } from "../../request/playList";
 import { songDetail } from "../../request/song";
+
 import { Notification } from "element-ui";
 import btn from "btn/btn.vue";
 export default {
@@ -105,6 +115,7 @@ export default {
       song: null,
       switch: true,
       t: 0,
+      display: false,
     };
   },
   computed: {
@@ -123,18 +134,26 @@ export default {
     //updata歌单
     edit() {
       if (this.play.id !== null) {
-        this.$router.push({ path: "/play/updata", query: { paly: this.play } });
+        this.$router.push({
+          path: "/play/updata",
+          query: { play: this.playId },
+        });
       } else {
         Notification.success({ type: "warning", message: "加载中" });
       }
     },
     //跟多
-    fall() {},
+    fall() {
+      this.display = !this.display;
+    },
     //跳转品论
     linkComment() {
       document.querySelector("footer").scrollIntoView({
         behavior: "smooth",
       });
+    },
+    share() {
+      this.$bus.$emit("fenxiang", this.playId, "playlist");
     },
     //取消/关注
     subPlay() {
@@ -165,7 +184,7 @@ export default {
         Notification.success({ type: "warning", message: "加载中" });
       }
     },
-    //获取歌曲全部id，并发送到播放页面
+    //获取歌曲全部id，并发送到播放器
     allPlay() {
       if (this.song !== null) {
         this.$store.commit("musicInfo", this.song.songs);
@@ -183,7 +202,7 @@ export default {
         })
         .catch();
     },
-    //获取歌曲详情
+    //获取歌曲详情，并发射到音乐列表渲染
     playSong(ids) {
       songDetail(ids)
         .then((res) => {
@@ -260,6 +279,7 @@ export default {
         }
       }
       .btn-list {
+        position: relative;
         .btn {
           margin-right: 5px;
         }
@@ -271,6 +291,13 @@ export default {
             background-color: red !important;
             border-color: red !important;
           }
+        }
+        .fall {
+          position: absolute;
+          top: 38px;
+          right: 0;
+          display: flex;
+          flex-flow: column;
         }
       }
     }
