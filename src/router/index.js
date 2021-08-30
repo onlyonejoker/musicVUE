@@ -8,7 +8,6 @@ const mySub = () => import("userView/userhome/userMyPlay/mySub.vue");
 const myCreat = () => import("userView/userhome/userMyPlay/myCreat.vue");
 const myDj = () => import("userView/userhome/userMyPlay/myDj.vue");
 const userFocus = () => import("userView/userhome/userFocus.vue");
-const song = () => import("userView/userhome/userFocus/song.vue");
 const user = () => import("userView/userhome/userFocus/user.vue");
 const userFans = () => import("userView/userhome/userFans.vue");
 const userEvent = () => import("userView/userhome/userEvent.vue");
@@ -25,14 +24,33 @@ const play = () => import("@/views/play/play.vue");
 const playDetail = () => import("@/views/play/playDetail/playDetail.vue");
 const playUpdata = () => import("@/views/play/playUpdata/playUpdata.vue");
 
+//歌单分类
+const playItem = () => import("@/views/playItem/playItem.vue");
+const playItemAll = () => import("@/views/playItem/playItemAll.vue");
+const highquality = () => import("@/views/playItem/highquality.vue");
+
+//歌手相关
+const artist = () => import("@/views/artistDetail/artist.vue");
+const artistDetailAlbum = () => import("../views/artistDetail/albumrouter.vue");
+const artistDetailInfo = () => import("../views/artistDetail/inforouter.vue");
+const artistDetailmv = () => import("../views/artistDetail/mvrouter.vue");
+const similarity = () => import("../views/artistDetail/similarity.vue");
+
 //详情相关
 const albumDetail = () => import("@/views/albumDetail/albumDetail.vue");
 const songDetail = () => import("@/views/songDetail/songDetail.vue");
 const artistDetail = () => import("@/views/artistDetail/artistDetail.vue");
-
+const hotDetail = () => import("@/views/hotDetail/hotDetail.vue");
+const videoDetail = () => import("@/views/videoDetail/videoDetail.vue");
 //热门
-const hot = () => import("@/views/hot/hot.vue");
+const events = () => import("@/views/hot/hot.vue");
 
+//收藏
+const collect = () => import("@/views/collect/collect.vue");
+const video = () => import("@/views/collect/video.vue");
+const album = () => import("@/views/collect/album.vue");
+const song = () => import("@/views/collect/song.vue");
+const special = () => import("@/views/collect/special.vue");
 import Vue from "vue";
 import VueRouter from "vue-router";
 
@@ -106,12 +124,7 @@ const routes = [
             children: [
               {
                 path: "/user/home/focus",
-                redirect: "/user/home/focus/song",
-              },
-              {
-                path: "song",
-                name: "song",
-                component: song,
+                redirect: "/user/home/focus/user",
               },
               {
                 path: "user",
@@ -209,11 +222,49 @@ const routes = [
     name: "albumDetail",
     component: albumDetail,
   },
+  //视频详情路由
+  {
+    path: "/videoDetail",
+    name: "videoDetail",
+    component: videoDetail,
+  },
   //歌手详情路由
   {
     path: "/artistDetail",
     name: "artistDetail",
     component: artistDetail,
+    children: [
+      {
+        path: "/artistDetail",
+        redirect: "/artistDetail/album",
+      },
+      {
+        path: "album",
+        name: "album",
+        component: artistDetailAlbum,
+      },
+      {
+        path: "info",
+        name: "info",
+        component: artistDetailInfo,
+      },
+      {
+        path: "mv",
+        name: "mv",
+        component: artistDetailmv,
+      },
+      {
+        path: "similarity",
+        name: "similarity",
+        component: similarity,
+      },
+    ],
+  },
+  //歌手相关
+  {
+    path: "/artist",
+    name: "artist",
+    component: artist,
   },
   //歌曲详情路由
   {
@@ -221,11 +272,71 @@ const routes = [
     name: "songDetail",
     component: songDetail,
   },
+  //动态路由
+  {
+    path: "/eventsDetail",
+    name: "eventsDetail",
+    component: events,
+  },
   //热门路由
   {
-    path: "/hot",
-    name: "hot",
-    component: hot,
+    path: "/hotDetail",
+    name: "hotDetail",
+    component: hotDetail,
+  },
+  //歌单列表路由
+  {
+    path: "/playItem",
+    name: "playItem",
+    component: playItem,
+    children: [
+      {
+        path: "/playItem",
+        redirect: "/playItem/all",
+      },
+      {
+        path: "all",
+        name: "all",
+        component: playItemAll,
+      },
+      {
+        path: "highquality",
+        name: "highquality",
+        component: highquality,
+      },
+    ],
+  },
+  //收藏路由
+  {
+    path: "/collect",
+    name: "collect",
+    component: collect,
+    children: [
+      {
+        path: "/collect",
+        redirect: "/collect/song",
+      },
+      {
+        path: "song",
+        name: "song",
+        component: song,
+      },
+      {
+        path: "album",
+        name: "albumshoucang",
+        component: album,
+      },
+      {
+        path: "special",
+        name: "special",
+        component: special,
+      },
+      {
+        path: "video",
+        name: "video",
+        component: video,
+      },
+    ],
   },
 ];
 

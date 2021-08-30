@@ -69,3 +69,59 @@ export function playTags() {
     method: "post",
   });
 }
+//获取歌单分类
+export function playlistCatlist() {
+  return install({
+    url: "/playlist/catlist",
+    method: "post",
+  });
+}
+//获取热门歌单分类
+export function playlistHot() {
+  return install({
+    url: "/playlist/hot",
+    method: "post",
+  });
+}
+//获取网友精选歌单
+export function topPlaylist(order, cat, limit, offset) {
+  return install({
+    url: "/top/playlist",
+    method: "post",
+    params: {
+      order,
+      cat,
+      limit,
+      offset,
+    },
+  });
+}
+//获取精品歌单分类
+export function playlistHighqualityTags() {
+  return install({
+    url: "/playlist/highquality/tags",
+    method: "post",
+  });
+}
+//获取精品歌单
+export function highquality(cat, limit, before) {
+  return install({
+    url: "/top/playlist/highquality",
+    method: "post",
+    params: {
+      cat,
+      limit,
+      before,
+    },
+  });
+}
+//获取歌单推荐
+export function relatedPlaylist(id) {
+  return install({
+    url: "/related/playlist",
+    method: "post",
+    params: {
+      id,
+    },
+  });
+}

@@ -4,26 +4,34 @@
       <songItem :song="song" @del="del" :uid="playlist.creator.userId" />
     </section>
     <section class="intro">
-      <p>简介</p>
+      <h4>简介</h4>
       <p>{{ playlist.description }}</p>
+      <div>
+        <h4>推荐歌单</h4>
+        <related :play="item" v-for="(item, index) in related" :key="index" />
+      </div>
     </section>
   </div>
 </template>
 
 <script>
 import songItem from "../common/song/songItem.vue";
-import { playTracks } from "@/request/playList";
+import { playTracks, relatedPlaylist } from "@/request/playList";
+import related from "../common/play/related.vue";
 export default {
   name: "playSong",
   data() {
     return {
       playlist: { id: null, creator: { userId: 0 } },
       song: [],
+      related: [],
     };
   },
   components: {
     songItem,
+    related,
   },
+
   methods: {
     //发射歌曲到播放器
     playMusic(songs) {
@@ -37,12 +45,21 @@ export default {
         })
         .catch();
     },
+    relatedPlaylist(id) {
+      relatedPlaylist(id)
+        .then((res) => {
+          console.log(res);
+          this.related = res.playlists;
+        })
+        .catch();
+    },
   },
   mounted() {
     //接受歌单详情
     this.$bus.$on("playItem", (res, play) => {
       this.playlist = play;
       this.song = res.songs;
+      this.relatedPlaylist(play.id);
     });
   },
 };
@@ -139,6 +156,15 @@ export default {
           height: 14px;
         }
       }
+    }
+    > div {
+      h4 {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 20px;
     }
   }
 }

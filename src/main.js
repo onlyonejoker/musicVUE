@@ -4,6 +4,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./plugins/element.js";
+import VueLazyload from "vue-lazyload";
 
 Vue.config.productionTip = false;
 Vue.prototype.$bus = new Vue();
@@ -22,6 +23,11 @@ Vue.prototype.$time = function(time) {
   s < 10 ? (s = "0" + s) : s;
   return y + "年" + m + "月" + d + "日" + "  " + h + ":" + f + ":" + s;
 };
+
+Vue.use(VueLazyload, {
+  loading: require("./assets/img/loading.gif"),
+  error: require("./assets/img/error.jpg"),
+});
 const vm = new Vue({
   router,
   store,

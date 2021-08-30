@@ -1,24 +1,24 @@
 <template>
-  <div class="hot">
+  <div class="playItem">
     <topbar />
-    <friendEvent />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import topbar from "@/components/common/topbar.vue";
-import friendEvent from "./friendevent/friendEvent.vue";
 export default {
-  name: "hot",
+  name: "playItem",
   components: {
     topbar,
-    friendEvent,
   },
+  data() {
+    return {};
+  },
+  methods: {},
+  mounted() {},
 };
 </script>
 
 <style lang="less" scoped>
-.hot {
-  min-width: 1440px;
-}
 </style>

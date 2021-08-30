@@ -6,6 +6,7 @@ module.exports = {
         common: "@/components/common",
         userView: "@/views/user/views",
         userHistory: "@/views/user/views/userHistory",
+        page: "@/components/common/page",
       },
     },
   },

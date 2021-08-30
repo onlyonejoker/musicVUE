@@ -1,24 +1,21 @@
 <template>
-  <div class="hot">
-    <topbar />
-    <friendEvent />
+  <div id="artist">
+    <topbar></topbar>
+    <artistItem />
   </div>
 </template>
 
 <script>
 import topbar from "@/components/common/topbar.vue";
-import friendEvent from "./friendevent/friendEvent.vue";
+import artistItem from "@/components/artist/artistItem.vue";
 export default {
-  name: "hot",
+  name: "artist",
   components: {
     topbar,
-    friendEvent,
+    artistItem,
   },
 };
 </script>
 
 <style lang="less" scoped>
-.hot {
-  min-width: 1440px;
-}
 </style>

@@ -15,8 +15,16 @@
       </div>
     </div>
     <div class="content-eventList-user">
-      <div v-if="events">{{ events.msg }}</div>
-      <div v-else>{{ json.msg }}</div>
+      <div v-if="events">
+        <p v-for="(item, index) in events.msg.split('\n')" :key="index">
+          {{ item }}
+        </p>
+      </div>
+      <div v-else>
+        <p v-for="(item, index) in json.msg.split('\n')" :key="index">
+          {{ item }}
+        </p>
+      </div>
     </div>
 
     <playListEvent
@@ -29,6 +37,7 @@
       :json="json"
       v-if="eventLists.type == 22"
     />
+
     <songEvent :song="json.song" v-if="eventLists.type == 18" />
 
     <div class="praise-eventList-user">
@@ -71,14 +80,12 @@
         </div>
       </div>
     </div>
-    <page />
   </div>
   <div v-else>ceshi</div>
 </template>
 
 <script>
 import { userEventDel, commentEvent } from "@/request/user";
-import page from "../../../common/page/page.vue";
 import playListEvent from "./playListEvent.vue";
 import songEvent from "./songEvent.vue";
 import zhuanfaEvent from "./zhuanfa.vue";
@@ -88,7 +95,6 @@ export default {
     eventLists: [Object],
   },
   components: {
-    page,
     playListEvent,
     songEvent,
     zhuanfaEvent,
@@ -152,6 +158,8 @@ export default {
         return "分享专栏文章";
       } else if (item.type === 41 || item.type === 21) {
         return "分享视频";
+      } else if (item.type === 31) {
+        return "分享评论";
       }
     },
     typeList(type) {
@@ -163,7 +171,6 @@ export default {
     },
     recursion() {
       let item = JSON.parse(this.eventLists.json);
-
       if (item.event) {
         this.events = item;
         this.json = JSON.parse(item.event.json);

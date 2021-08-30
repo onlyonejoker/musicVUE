@@ -1,18 +1,20 @@
 <template>
   <div class="focusUserList">
     <img
-      :src="focusUserInfo.avatarUrl || focusUserInfo.img1v1Url"
+      v-lazy="focusUserInfo.avatarUrl || focusUserInfo.img1v1Url"
       alt="focusUserListImg"
       @click="link(uid)"
     />
-    <p @click="link(focusUserInfo.userId)">{{ focusUserInfo.nickname }}</p>
-    <p class="followeds">{{ focusUserInfo.followeds || "?" }}人关注</p>
+    <p @click="link(artist.user.userId)">{{ focusUserInfo.name }}</p>
+    <p class="followeds">专辑：{{ focusUserInfo.albumSize }}</p>
+    <p class="followeds">MV：{{ focusUserInfo.mvSize }}</p>
     <btn
       icon="el-icon-plus"
-      @click.native="followUser(focusUserInfo.userId)"
+      @click.native="followUser(artist.user.userId)"
       :class="{ isFollow: followInfo == '已关注' }"
       :text="followInfo"
-    ></btn>
+    >
+    </btn>
   </div>
 </template>
 
@@ -27,6 +29,7 @@ export default {
     return {
       followInfo: "关注",
       uid: null,
+      artist: null,
     };
   },
   components: {
@@ -57,6 +60,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.uid = res.data.user.userId;
+          this.artist = res.data;
           res.data.user.followed
             ? (this.followInfo = "已关注")
             : (this.followInfo = "关注");
@@ -78,12 +82,12 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin: 20px;
-  height: 255px;
+  height: 230px;
   img {
     width: 140px;
     height: 140px;
     border-radius: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
   p {
     line-height: 26px;
@@ -91,7 +95,8 @@ export default {
   .followeds {
     font-size: 16px;
     color: grey;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    line-height: 20px;
   }
 }
 .isFollow {

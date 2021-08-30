@@ -1,23 +1,29 @@
 <template>
   <div class="nav">
     <div>
-      <router-link to="/" active-class="active">首页</router-link>
+      <router-link to="/home" active-class="active">首页</router-link>
     </div>
     <div>
       <router-link
         :to="{
-          path: '/user/home',
+          path: '/user',
           query: { id: this.$store.state.login.account.id },
         }"
-        :class="{ active: isActive == 1 }"
+        active-class="active"
         >我的音乐</router-link
       >
     </div>
     <div>
-      <router-link to="/hot" active-class="active">热门</router-link>
+      <router-link to="/eventsDetail" active-class="active">热门</router-link>
     </div>
     <div>
-      <router-link to="/artistItem" active-class="active">歌手列表</router-link>
+      <router-link to="/collect" active-class="active">收藏</router-link>
+    </div>
+    <div>
+      <router-link to="/artist" active-class="active">歌手分类</router-link>
+    </div>
+    <div>
+      <router-link to="/playItem" active-class="active">歌单分类</router-link>
     </div>
     <div>
       <router-link to="/ranking" active-class="active">排行</router-link>
@@ -26,7 +32,7 @@
       <router-link to="/MV" active-class="active"> MV</router-link>
     </div>
     <div>
-      <router-link to="" active-class="active">电台</router-link>
+      <router-link to="/diantai" active-class="active">电台</router-link>
     </div>
   </div>
 </template>

@@ -1,66 +1,58 @@
 <template>
-  <div class="play">
-    <i class="el-icon-delete" @click="delPlayList" v-if="checked"></i>
-    <div @click="PlayItem(play)">
+  <div class="videoComponent" v-if="video">
+    <div @click="videoItem(video)">
       <section class="shade">
-        <i class="el-icon-video-play"> </i>
+        <i class="el-icon-video-play"></i>
       </section>
-      <img v-lazy="play.coverImgUrl" alt="play" />
+      <img v-lazy="video.coverUrl || video.imgurl" alt="video" />
     </div>
-    <p>{{ play.name }}</p>
-    <p class="nickname" @click="linkUser">{{ play.creator.nickname }}</p>
+    <p>{{ video.title || video.name }}</p>
+    <p class="nickname" v-if="video.creator" @click="linkUser">
+      {{ video.creator[0].userName }}
+    </p>
   </div>
 </template>
 
 <script>
-import { playDelete } from "@/request/playList";
 export default {
-  name: "playItem",
-  props: { play: [Object, Array] },
+  name: "videoComponent",
+  props: { video: Object },
   data() {
-    return {
-      checked: false,
-    };
+    return {};
   },
   methods: {
-    PlayItem(play) {
+    //跳转相关
+    videoItem(video) {
       this.$router.push({
-        path: "/play",
-        query: { id: play.id },
+        path: "/videoDetail",
+        query: { id: video.vid || video.id },
       });
-    },
-    delPlayList() {
-      playDelete(this.play.id)
-        .then(() => {})
-        .catch();
     },
     linkUser() {
       this.$router.push({
         path: "/user/home",
-        query: { id: this.play.creator.userId },
+        query: { id: this.video.creator[0].userId },
       });
     },
   },
   mounted() {
-    this.$bus.$on("delPlayList", (del) => {
-      this.checked = del;
-    });
+    console.log(this.video);
   },
 };
 </script>
 
 <style lang="less" scoped>
-.play {
-  width: 188px;
+.videoComponent {
+  width: 300px;
   height: 218px;
-  margin-bottom: 20px;
+  margin: 20px 20px 0 0;
   > div {
-    width: 168px;
+    width: 300px;
     height: 168px;
     position: relative;
     overflow: hidden;
     section {
-      width: 168px;
+      width: 300px;
       height: 168px;
       position: absolute;
       z-index: 996;
@@ -78,7 +70,7 @@ export default {
       }
     }
     img {
-      width: 168px;
+      width: 300px;
       height: 168px;
       transition: all 0.8s;
     }

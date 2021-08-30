@@ -10,6 +10,12 @@ exports.subscribe = subscribe;
 exports.playTracks = playTracks;
 exports.playDelete = playDelete;
 exports.playTags = playTags;
+exports.playlistCatlist = playlistCatlist;
+exports.playlistHot = playlistHot;
+exports.topPlaylist = topPlaylist;
+exports.playlistHighqualityTags = playlistHighqualityTags;
+exports.highquality = highquality;
+exports.relatedPlaylist = relatedPlaylist;
 
 var _axios = require("@/plugins/axios");
 
@@ -87,5 +93,67 @@ function playTags() {
   return (0, _axios.install)({
     url: "/playlist/highquality/tags",
     method: "post"
+  });
+} //获取歌单分类
+
+
+function playlistCatlist() {
+  return (0, _axios.install)({
+    url: "/playlist/catlist",
+    method: "post"
+  });
+} //获取热门歌单分类
+
+
+function playlistHot() {
+  return (0, _axios.install)({
+    url: "/playlist/hot",
+    method: "post"
+  });
+} //获取网友精选歌单
+
+
+function topPlaylist(order, cat, limit, offset) {
+  return (0, _axios.install)({
+    url: "/top/playlist",
+    method: "post",
+    params: {
+      order: order,
+      cat: cat,
+      limit: limit,
+      offset: offset
+    }
+  });
+} //获取精品歌单分类
+
+
+function playlistHighqualityTags() {
+  return (0, _axios.install)({
+    url: "/playlist/highquality/tags",
+    method: "post"
+  });
+} //获取精品歌单
+
+
+function highquality(cat, limit, before) {
+  return (0, _axios.install)({
+    url: "/top/playlist/highquality",
+    method: "post",
+    params: {
+      cat: cat,
+      limit: limit,
+      before: before
+    }
+  });
+} //获取歌单推荐
+
+
+function relatedPlaylist(id) {
+  return (0, _axios.install)({
+    url: "/related/playlist",
+    method: "post",
+    params: {
+      id: id
+    }
   });
 }

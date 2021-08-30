@@ -1,38 +1,32 @@
 <template>
   <div class="play">
-    <i class="el-icon-delete" @click="delPlayList" v-if="checked"></i>
-    <div @click="PlayItem(play)">
+    <div @click="PlayItem()">
       <section class="shade">
         <i class="el-icon-video-play"> </i>
       </section>
       <img v-lazy="play.coverImgUrl" alt="play" />
     </div>
-    <p>{{ play.name }}</p>
+    <p>
+      {{ play.name }}
+    </p>
     <p class="nickname" @click="linkUser">{{ play.creator.nickname }}</p>
   </div>
 </template>
 
 <script>
-import { playDelete } from "@/request/playList";
 export default {
   name: "playItem",
   props: { play: [Object, Array] },
   data() {
-    return {
-      checked: false,
-    };
+    return {};
   },
   methods: {
-    PlayItem(play) {
+    PlayItem() {
       this.$router.push({
         path: "/play",
-        query: { id: play.id },
+        query: { id: this.play.id },
       });
-    },
-    delPlayList() {
-      playDelete(this.play.id)
-        .then(() => {})
-        .catch();
+      this.$router.go(0);
     },
     linkUser() {
       this.$router.push({
@@ -41,27 +35,22 @@ export default {
       });
     },
   },
-  mounted() {
-    this.$bus.$on("delPlayList", (del) => {
-      this.checked = del;
-    });
-  },
+  mounted() {},
 };
 </script>
 
 <style lang="less" scoped>
 .play {
-  width: 188px;
-  height: 218px;
-  margin-bottom: 20px;
+  width: 94px;
+  height: 124px;
   > div {
-    width: 168px;
-    height: 168px;
+    width: 74px;
+    height: 74px;
     position: relative;
     overflow: hidden;
     section {
-      width: 168px;
-      height: 168px;
+      width: 74px;
+      height: 74px;
       position: absolute;
       z-index: 996;
       background-color: rgba(0, 0, 0, 0.3);
@@ -98,13 +87,14 @@ export default {
     }
   }
   p {
-    width: 188px;
-    height: 30px;
+    width: 94px;
+    height: 20px;
     font-size: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    line-height: 30px;
+    line-height: 20px;
+    position: relative;
   }
   .nickname {
     height: 20px;

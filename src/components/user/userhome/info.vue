@@ -6,7 +6,7 @@
   >
     <div class="profile">
       <p class="user-img">
-        <img :src="info.profile.avatarUrl" alt="userimg" />
+        <img v-lazy="info.profile.avatarUrl" alt="userimg" />
       </p>
       <p class="user-name">
         <span>

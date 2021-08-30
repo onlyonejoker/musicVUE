@@ -72,12 +72,6 @@ var userFocus = function userFocus() {
   });
 };
 
-var song = function song() {
-  return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require("userView/userhome/userFocus/song.vue"));
-  });
-};
-
 var user = function user() {
   return Promise.resolve().then(function () {
     return _interopRequireWildcard(require("userView/userhome/userFocus/user.vue"));
@@ -155,6 +149,56 @@ var playUpdata = function playUpdata() {
   return Promise.resolve().then(function () {
     return _interopRequireWildcard(require("@/views/play/playUpdata/playUpdata.vue"));
   });
+}; //歌单分类
+
+
+var playItem = function playItem() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/playItem/playItem.vue"));
+  });
+};
+
+var playItemAll = function playItemAll() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/playItem/playItemAll.vue"));
+  });
+};
+
+var highquality = function highquality() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/playItem/highquality.vue"));
+  });
+}; //歌手相关
+
+
+var artist = function artist() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/artistDetail/artist.vue"));
+  });
+};
+
+var artistDetailAlbum = function artistDetailAlbum() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("../views/artistDetail/albumrouter.vue"));
+  });
+};
+
+var artistDetailInfo = function artistDetailInfo() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("../views/artistDetail/inforouter.vue"));
+  });
+};
+
+var artistDetailmv = function artistDetailmv() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("../views/artistDetail/mvrouter.vue"));
+  });
+};
+
+var similarity = function similarity() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("../views/artistDetail/similarity.vue"));
+  });
 }; //详情相关
 
 
@@ -174,12 +218,55 @@ var artistDetail = function artistDetail() {
   return Promise.resolve().then(function () {
     return _interopRequireWildcard(require("@/views/artistDetail/artistDetail.vue"));
   });
+};
+
+var hotDetail = function hotDetail() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/hotDetail/hotDetail.vue"));
+  });
+};
+
+var videoDetail = function videoDetail() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/videoDetail/videoDetail.vue"));
+  });
 }; //热门
 
 
-var hot = function hot() {
+var events = function events() {
   return Promise.resolve().then(function () {
     return _interopRequireWildcard(require("@/views/hot/hot.vue"));
+  });
+}; //收藏
+
+
+var collect = function collect() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/collect/collect.vue"));
+  });
+};
+
+var video = function video() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/collect/video.vue"));
+  });
+};
+
+var album = function album() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/collect/album.vue"));
+  });
+};
+
+var song = function song() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/collect/song.vue"));
+  });
+};
+
+var special = function special() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/collect/special.vue"));
   });
 };
 
@@ -238,11 +325,7 @@ var routes = [{
       component: userFocus,
       children: [{
         path: "/user/home/focus",
-        redirect: "/user/home/focus/song"
-      }, {
-        path: "song",
-        name: "song",
-        component: song
+        redirect: "/user/home/focus/user"
       }, {
         path: "user",
         name: "user",
@@ -316,21 +399,98 @@ var routes = [{
   path: "/albumDetail",
   name: "albumDetail",
   component: albumDetail
+}, //视频详情路由
+{
+  path: "/videoDetail",
+  name: "videoDetail",
+  component: videoDetail
 }, //歌手详情路由
 {
   path: "/artistDetail",
   name: "artistDetail",
-  component: artistDetail
+  component: artistDetail,
+  children: [{
+    path: "/artistDetail",
+    redirect: "/artistDetail/album"
+  }, {
+    path: "album",
+    name: "album",
+    component: artistDetailAlbum
+  }, {
+    path: "info",
+    name: "info",
+    component: artistDetailInfo
+  }, {
+    path: "mv",
+    name: "mv",
+    component: artistDetailmv
+  }, {
+    path: "similarity",
+    name: "similarity",
+    component: similarity
+  }]
+}, //歌手相关
+{
+  path: "/artist",
+  name: "artist",
+  component: artist
 }, //歌曲详情路由
 {
   path: "/songDetail",
   name: "songDetail",
   component: songDetail
+}, //动态路由
+{
+  path: "/eventsDetail",
+  name: "eventsDetail",
+  component: events
 }, //热门路由
 {
-  path: "/hot",
-  name: "hot",
-  component: hot
+  path: "/hotDetail",
+  name: "hotDetail",
+  component: hotDetail
+}, //歌单列表路由
+{
+  path: "/playItem",
+  name: "playItem",
+  component: playItem,
+  children: [{
+    path: "/playItem",
+    redirect: "/playItem/all"
+  }, {
+    path: "all",
+    name: "all",
+    component: playItemAll
+  }, {
+    path: "highquality",
+    name: "highquality",
+    component: highquality
+  }]
+}, //收藏路由
+{
+  path: "/collect",
+  name: "collect",
+  component: collect,
+  children: [{
+    path: "/collect",
+    redirect: "/collect/song"
+  }, {
+    path: "song",
+    name: "song",
+    component: song
+  }, {
+    path: "album",
+    name: "albumshoucang",
+    component: album
+  }, {
+    path: "special",
+    name: "special",
+    component: special
+  }, {
+    path: "video",
+    name: "video",
+    component: video
+  }]
 }];
 var router = new _vueRouter["default"]({
   mode: "history",

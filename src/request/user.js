@@ -160,7 +160,6 @@ export function artistList() {
     method: "post",
   });
 }
-
 //获取用户动态(历史评论)
 export function userHistory(uid, limit, time) {
   return install({
