@@ -3,8 +3,8 @@
     <div class="song-title">
       <span>歌曲</span>
       <span></span>
-      <span>歌手</span>
       <span>专辑</span>
+      <span>歌手</span>
       <span>时长</span>
     </div>
     <div class="song-body" v-for="(item, index) in song" :key="index">
@@ -31,10 +31,10 @@
           @click.stop="delList(item.id)"
         ></span>
       </span>
-      <span class="artist-name" @click="artistDetail(item.al.id)">
+      <span class="artist-name" @click="albumDetail(item.al.id)">
         {{ item.al.name }}
       </span>
-      <span class="album-name" @click="albumDetail(item.ar[0].id)">
+      <span class="album-name" @click="artistDetail(item.ar[0].id)">
         {{ item.ar[0].name }}
       </span>
       <span>
@@ -102,7 +102,7 @@ export default {
     },
     //歌手详情
     artistDetail(id) {
-      this.$router.push({ path: "/artist", query: { id } });
+      this.$router.push({ path: "/artistDetail", query: { id } });
     },
     //专辑详情
     albumDetail(id) {

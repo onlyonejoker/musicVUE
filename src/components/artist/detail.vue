@@ -49,6 +49,7 @@ export default {
       artistInfo: null,
       artistDesc: null,
       isActive: false,
+      userid: null,
     };
   },
   computed: {
@@ -63,9 +64,13 @@ export default {
     artistDetail() {
       artistDetail(this.uid)
         .then((res) => {
+          console.log(res);
           this.artistInfo = res.data;
-          this.isActive = res.data.user.followed;
-          this.$store.commit("artistUid", res.data.user.userId);
+          if (res.data.user) {
+            this.userid = res.data.user.userId;
+            this.isActive = res.data.user.followed;
+            this.$store.commit("artistUid", this.userid);
+          }
         })
         .catch();
     },
@@ -73,7 +78,7 @@ export default {
     //数据相关
     sub() {
       if (this.artistInfo) {
-        if (this.artistInfo.user.followed) {
+        if (this.isActive) {
           return "已关注";
         } else {
           return "关注";
@@ -94,7 +99,7 @@ export default {
     linkUser() {
       this.$router.push({
         path: "/user/home",
-        query: { id: this.artistInfo.user.userId },
+        query: { id: this.userid },
       });
     },
   },

@@ -5,6 +5,7 @@ import router from "./router";
 import store from "./store";
 import "./plugins/element.js";
 import VueLazyload from "vue-lazyload";
+import { Audio } from "./util/util";
 
 Vue.config.productionTip = false;
 Vue.prototype.$bus = new Vue();
@@ -23,6 +24,7 @@ Vue.prototype.$time = function(time) {
   s < 10 ? (s = "0" + s) : s;
   return y + "年" + m + "月" + d + "日" + "  " + h + ":" + f + ":" + s;
 };
+Vue.prototype.$audio = new Audio();
 
 Vue.use(VueLazyload, {
   loading: require("./assets/img/loading.gif"),

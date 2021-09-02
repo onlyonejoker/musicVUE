@@ -19,6 +19,8 @@ require("./plugins/element.js");
 
 var _vueLazyload = _interopRequireDefault(require("vue-lazyload"));
 
+var _util = require("./util/util");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 _vue["default"].config.productionTip = false;
@@ -39,6 +41,8 @@ _vue["default"].prototype.$time = function (time) {
   s < 10 ? s = "0" + s : s;
   return y + "年" + m + "月" + d + "日" + "  " + h + ":" + f + ":" + s;
 };
+
+_vue["default"].prototype.$audio = new _util.Audio();
 
 _vue["default"].use(_vueLazyload["default"], {
   loading: require("./assets/img/loading.gif"),

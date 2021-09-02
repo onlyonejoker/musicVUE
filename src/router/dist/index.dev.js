@@ -268,6 +268,73 @@ var special = function special() {
   return Promise.resolve().then(function () {
     return _interopRequireWildcard(require("@/views/collect/special.vue"));
   });
+}; //搜索相关
+
+
+var search = function search() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/search/search.vue"));
+  });
+};
+
+var searchSong = function searchSong() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/search/searchSong.vue"));
+  });
+};
+
+var searchAlbum = function searchAlbum() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/search/searchAlbum.vue"));
+  });
+};
+
+var searchPlay = function searchPlay() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/search/searchPlay.vue"));
+  });
+};
+
+var searchArtist = function searchArtist() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/search/searchArtist.vue"));
+  });
+};
+
+var searchVideo = function searchVideo() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/search/searchVideo.vue"));
+  });
+};
+
+var searchUser = function searchUser() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/search/searchUser.vue"));
+  });
+};
+
+var searchLyric = function searchLyric() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/search/searchLyric.vue"));
+  });
+};
+
+var searchStation = function searchStation() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/search/searchStation.vue"));
+  });
+};
+
+var searchMV = function searchMV() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/search/searchMV.vue"));
+  });
+};
+
+var searchSynthesize = function searchSynthesize() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/search/searchSynthesize.vue"));
+  });
 };
 
 _vue["default"].use(_vueRouter["default"]);
@@ -490,6 +557,55 @@ var routes = [{
     path: "video",
     name: "video",
     component: video
+  }]
+}, //搜索路由
+{
+  path: "/search",
+  name: "search",
+  component: search,
+  children: [{
+    path: "/search",
+    redirect: "/search/searchSong"
+  }, {
+    path: "searchSong",
+    name: "searchSong",
+    component: searchSong
+  }, {
+    path: "searchAlbum",
+    name: "searchAlbum",
+    component: searchAlbum
+  }, {
+    path: "searchPlay",
+    name: "searchPlay",
+    component: searchPlay
+  }, {
+    path: "searchArtist",
+    name: "searchArtist",
+    component: searchArtist
+  }, {
+    path: "searchVideo",
+    name: "searchVideo",
+    component: searchVideo
+  }, {
+    path: "searchUser",
+    name: "searchUser",
+    component: searchUser
+  }, {
+    path: "searchLyric",
+    name: "searchLyric",
+    component: searchLyric
+  }, {
+    path: "searchStation",
+    name: "searchStation",
+    component: searchStation
+  }, {
+    path: "searchMV",
+    name: "searchMV",
+    component: searchMV
+  }, {
+    path: "searchSynthesize",
+    name: "searchSynthesize",
+    component: searchSynthesize
   }]
 }];
 var router = new _vueRouter["default"]({

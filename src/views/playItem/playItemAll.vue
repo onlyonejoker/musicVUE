@@ -114,7 +114,7 @@ export default {
         playlistCatlist(),
         playlistHot(),
         topPlaylist(),
-        highquality(1, -1),
+        highquality("全部", 10, -1),
       ])
         .then((res) => {
           console.log(res);

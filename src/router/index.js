@@ -51,6 +51,20 @@ const video = () => import("@/views/collect/video.vue");
 const album = () => import("@/views/collect/album.vue");
 const song = () => import("@/views/collect/song.vue");
 const special = () => import("@/views/collect/special.vue");
+
+//搜索相关
+const search = () => import("@/views/search/search.vue");
+const searchSong = () => import("@/views/search/searchSong.vue");
+const searchAlbum = () => import("@/views/search/searchAlbum.vue");
+const searchPlay = () => import("@/views/search/searchPlay.vue");
+const searchArtist = () => import("@/views/search/searchArtist.vue");
+const searchVideo = () => import("@/views/search/searchVideo.vue");
+const searchUser = () => import("@/views/search/searchUser.vue");
+const searchLyric = () => import("@/views/search/searchLyric.vue");
+const searchStation = () => import("@/views/search/searchStation.vue");
+const searchMV = () => import("@/views/search/searchMV.vue");
+const searchSynthesize = () => import("@/views/search/searchSynthesize.vue");
+
 import Vue from "vue";
 import VueRouter from "vue-router";
 
@@ -335,6 +349,68 @@ const routes = [
         path: "video",
         name: "video",
         component: video,
+      },
+    ],
+  },
+  //搜索路由
+  {
+    path: "/search",
+    name: "search",
+    component: search,
+    children: [
+      {
+        path: "/search",
+        redirect: "/search/searchSong",
+      },
+      {
+        path: "searchSong",
+        name: "searchSong",
+        component: searchSong,
+      },
+      {
+        path: "searchAlbum",
+        name: "searchAlbum",
+        component: searchAlbum,
+      },
+      {
+        path: "searchPlay",
+        name: "searchPlay",
+        component: searchPlay,
+      },
+      {
+        path: "searchArtist",
+        name: "searchArtist",
+        component: searchArtist,
+      },
+      {
+        path: "searchVideo",
+        name: "searchVideo",
+        component: searchVideo,
+      },
+      {
+        path: "searchUser",
+        name: "searchUser",
+        component: searchUser,
+      },
+      {
+        path: "searchLyric",
+        name: "searchLyric",
+        component: searchLyric,
+      },
+      {
+        path: "searchStation",
+        name: "searchStation",
+        component: searchStation,
+      },
+      {
+        path: "searchMV",
+        name: "searchMV",
+        component: searchMV,
+      },
+      {
+        path: "searchSynthesize",
+        name: "searchSynthesize",
+        component: searchSynthesize,
       },
     ],
   },
