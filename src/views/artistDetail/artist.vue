@@ -7,7 +7,7 @@
 
 <script>
 import topbar from "@/components/common/topbar.vue";
-import artistItem from "@/components/artist/artistItem.vue";
+import artistItem from "@/components/content/artist/artistItem.vue";
 export default {
   name: "artist",
   components: {

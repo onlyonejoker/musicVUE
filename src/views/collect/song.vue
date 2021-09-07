@@ -11,7 +11,7 @@
 
 <script>
 import { artistList } from "@/request/user";
-import focusSongList from "@/components/user/focusUser/focusSong.vue";
+import focusSongList from "@/components/content/user/focusUser/focusSong.vue";
 import page from "@/components/common/page/page.vue";
 export default {
   name: "fansUser",

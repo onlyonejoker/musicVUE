@@ -29,7 +29,7 @@
       <router-link to="/ranking" active-class="active">排行</router-link>
     </div>
     <div>
-      <router-link to="/MV" active-class="active"> MV</router-link>
+      <router-link to="/MV" active-class="active"> MV/视频</router-link>
     </div>
     <div>
       <router-link to="/diantai" active-class="active">电台</router-link>

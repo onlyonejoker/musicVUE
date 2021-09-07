@@ -6,6 +6,16 @@
         <label for="create">歌单名</label>
         <el-input v-model="input" placeholder="请输入内容"></el-input>
       </div>
+      <div class="option">
+        <div>
+          <input type="checkbox" name="privacy" v-model="privacy" />
+          <span>隐私歌单</span>
+        </div>
+        <div>
+          <input type="checkbox" name="video" v-model="video" />
+          <span>视频歌单</span>
+        </div>
+      </div>
       <div class="button">
         <btn @click.native="cancel" text="取消" />
         <btn @click.native="create" class="confirm" text="确定" />
@@ -23,20 +33,41 @@ export default {
     return {
       input: "",
       isDisplay: false,
+      privacy: false,
+      video: false,
+      private: 0,
+      type: "NORMAL",
     };
   },
   components: {
     btn,
   },
+  watch: {
+    privacy(n) {
+      if (n) {
+        this.private = 10;
+      } else {
+        this.private = 0;
+      }
+    },
+    video(n) {
+      if (n) {
+        this.type = "VIDEO";
+      } else {
+        this.type = "NORMAL";
+      }
+    },
+  },
   methods: {
     cancel() {
-      console.log(1);
       this.isDisplay = false;
     },
     create() {
-      playCreate(this.input)
+      playCreate(this.input, this.private, this.type)
         .then((res) => {
-          console.log(res);
+          if (Object.hasOwnProperty.call(res, "message")) {
+            throw new Error(res.message);
+          }
         })
         .catch();
     },
@@ -44,7 +75,6 @@ export default {
   mounted() {
     this.$bus.$on("create", () => {
       this.isDisplay = true;
-      console.log(1);
     });
   },
 };
@@ -95,6 +125,17 @@ export default {
         margin-left: 10px;
         &:hover {
           background-color: red;
+        }
+      }
+    }
+    .option {
+      height: 20px;
+      display: flex;
+      padding-left: 20px;
+      > div {
+        margin-right: 20px;
+        input {
+          margin-right: 10px;
         }
       }
     }

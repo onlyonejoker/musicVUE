@@ -51,14 +51,12 @@ export default {
     },
     //跳转用户详情
     link(id) {
-      console.log(id);
       this.$router.push({ path: "/user/home", query: { id } });
     },
     //获取歌手详情
     artistDetail() {
       artistDetail(this.focusUserInfo.id)
         .then((res) => {
-          console.log(res);
           this.uid = res.data.user.userId;
           this.artist = res.data;
           res.data.user.followed
@@ -69,7 +67,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.focusUserInfo);
     this.artistDetail();
   },
 };

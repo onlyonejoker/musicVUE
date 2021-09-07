@@ -47,7 +47,7 @@ const events = () => import("@/views/hot/hot.vue");
 
 //收藏
 const collect = () => import("@/views/collect/collect.vue");
-const video = () => import("@/views/collect/video.vue");
+const subvideo = () => import("@/views/collect/video.vue");
 const album = () => import("@/views/collect/album.vue");
 const song = () => import("@/views/collect/song.vue");
 const special = () => import("@/views/collect/special.vue");
@@ -64,6 +64,13 @@ const searchLyric = () => import("@/views/search/searchLyric.vue");
 const searchStation = () => import("@/views/search/searchStation.vue");
 const searchMV = () => import("@/views/search/searchMV.vue");
 const searchSynthesize = () => import("@/views/search/searchSynthesize.vue");
+
+//MV视频
+const MV = () => import("@/views/videoDetail/mv.vue");
+const mv = () => import("@/views/videoDetail/mvzy.vue");
+const mvhome = () => import("@/views/videoDetail/mvhome.vue");
+const mvAll = () => import("@/views/videoDetail/mvAll.vue");
+const video = () => import("@/views/videoDetail/video.vue");
 
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -348,7 +355,7 @@ const routes = [
       {
         path: "video",
         name: "video",
-        component: video,
+        component: subvideo,
       },
     ],
   },
@@ -411,6 +418,44 @@ const routes = [
         path: "searchSynthesize",
         name: "searchSynthesize",
         component: searchSynthesize,
+      },
+    ],
+  },
+  //视频路由
+  {
+    path: "/mv",
+    name: "MV",
+    component: MV,
+    children: [
+      {
+        path: "/mv",
+        redirect: "/mv/mv",
+      },
+      {
+        path: "mv",
+        name: "mvzy",
+        component: mv,
+        children: [
+          {
+            path: "/mv/mv",
+            redirect: "/mv/mv/mvhome",
+          },
+          {
+            path: "mvhome",
+            name: "mvhome",
+            component: mvhome,
+          },
+          {
+            path: "mvAll",
+            name: "mvAll",
+            component: mvAll,
+          },
+        ],
+      },
+      {
+        path: "video",
+        name: "videozy",
+        component: video,
       },
     ],
   },

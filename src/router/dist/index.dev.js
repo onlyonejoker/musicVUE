@@ -246,7 +246,7 @@ var collect = function collect() {
   });
 };
 
-var video = function video() {
+var subvideo = function subvideo() {
   return Promise.resolve().then(function () {
     return _interopRequireWildcard(require("@/views/collect/video.vue"));
   });
@@ -334,6 +334,37 @@ var searchMV = function searchMV() {
 var searchSynthesize = function searchSynthesize() {
   return Promise.resolve().then(function () {
     return _interopRequireWildcard(require("@/views/search/searchSynthesize.vue"));
+  });
+}; //MV视频
+
+
+var MV = function MV() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/videoDetail/mv.vue"));
+  });
+};
+
+var mv = function mv() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/videoDetail/mvzy.vue"));
+  });
+};
+
+var mvhome = function mvhome() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/videoDetail/mvhome.vue"));
+  });
+};
+
+var mvAll = function mvAll() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/videoDetail/mvAll.vue"));
+  });
+};
+
+var video = function video() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/videoDetail/video.vue"));
   });
 };
 
@@ -556,7 +587,7 @@ var routes = [{
   }, {
     path: "video",
     name: "video",
-    component: video
+    component: subvideo
   }]
 }, //搜索路由
 {
@@ -606,6 +637,35 @@ var routes = [{
     path: "searchSynthesize",
     name: "searchSynthesize",
     component: searchSynthesize
+  }]
+}, //视频路由
+{
+  path: "/mv",
+  name: "MV",
+  component: MV,
+  children: [{
+    path: "/mv",
+    redirect: "/mv/mv"
+  }, {
+    path: "mv",
+    name: "mvzy",
+    component: mv,
+    children: [{
+      path: "/mv/mv",
+      redirect: "/mv/mv/mvhome"
+    }, {
+      path: "mvhome",
+      name: "mvhome",
+      component: mvhome
+    }, {
+      path: "mvAll",
+      name: "mvAll",
+      component: mvAll
+    }]
+  }, {
+    path: "video",
+    name: "videozy",
+    component: video
   }]
 }];
 var router = new _vueRouter["default"]({

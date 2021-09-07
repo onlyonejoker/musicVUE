@@ -26,8 +26,8 @@
 <script>
 import { topicDetail, eventHot } from "@/request/hot";
 
-import topbar from "../../components/common/topbar.vue";
-import eventList from "@/components/user/userhome/event/eventList.vue";
+import topbar from "@/components/common/topbar.vue";
+import eventList from "@/components/content/user/userhome/event/eventList.vue";
 export default {
   name: "topicDetail",
   components: {

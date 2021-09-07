@@ -16,7 +16,7 @@
 
 <script>
 import page from "@/components/common/page/page.vue";
-import eventList from "../../../components/user/userhome/event/eventList.vue";
+import eventList from "@/components/content/user/userhome/event/eventList.vue";
 import hot from "../hot/hot.vue";
 import { event } from "@/request/hot";
 export default {

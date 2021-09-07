@@ -16,6 +16,7 @@ exports.topPlaylist = topPlaylist;
 exports.playlistHighqualityTags = playlistHighqualityTags;
 exports.highquality = highquality;
 exports.relatedPlaylist = relatedPlaylist;
+exports.commentLlaylist = commentLlaylist;
 
 var _axios = require("@/plugins/axios");
 
@@ -31,12 +32,14 @@ function playDetail(id) {
 } //创建歌单
 
 
-function playCreate(name) {
+function playCreate(name, privacy, type) {
   return (0, _axios.install)({
     url: "/playlist/create",
     method: "post",
     params: {
-      name: name
+      name: name,
+      privacy: privacy,
+      type: type
     }
   });
 } //歌单收藏者判断歌单我是否已收藏
@@ -154,6 +157,20 @@ function relatedPlaylist(id) {
     method: "post",
     params: {
       id: id
+    }
+  });
+} //歌单评论
+
+
+function commentLlaylist(id, limit, offset, before) {
+  return (0, _axios.install)({
+    url: "/comment/playlist",
+    method: "post",
+    params: {
+      id: id,
+      before: before,
+      offset: offset,
+      limit: limit
     }
   });
 }

@@ -4,18 +4,24 @@
       <section class="shade">
         <i class="el-icon-video-play"></i>
       </section>
-      <img v-lazy="video.coverUrl || video.imgurl" alt="video" />
+      <img
+        v-lazy="video.coverUrl || video.imgurl || video.cover || video.picUrl"
+        alt="video"
+      />
     </div>
     <p>{{ video.title || video.name }}</p>
     <p class="nickname" v-if="video.creator" @click="linkUser">
-      {{ video.creator[0].userName }}
+      {{ Array.isArray() ? video.creator[0].userName : video.creator.nickname }}
+    </p>
+    <p class="nickname" v-if="video.artistId" @click="linkArtist">
+      {{ video.artistName }}
     </p>
   </div>
 </template>
 
 <script>
 export default {
-  name: "videoComponent",
+  name: "videoList",
   props: { video: Object },
   data() {
     return {};
@@ -40,6 +46,12 @@ export default {
           query: { id: this.video.creator[0].userId },
         });
       }
+    },
+    linkArtist() {
+      this.$router.push({
+        path: "/artistDetail",
+        query: { id: this.video.artistId },
+      });
     },
   },
   mounted() {},

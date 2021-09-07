@@ -63,7 +63,7 @@
 
 <script>
 import { artistList } from "@/request/artist";
-import page from "../common/page/page.vue";
+import page from "common/page/page.vue";
 export default {
   name: "artistItem",
   components: {

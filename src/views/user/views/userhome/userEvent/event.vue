@@ -11,7 +11,7 @@
 
 <script>
 import { userEvent } from "@/request/user";
-import eventList from "@/components/user/userhome/event/eventList.vue";
+import eventList from "@/components/content/user/userhome/event/eventList.vue";
 import page from "@/components/common/page/page.vue";
 export default {
   name: "event",

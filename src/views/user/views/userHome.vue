@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import info from "@/components/user/userhome/info.vue";
+import info from "@/components/content/user/userhome/info.vue";
 export default {
   name: "userhome",
   components: {

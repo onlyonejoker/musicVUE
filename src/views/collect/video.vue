@@ -16,19 +16,17 @@
         :key="index"
       />
     </div>
-    <page :more="more" @page="page" />
   </div>
 </template>
 
 <script>
 import { mvSublist } from "@/request/collect";
 import videoComponent from "@/components/common/video/videoComponent.vue";
-import page from "page/page.vue";
+
 export default {
   name: "mvSublist",
   components: {
     videoComponent,
-    page,
   },
   data() {
     return {
@@ -51,10 +49,6 @@ export default {
           this.more = res.more;
         })
         .catch();
-    },
-    //分页器
-    page(data) {
-      console.log(data);
     },
   },
   mounted() {

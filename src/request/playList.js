@@ -10,12 +10,14 @@ export function playDetail(id) {
   });
 }
 //创建歌单
-export function playCreate(name) {
+export function playCreate(name, privacy, type) {
   return install({
     url: "/playlist/create",
     method: "post",
     params: {
       name,
+      privacy,
+      type,
     },
   });
 }
@@ -122,6 +124,19 @@ export function relatedPlaylist(id) {
     method: "post",
     params: {
       id,
+    },
+  });
+}
+//歌单评论
+export function commentLlaylist(id, limit, offset, before) {
+  return install({
+    url: "/comment/playlist",
+    method: "post",
+    params: {
+      id,
+      before,
+      offset,
+      limit,
     },
   });
 }

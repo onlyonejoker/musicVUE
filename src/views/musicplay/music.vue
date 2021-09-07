@@ -11,7 +11,7 @@
     ></audio>
     <div class="play-item" v-if="openPlayer">
       <div><img v-lazy="musicImg()" alt="" /></div>
-      <div class="lyric">
+      <div class="lyric" v-if="info.length > 0">
         <div class="lyric-title">
           <h2>{{ info[index].name }}</h2>
           <p>{{ info[index].ar[0].name }}</p>
@@ -60,6 +60,7 @@
       </div>
       <div class="control">
         <div class="control-btn">
+          <i class="el-icon-refresh-right" @click="load"></i>
           <i class="el-icon-refresh" @click="playRendomFn">
             <span>
               {{ random == 0 ? "顺序" : random == 1 ? "随机" : "重复" }}
@@ -116,12 +117,10 @@
       <div class="music-playlist">
         <span @click="openPlaylistFn">播放列表</span>
         <ul v-if="openPlaylist">
-          <li
-            v-for="(item, index) in info"
-            :key="index"
-            @click="PlaylistBtn(item.id, index)"
-          >
-            {{ item.name }}
+          <li><i class="el-icon-sort" @click="playlistSort"></i></li>
+          <li v-for="(item, index) in info" :key="index">
+            <span @click="PlaylistBtn(item.id, index)">{{ item.name }}</span>
+            <i class="el-icon-delete" @click="delPlaylist(item.id, index)"></i>
           </li>
         </ul>
       </div>
@@ -138,7 +137,6 @@ export default {
   data() {
     return {
       //歌曲信息
-      audiolist: [],
       audiolistInfo: [],
       info: [],
       //歌曲播放
@@ -158,8 +156,8 @@ export default {
       volumeControl: false,
       openPlayer: false,
       openPlaylist: false,
+      sort: false,
       //子组件传值
-      childrenData: [],
       flag: true,
       //歌词
       lyric: [],
@@ -174,22 +172,27 @@ export default {
   components: {},
   watch: {
     musicInfo(n) {
-      let info = this.getMusic(); //读取本地音乐
-      if (info) {
-        Array.isArray(n) ? info.unshift(...n) : info.unshift(n); //判断是歌单还是单曲
-        this.info = info; //添加信息到播放页面
-        let nodup = this.nodup(info); //对象去重函数
-        sessionStorage.setItem("musicInfo", JSON.stringify(nodup));
-        this.musicPlay(nodup.map((e) => e.id));
-      } else {
-        Array.isArray(n) ? n : (n = [n]); //判断是歌单还是单曲
-        this.info = n; //添加信息到播放页面
-        sessionStorage.setItem("musicInfo", JSON.stringify(n));
-        this.musicPlay(n.map((e) => e.id));
+      if (n) {
+        let info = this.getMusic(); //读取本地音乐
+        if (info) {
+          Array.isArray(n) ? info.unshift(...n) : info.unshift(n); //判断是歌单还是单曲
+          let nodup = this.nodup(info); //对象去重函数
+          sessionStorage.setItem("musicInfo", JSON.stringify(nodup));
+          this.musicPlay(nodup.map((e) => e.id));
+          this.info = nodup; //添加信息到播放页面
+        } else {
+          Array.isArray(n) ? n : (n = [n]); //判断是歌单还是单曲
+          this.info = n; //添加信息到播放页面
+          sessionStorage.setItem("musicInfo", JSON.stringify(n));
+          this.musicPlay(n.map((e) => e.id));
+        }
       }
+      this.$store.commit("musicInfo", null);
     },
     playTime(n) {
-      this.lyricTextScroll(n);
+      if (this.openPlayer) {
+        this.lyricTextScroll(n);
+      }
     },
   },
   methods: {
@@ -199,16 +202,16 @@ export default {
       console.log("开始播放");
       this.player = !this.player;
       //此方法为了保证一致性
+      if (!this.player) {
+        this.$refs.audioMin.pause();
+      } else if (this.audio != null) {
+        this.$refs.audioMin.play();
+      }
       this.audiolistInfo.forEach((e) => {
         if (e.id == this.info[this.index].id) {
           this.audio = e.url;
         }
       });
-      if (!this.player) {
-        this.$refs.audioMin.pause();
-      } else {
-        this.$refs.audioMin.load();
-      }
     },
     //上一曲
     previous() {
@@ -245,7 +248,9 @@ export default {
       this.$refs.audioMin.play();
       console.log("加载成功" + this.index);
       this.duration = this.$refs.audioMin.duration;
-      this.$refs.lyricText.scrollTop = 0;
+      if (this.openPlayer) {
+        this.$refs.lyricText.scrollTop = 0;
+      }
       this.musicLyric(this.info[this.index].id);
       document.documentElement.style.setProperty(
         "--playerBJ",
@@ -289,7 +294,7 @@ export default {
     },
     //进度
     playFn() {
-      if (this.$refs.audioMin.currentTime !== undefined && this.openPlayer) {
+      if (this.$refs.audioMin.currentTime !== undefined) {
         this.playTime = Math.floor(this.$refs.audioMin.currentTime);
         this.schedule = Math.floor(
           (Math.floor(this.$refs.audioMin.currentTime) /
@@ -324,16 +329,17 @@ export default {
     //打开播放器
     openPlayerFn() {
       this.openPlayer = !this.openPlayer;
-      if (this.openPlayer & this.flag) {
+      if (this.openPlayer && this.flag) {
         this.huabu();
         this.flag = false;
       }
     },
     //歌词滚动
     lyricTextScroll(data) {
-      if (this.lyricTime.indexOf(data) !== -1) {
-        this.$refs.lyricText.scrollTop = this.$refs.lyricText.scrollTop + 40;
+      if (this.lyricTime.indexOf(data) !== -1 && this.info.length > 0) {
         this.lyricTextColor = this.lyricTime.indexOf(data);
+        this.$refs.lyricText.scrollTop = this.lyricTime.indexOf(data) * 40;
+        this.scrollTop = this.$refs.lyricText.scrollTop;
       }
     },
     //播放列表
@@ -347,11 +353,62 @@ export default {
           this.audio = e.url;
         }
       });
-      console.log(index);
       this.index = index;
       this.player = true;
     },
+    //删除歌单
+    delPlaylist(data, index) {
+      this.audiolistInfo.forEach((e, i) => {
+        if (e.id == data) {
+          this.audiolistInfo.splice(i, 1);
+        }
+      });
+      this.info.forEach((e, i) => {
+        if (e.id == data) {
+          this.info.splice(i, 1);
+        }
+      });
 
+      this.setMusicInfo(this.info);
+      if (this.info.length <= 0) {
+        this.audio = null;
+        this.$refs.audioMin.pause();
+      } else if (index == this.index) {
+        index >= this.info.length - 1 ? (this.index = 0) : null;
+        this.audio = this.audiolistInfo[this.index].url;
+      }
+    },
+    //歌曲排序
+    playlistSort() {
+      this.sort = !this.sort;
+      if (this.sort) {
+        let a = [];
+        let b = [];
+        this.info.forEach((e) => {
+          a.unshift(e);
+        });
+        this.audiolistInfo.forEach((e) => {
+          b.unshift(e);
+        });
+        this.info = a;
+        this.audiolistInfo = b;
+      } else {
+        let a = [];
+        let b = [];
+        this.info.forEach((e) => {
+          a.unshift(e);
+        });
+        this.audiolistInfo.forEach((e) => {
+          b.unshift(e);
+        });
+        this.info = a;
+        this.audiolistInfo = b;
+      }
+    },
+    //歌曲重载
+    load() {
+      this.$refs.audioMin.load();
+    },
     //数据相关
     //存储音乐信息
     setMusicInfo(musicInfo) {
@@ -363,20 +420,15 @@ export default {
     },
     //歌曲去重
     nodup(info) {
-      let nodup = [];
-      for (let i = 0; i < info.length; i++) {
-        let flag = true;
-        for (let j = i + 1; j < info.length; j++) {
-          if (info[i].id == info[j].id) {
-            flag = false;
-            break;
+      let infoCopy = this.Copy.copy(info);
+      for (let i = 0; i < infoCopy.length; i++) {
+        for (let j = i + 1; j < infoCopy.length; j++) {
+          if (infoCopy[i].id == infoCopy[j].id) {
+            infoCopy.splice(j, 1);
           }
         }
-        if (flag) {
-          nodup.unshift(info[i]);
-        }
       }
-      return nodup;
+      return infoCopy;
     },
     //选择音乐图片
     musicImg() {
@@ -437,23 +489,30 @@ export default {
       });
       //将处理好的歌词事件保存
       if (this.lyric.length >= 1) {
-        this.lyric.forEach((e) => {
-          this.lyricTime.push(e[1]);
+        let lyrics = this.lyric;
+        let index = [];
+
+        lyrics.forEach((e) => {
+          if (e[0].length > 0) {
+            index.push(e);
+            this.lyricTime.push(e[1]);
+          }
         });
+        this.lyric = index;
       }
     },
 
     //请求相关
     //获取音乐
     musicPlay(musicId) {
-      music(musicId)
-        .then((res) => {
-          console.log(res);
-          this.audiolist.push(...res.data.map((e) => e.url));
-          this.music = this.audiolist[0];
-          this.audiolistInfo = res.data;
-        })
-        .catch(() => {});
+      if (this.info.length > 0) {
+        music(musicId)
+          .then((res) => {
+            this.audiolistInfo = res.data;
+            this.music = this.audiolistInfo[0].url;
+          })
+          .catch(() => {});
+      }
     },
     musicLyric(id) {
       musicLyric(id)
@@ -465,9 +524,8 @@ export default {
     },
   },
   mounted() {
-    this.getMusic() ? this.musicPlay(this.getMusic().map((e) => e.id)) : null;
     this.info = this.getMusic();
-    this.childrenData.push(this.$refs.audioMin);
+    this.getMusic() ? this.musicPlay(this.getMusic().map((e) => e.id)) : null;
     //ui控件设置
     this.setUi();
   },
@@ -659,6 +717,14 @@ export default {
           width: 100px;
           border: 1px solid white;
           padding: 10px 0;
+          background: #0000005d;
+          background: -webkit-linear-gradient(
+            to right,
+            #f0acf7,
+            #acf7f0,
+            #f7f0ac
+          );
+          background: linear-gradient(to right, #6a5c6d, #72918e, #747158);
           &:hover {
             color: black;
           }
@@ -680,7 +746,7 @@ export default {
       align-items: center;
       color: white;
       line-height: 30px;
-      span {
+      > span {
         padding: 0 10px;
         border: 1px solid white;
         border-radius: 30px 30px;
@@ -695,7 +761,7 @@ export default {
         height: 200px;
         top: -200px;
         left: -100px;
-        padding: 15px 0;
+        padding: 0px 0 15px;
         overflow: scroll;
         border: 1px solid white;
         background: #0000005d;
@@ -710,14 +776,34 @@ export default {
           width: 0px; //左侧滚动条宽度
           height: 0px; //下侧滚动高度
         }
-        li {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+        li:not(li:nth-child(1)) {
+          display: flex;
+          justify-content: space-between;
           padding: 0 10px;
           &:hover {
             color: red;
             background-color: white;
+            i {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+          span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          i {
+            display: none;
+          }
+        }
+        li:nth-child(1) {
+          display: flex;
+          flex-flow: row-reverse;
+          padding: 5px 10px 5px 0;
+          &:hover {
+            color: red;
           }
         }
       }

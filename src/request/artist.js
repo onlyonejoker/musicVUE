@@ -77,3 +77,25 @@ export function artistMv(id) {
     },
   });
 }
+//歌手专辑
+export function artistAlbum(id, limit, offset) {
+  return install({
+    url: "/artist/album",
+    method: "post",
+    params: {
+      id,
+      limit,
+      offset,
+    },
+  });
+}
+//相似歌手
+export function simiArtist(id) {
+  return install({
+    url: "/simi/artist",
+    method: "post",
+    params: {
+      id,
+    },
+  });
+}

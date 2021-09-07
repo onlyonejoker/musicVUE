@@ -30,6 +30,7 @@
           class="el-icon-delete"
           @click.stop="delList(item.id)"
         ></span>
+        <span class="el-icon-download" @click="downLoadSong(item.id)"></span>
       </span>
       <span class="artist-name" @click="albumDetail(item.al.id)">
         {{ item.al.name }}
@@ -52,7 +53,8 @@
 
 <script>
 import addPlay from "common/add/addPlay.vue";
-import { likelist, like } from "../../../request/user";
+import { likelist, like } from "@/request/user";
+import { music } from "@/request/music";
 export default {
   name: "songItem",
   data() {
@@ -106,13 +108,42 @@ export default {
     },
     //专辑详情
     albumDetail(id) {
-      this.$router.push({ path: "/album", query: { id } });
+      this.$router.push({ path: "/albumDetail", query: { id } });
     },
     //歌手详情
     addList(i) {
       this.isDispaly = i;
     },
-
+    //下载
+    downLoadSong(id) {
+      music(id)
+        .then((res) => {
+          this.downLoad(res.data[0].url);
+        })
+        .catch();
+    },
+    downLoad(url) {
+      fetch(url)
+        .then((response) => {
+          if (response.ok) {
+            return response.blob();
+          }
+        })
+        .then((blob) => {
+          let blobUrl = window.URL.createObjectURL(blob);
+          let name = Math.floor(Math.random() * 10000000000).toString(32);
+          downloadBlob(blobUrl, name);
+        })
+        .catch((e) => console.error(e));
+      function downloadBlob(blob, filename) {
+        var a = document.createElement("a");
+        a.download = filename;
+        a.href = blob;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+    },
     //发射音乐到播放列表
     playMusic(songs) {
       this.$store.commit("musicInfo", songs);
@@ -123,7 +154,7 @@ export default {
     },
     //向父级元素发送删除事件
     delList(id) {
-      this.$emit("del", id);
+      this.$bus.$emit("del", id);
     },
     //分享歌曲
     share(id) {

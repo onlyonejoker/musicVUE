@@ -10,8 +10,26 @@
           时间
         </span>
       </p>
-      <songItem :song="songs" :uid="artistUid" />
-      <page :more="more" @page="page" />
+      <div v-if="top10" class="top10">
+        <songItem :song="songs10" :uid="artistUid" />
+        <p @click="allSong">
+          <i class="el-icon-arrow-right"></i><span> 查看全部50首</span>
+        </p>
+      </div>
+      <div v-else class="top10">
+        <songItem :song="songs" :uid="artistUid" />
+        <p @click="allSong">
+          <i class="el-icon-arrow-right"></i><span>收起</span>
+        </p>
+      </div>
+      <page :more="songMore" @page="songPage" />
+    </div>
+    <div class="album">
+      <h2>专辑</h2>
+      <div>
+        <albumList v-for="(item, index) in album" :album="item" :key="index" />
+      </div>
+      <page :more="albumMore" @page="albumPage" />
     </div>
   </div>
 </template>
@@ -19,21 +37,28 @@
 <script>
 import songItem from "@/components/common/song/songItem.vue";
 import page from "@/components/common/page/page.vue";
-import { artistTop, artistSongs } from "@/request/artist";
+import albumList from "@/components/common/list/albumList.vue";
+import { artistTop, artistSongs, artistAlbum } from "@/request/artist";
 export default {
   name: "albumrouter",
   components: {
     songItem,
+    albumList,
     page,
   },
 
   data() {
     return {
+      songs10: [],
       songs: null,
-      more: false,
+      songMore: false,
+      albumMore: false,
       order: "hot",
-      offset: 0,
+      songOffset: 0,
+      albumOffset: 0,
       isActive: "hot",
+      top10: true,
+      album: null,
     };
   },
   computed: {
@@ -48,23 +73,41 @@ export default {
     artistTop() {
       artistTop(this.uid)
         .then((res) => {
-          this.more = res.more;
+          this.songMore = res.more;
           this.songs = res.songs;
+          for (let i = 0; i < 10; i++) {
+            this.songs10.push(res.songs[i]);
+          }
         })
         .catch();
     },
     artistSong() {
-      artistSongs(this.uid, this.order, 50, this.offset)
+      artistSongs(this.uid, this.order, 50, this.songOffset * 50)
         .then((res) => {
-          this.more = res.more;
+          this.songMore = res.more;
           this.songs = res.songs;
+          for (let i = 0; i < 10; i++) {
+            this.songs10.push(res.songs[i]);
+          }
+        })
+        .catch();
+    },
+    artistAlbum() {
+      artistAlbum(this.uid, 50, this.albumOffset * 50)
+        .then((res) => {
+          this.albumMore = res.more;
+          this.album = res.hotAlbums;
         })
         .catch();
     },
     //分页器
-    page(p) {
-      this.offset = p;
+    songPage(p) {
+      this.songOffset = p;
       this.artistSong();
+    },
+    albumPage(P) {
+      this.albumOffset = P;
+      this.artistAlbum();
     },
     //事件相关
     timeBtn() {
@@ -77,9 +120,13 @@ export default {
       this.isActive = "hot";
       this.artistSong();
     },
+    allSong() {
+      this.top10 = !this.top10;
+    },
   },
   mounted() {
     this.artistTop();
+    this.artistAlbum();
   },
 };
 </script>
@@ -94,8 +141,31 @@ export default {
         margin-right: 10px;
       }
     }
+    .top10 {
+      p {
+        display: flex;
+        flex-flow: row-reverse;
+        padding-right: 50px;
+        span {
+          margin-right: 20px;
+        }
+        &:hover {
+          color: red;
+        }
+      }
+    }
+  }
+  .album {
+    position: relative;
+    margin-top: 70px;
+    > div {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
 }
+
 .active {
   color: red !important;
 }

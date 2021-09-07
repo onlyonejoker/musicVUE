@@ -3,17 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.songDetail = songDetail;
+exports.personalized = personalized;
 
 var _axios = require("@/plugins/axios");
 
-//获取歌曲详情
-function songDetail(ids) {
+//推荐歌单
+function personalized(limit) {
   return (0, _axios.install)({
-    url: "/song/detail",
+    url: "/personalized",
     method: "post",
     params: {
-      ids: ids
+      limit: limit
     }
   });
 }

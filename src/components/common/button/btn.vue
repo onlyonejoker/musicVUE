@@ -28,14 +28,15 @@ export default {
 
 <style lang="less" scoped>
 .btn {
-  width: 120px;
+  min-width: 120px;
   height: 38px;
   border: 1px solid white;
   display: inline-block;
   text-align: center;
+  padding: 0 10px;
   line-height: 38px;
   background-color: transparent;
-  &:hover {
+  &:active {
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0.63);
   }

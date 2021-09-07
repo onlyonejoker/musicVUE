@@ -11,7 +11,7 @@
 
 <script>
 import { followedsList } from "@/request/user";
-import focusUserList from "@/components/user/focusUser/focusUser.vue";
+import focusUserList from "@/components/content/user/focusUser/focusUser.vue";
 import page from "@/components/common/page/page.vue";
 export default {
   name: "fansUser",

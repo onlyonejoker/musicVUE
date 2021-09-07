@@ -1,7 +1,7 @@
 <template>
   <div class="play-song">
     <section class="song-conter">
-      <songItem :song="song" @del="del" :uid="playlist.creator.userId" />
+      <songItem :song="song" :uid="playlist.creator.userId" />
     </section>
     <section class="intro">
       <h4>简介</h4>
@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import songItem from "../common/song/songItem.vue";
-import { playTracks, relatedPlaylist } from "@/request/playList";
-import related from "../common/play/related.vue";
+import songItem from "common/song/songItem.vue";
+import { relatedPlaylist } from "@/request/playList";
+import related from "common/play/related.vue";
 export default {
   name: "playSong",
   data() {
@@ -37,14 +37,7 @@ export default {
     playMusic(songs) {
       this.$store.commit("musicInfo", songs);
     },
-    //删除歌单歌曲
-    del(id) {
-      playTracks("del", this.playlist.id, id)
-        .then(() => {
-          this.$router.go(0);
-        })
-        .catch();
-    },
+    //推荐
     relatedPlaylist(id) {
       relatedPlaylist(id)
         .then((res) => {

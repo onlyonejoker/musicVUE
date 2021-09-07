@@ -94,8 +94,8 @@
 </template>
 
 <script>
-import { playDetail, subscribe } from "../../request/playList";
-import { songDetail } from "../../request/song";
+import { playDetail, subscribe, playTracks } from "@/request/playList";
+import { songDetail } from "@/request/song";
 
 import { Notification } from "element-ui";
 import btn from "btn/btn.vue";
@@ -148,7 +148,7 @@ export default {
     },
     //跳转品论
     linkComment() {
-      document.querySelector("footer").scrollIntoView({
+      document.querySelector("#commentComponent").scrollIntoView({
         behavior: "smooth",
       });
     },
@@ -196,7 +196,6 @@ export default {
     playlists() {
       playDetail(this.playId)
         .then((res) => {
-          console.log(res);
           this.play = res.playlist;
           this.playSong(this.play.trackIds.map((e) => e.id).join(","));
         })
@@ -215,7 +214,17 @@ export default {
   created() {
     this.playlists();
   },
-  mounted() {},
+  mounted() {
+    this.$bus.$on("del", (id) => {
+      playTracks("del", this.playId, id)
+        .then((res) => {
+          console.log(res);
+          this.playlists();
+        })
+        .catch();
+    });
+    //删除歌单歌曲
+  },
 };
 </script>
 

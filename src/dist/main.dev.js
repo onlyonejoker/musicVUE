@@ -7,7 +7,7 @@ exports["default"] = void 0;
 
 var _vue = _interopRequireDefault(require("vue"));
 
-require("./plugins/axios");
+var _axios = _interopRequireDefault(require("axios"));
 
 var _App = _interopRequireDefault(require("./App.vue"));
 
@@ -20,6 +20,8 @@ require("./plugins/element.js");
 var _vueLazyload = _interopRequireDefault(require("vue-lazyload"));
 
 var _util = require("./util/util");
+
+var _copy = require("./util/copy");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -43,6 +45,8 @@ _vue["default"].prototype.$time = function (time) {
 };
 
 _vue["default"].prototype.$audio = new _util.Audio();
+_vue["default"].prototype.Copy = new _copy.Copy();
+_vue["default"].prototype.axios = _axios["default"];
 
 _vue["default"].use(_vueLazyload["default"], {
   loading: require("./assets/img/loading.gif"),

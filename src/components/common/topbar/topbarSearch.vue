@@ -9,6 +9,7 @@
       @focus="focus"
       @blur="blur"
       @input="inputFn"
+      @keyup.native="keyup"
     >
     </el-input>
     <el-button size="small" type="primary" icon="el-icon-search" @click="search"
@@ -100,7 +101,7 @@ export default {
     };
   },
   methods: {
-    //请求相关
+    //跳转相关
     search() {
       this.input2 ? null : (this.input2 = this.showKeyword);
       this.$router.push({
@@ -108,6 +109,12 @@ export default {
         query: { keywords: this.input2 },
       });
     },
+    keyup(e) {
+      if (e.key == "Enter") {
+        this.search();
+      }
+    },
+    //请求相关
     searchDefault() {
       searchDefault()
         .then((res) => {

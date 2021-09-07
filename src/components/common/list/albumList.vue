@@ -1,45 +1,42 @@
 <template>
-  <div class="videoComponent" v-if="video">
-    <div @click="videoItem(video)">
+  <div class="albumList" v-if="album">
+    <div @click="albumList(album)">
       <section class="shade">
         <i class="el-icon-video-play"></i>
       </section>
-      <img v-lazy="video.coverUrl || video.imgurl" alt="video" />
+      <img v-lazy="album.picUrl" alt="play" />
     </div>
-    <p>{{ video.title || video.name }}</p>
-    <p class="nickname" v-if="video.creator" @click="linkUser">
-      {{ video.creator[0].userName }}
+    <p>{{ album.name }}</p>
+    <p v-if="album.company">{{ album.company }}</p>
+    <p class="nickname">
+      <span
+        v-for="(item, index) in album.artists"
+        :key="index"
+        @click="linkArtists(item.id)"
+      >
+        {{ item.name }}
+      </span>
     </p>
   </div>
 </template>
 
 <script>
 export default {
-  name: "videoComponent",
-  props: { video: Object },
-  data() {
-    return {};
-  },
+  name: "albumList",
+  props: { album: Object },
   methods: {
-    //跳转相关
-    videoItem(video) {
+    albumList(album) {
       this.$router.push({
-        path: "/videoDetail",
-        query: { id: video.vid || video.id },
+        path: "/albumDetail",
+        query: { id: album.id },
       });
     },
-    linkUser() {
-      if (this.video.type == 1) {
-        this.$router.push({
-          path: "/user/home",
-          query: { id: this.video.creator[0].userId },
-        });
-      } else if (this.video.type == 0) {
-        this.$router.push({
-          path: "/artistDetail",
-          query: { id: this.video.creator[0].userId },
-        });
-      }
+    linkArtists(id) {
+      this.$router.push({
+        path: "/artistDetail",
+        query: { id },
+      });
+      this.$router.go(0);
     },
   },
   mounted() {},
@@ -47,17 +44,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.videoComponent {
-  width: 300px;
-  height: 218px;
-  margin: 20px 20px 0 0;
+.albumList {
+  width: 188px;
+  height: 238px;
+  margin-bottom: 20px;
+
   > div {
-    width: 300px;
+    width: 168px;
     height: 168px;
     position: relative;
     overflow: hidden;
-    section {
-      width: 300px;
+    .shade {
+      width: 168px;
       height: 168px;
       position: absolute;
       z-index: 996;
@@ -75,12 +73,12 @@ export default {
       }
     }
     img {
-      width: 300px;
+      width: 168px;
       height: 168px;
       transition: all 0.8s;
     }
     &:hover {
-      section {
+      .shade {
         opacity: 1;
         transition: all 0.8s;
         i {
@@ -108,8 +106,10 @@ export default {
     line-height: 20px;
     color: grey;
     font-family: "宋体";
-    &:hover {
-      color: red;
+    span {
+      &:hover {
+        color: red;
+      }
     }
   }
 }

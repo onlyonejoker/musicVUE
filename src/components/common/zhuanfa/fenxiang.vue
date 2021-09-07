@@ -41,6 +41,8 @@ export default {
     typeText() {
       if (this.type == "song") {
         return "歌单";
+      } else if (this.type == "Single") {
+        return "专辑";
       }
     },
     //分享歌单

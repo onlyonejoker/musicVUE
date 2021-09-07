@@ -57,6 +57,11 @@ export default {
       return this.$route.query.id;
     },
   },
+  watch: {
+    uid() {
+      this.artistDetail();
+    },
+  },
   components: {
     btn,
   },
@@ -64,7 +69,6 @@ export default {
     artistDetail() {
       artistDetail(this.uid)
         .then((res) => {
-          console.log(res);
           this.artistInfo = res.data;
           if (res.data.user) {
             this.userid = res.data.user.userId;
