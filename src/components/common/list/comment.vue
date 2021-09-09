@@ -13,13 +13,29 @@
       <div>{{ comment.content }}</div>
     </div>
     <div class="praise-comment-user">
-      <div>评论</div>
-      <div @click="zhuanfa(comment.commentId, comment.user.userId)">
-        <img src="@/assets/img/zhuanfa.svg" alt="zhuanfa" />
+      <div class="btn">
+        <div @click="conmmentDisplayFn(comment.commentId)">评论</div>
+        <div @click="zhuanfa(comment.commentId, comment.user.userId)">
+          <img src="@/assets/img/zhuanfa.svg" alt="zhuanfa" />
+        </div>
+        <div @click="dianzanFn(comment.commentId)">
+          <img :src="dianzan[dianzanIndex]" alt="dianzan" />
+          <span>{{ comment.likedCount }}</span>
+        </div>
       </div>
-      <div @click="dianzanFn(comment.commentId)">
-        <img :src="dianzan[dianzanIndex]" alt="dianzan" />
-        <span>{{ comment.likedCount }}</span>
+      <div class="commentbox" v-if="commentDisplay == comment.commentId">
+        <el-input
+          type="textarea"
+          :rows="3"
+          placeholder="请输入内容"
+          v-model="textarea"
+          resize="none"
+        >
+        </el-input>
+        <div>
+          <span @click="commentSend(comment.commentId)">发送</span>
+          <span @click="commentCancel">取消</span>
+        </div>
       </div>
     </div>
     <p @click="lookFn" v-if="comment.beReplied" class="look">查看回复</p>
@@ -27,6 +43,7 @@
       <div v-if="beReplied === null">
         <i class="el-icon-loading"></i>
       </div>
+
       <div v-else-if="beReplied.length > 0">
         <div v-for="(item, index) in beReplied" :key="index">
           <div class="comment-user">
@@ -38,19 +55,39 @@
               <p>{{ item.time }}</p>
             </div>
           </div>
+
           <div class="content-comment-user">
             <p>{{ item.content }}</p>
           </div>
+
           <div class="praise-comment-user">
-            <div>评论</div>
-            <div @click="zhuanfa(item.beRepliedCommentId)">
-              <img src="@/assets/img/zhuanfa.svg" alt="zhuanfa" />
+            <div class="btn">
+              <div @click="conmmentDisplayFn(item.commentId)">评论</div>
+              <div @click="zhuanfa(item.beRepliedCommentId)">
+                <img src="@/assets/img/zhuanfa.svg" alt="zhuanfa" />
+              </div>
+              <div @click="replydianzanFn(index, item.commentId)">
+                <img
+                  :src="reply == index ? dianzan[replyI] : dianzan[0]"
+                  alt="dianzan"
+                />
+                <span>{{ item.likedCount }}</span>
+              </div>
             </div>
-            <div @click="replydianzanFn(index)">
-              <img
-                :src="reply == index ? dianzan[replyI] : dianzan[0]"
-                alt="dianzan"
-              />
+
+            <div class="commentbox" v-if="commentDisplay == item.commentId">
+              <el-input
+                type="textarea"
+                :rows="3"
+                placeholder="请输入内容"
+                v-model="textarea"
+                resize="none"
+              >
+              </el-input>
+              <div>
+                <span @click="commentSend(item.commentId)">发送</span>
+                <span @click="commentCancel">取消</span>
+              </div>
             </div>
           </div>
         </div>
@@ -66,12 +103,12 @@
 </template>
 
 <script>
-import { commentLike, commentFloor } from "@/request/comment";
+import { commentLike, commentFloor, comment } from "@/request/comment";
 import Page from "page/page.vue";
 
 export default {
   name: "commentAlbum",
-  props: { comment: Object, zyId: Number, type: Number },
+  props: { comment: Object, zyId: [Number, String], type: Number },
   components: { Page },
   data() {
     return {
@@ -87,6 +124,8 @@ export default {
       onlyOne: true,
       time: -1,
       more: false,
+      textarea: "",
+      commentDisplay: null,
     };
   },
 
@@ -132,17 +171,29 @@ export default {
       this.dianzanIndex == 0
         ? (this.dianzanIndex = 1)
         : (this.dianzanIndex = 0);
-      this.commentLike(id);
+      this.commentLike(this.zyId, id, this.dianzanIndex, this.type);
     },
-    replydianzanFn(index) {
+    replydianzanFn(index, id) {
       this.reply = index;
       this.replyI == 0 ? (this.replyI = 1) : (this.replyI = 0);
+      this.commentLike(this.zyId, id, this.replyI, this.type);
     },
     zhuanfa(id, userId) {
       this.$bus.$emit("zhuanfa", id, userId);
     },
     page() {
       this.commentFloor();
+    },
+    //回复
+    conmmentDisplayFn(id) {
+      this.commentDisplay = id;
+    },
+    commentSend(id) {
+      comment(2, this.type, this.zyId, this.textarea, id).then().catch();
+      this.textarea = "";
+    },
+    commentCancel() {
+      this.commentDisplay = null;
     },
     //跳转相关
     linkUser(id) {
@@ -191,18 +242,45 @@ export default {
     color: grey;
     margin: 10px 0 0;
     display: flex;
-    flex-flow: row-reverse;
-    div {
-      width: 50px;
-      text-align: center;
-      font-size: 14px;
-      color: black;
+    flex-flow: column;
+    .btn {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      &:nth-child(2) {
-        border-right: 1px solid grey;
-        border-left: 1px solid grey;
+      flex-flow: row-reverse;
+      div {
+        width: 50px;
+        text-align: center;
+        font-size: 14px;
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:nth-child(2) {
+          border-right: 1px solid grey;
+          border-left: 1px solid grey;
+        }
+      }
+    }
+    .commentbox {
+      padding: 20px;
+      > div {
+        margin-top: 10px;
+        display: flex;
+        flex-flow: row-reverse;
+        span {
+          font-size: 14px;
+          color: black;
+          display: block;
+          width: 50px;
+          line-height: 20px;
+          text-align: center;
+          border: 1px solid white;
+          border-radius: 20px 20px;
+          margin-left: 20px;
+          &:active {
+            color: white;
+            background-color: red;
+          }
+        }
       }
     }
   }

@@ -24,7 +24,8 @@ exports.videoSubPlay = videoSubPlay;
 exports.mvDetail = mvDetail;
 exports.mvDetailInfo = mvDetailInfo;
 exports.mvUrl = mvUrl;
-exports.downLoad = downLoad;
+exports.commentMV = commentMV;
+exports.commentVideo = commentVideo;
 
 var _axios = require("@/plugins/axios");
 
@@ -211,12 +212,12 @@ function videoSub(id, t) {
 } //收藏MV
 
 
-function mvSub(id, t) {
+function mvSub(mvid, t) {
   return (0, _axios.install)({
     url: "/mv/sub",
     method: "post",
     params: {
-      id: id,
+      mvid: mvid,
       t: t
     }
   });
@@ -266,17 +267,30 @@ function mvUrl(id, r) {
       r: r
     }
   });
-} //下载
+} //MV评论
 
 
-function downLoad(id, r) {
+function commentMV(id, limit, offset) {
   return (0, _axios.install)({
-    url: "/mv/url",
+    url: "/comment/mv",
     method: "post",
-    responseType: "blob",
     params: {
       id: id,
-      r: r
+      limit: limit,
+      offset: offset
+    }
+  });
+} //视频评论
+
+
+function commentVideo(id, limit, offset) {
+  return (0, _axios.install)({
+    url: "/comment/video",
+    method: "post",
+    params: {
+      id: id,
+      limit: limit,
+      offset: offset
     }
   });
 }

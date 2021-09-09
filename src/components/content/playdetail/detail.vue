@@ -289,6 +289,7 @@ export default {
       }
       .btn-list {
         position: relative;
+        width: 500px;
         .btn {
           margin-right: 5px;
         }

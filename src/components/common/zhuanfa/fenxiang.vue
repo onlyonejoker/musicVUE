@@ -43,6 +43,10 @@ export default {
         return "歌单";
       } else if (this.type == "Single") {
         return "专辑";
+      } else if (this.type == "video") {
+        return "视频";
+      } else if (this.type == "mv") {
+        return "mv";
       }
     },
     //分享歌单

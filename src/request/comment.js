@@ -26,3 +26,17 @@ export function commentFloor(parentCommentId, id, type, limit, time) {
     },
   });
 }
+//回复
+export function comment(t, type, id, content, commentId) {
+  return install({
+    url: "/comment",
+    method: "post",
+    params: {
+      t,
+      type,
+      id,
+      content,
+      commentId,
+    },
+  });
+}

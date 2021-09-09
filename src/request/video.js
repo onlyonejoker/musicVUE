@@ -169,12 +169,12 @@ export function videoSub(id, t) {
   });
 }
 //收藏MV
-export function mvSub(id, t) {
+export function mvSub(mvid, t) {
   return install({
     url: "/mv/sub",
     method: "post",
     params: {
-      id,
+      mvid,
       t,
     },
   });
@@ -222,15 +222,27 @@ export function mvUrl(id, r) {
   });
 }
 
-//下载
-export function downLoad(id, r) {
+//MV评论
+export function commentMV(id, limit, offset) {
   return install({
-    url: "/mv/url",
+    url: "/comment/mv",
     method: "post",
-    responseType: "blob",
     params: {
       id,
-      r,
+      limit,
+      offset,
+    },
+  });
+}
+//视频评论
+export function commentVideo(id, limit, offset) {
+  return install({
+    url: "/comment/video",
+    method: "post",
+    params: {
+      id,
+      limit,
+      offset,
     },
   });
 }

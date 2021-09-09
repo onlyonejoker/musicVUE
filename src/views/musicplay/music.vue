@@ -17,7 +17,7 @@
           <p>{{ info[index].ar[0].name }}</p>
           <p>{{ info[index].al.name }}</p>
         </div>
-        <div class="lyric-content">
+        <div class="lyric-content" v-if="lyric">
           <div ref="lyricText">
             <p
               v-for="(item, index) in lyric"
@@ -40,6 +40,7 @@
             </p>
           </div>
         </div>
+        <div v-else style="text-align: center">此歌曲为纯音乐，请欣赏</div>
       </div>
     </div>
     <div class="effect" v-show="openPlayer">
@@ -194,6 +195,11 @@ export default {
         this.lyricTextScroll(n);
       }
     },
+    audio(n) {
+      if (!n) {
+        this.next();
+      }
+    },
   },
   methods: {
     //事件相关
@@ -245,11 +251,14 @@ export default {
     },
     //加载
     canplay() {
-      this.$refs.audioMin.play();
       console.log("加载成功" + this.index);
+      this.$refs.audioMin.play();
+      this.player = true;
       this.duration = this.$refs.audioMin.duration;
-      if (this.openPlayer) {
-        this.$refs.lyricText.scrollTop = 0;
+      if (this.lyric) {
+        if (this.openPlayer) {
+          this.$refs.lyricText.scrollTop = 0;
+        }
       }
       this.musicLyric(this.info[this.index].id);
       document.documentElement.style.setProperty(
@@ -262,20 +271,29 @@ export default {
       if (this.random == 0) {
         this.index++;
         this.index >= this.audiolistInfo.length ? (this.index = 0) : null;
-        this.audiolistInfo.forEach((e) => {
-          if (e.id == this.info[this.index].id) {
-            this.audio = e.url;
-          }
-        });
+        if (this.audiolistInfo.length > 1) {
+          this.audiolistInfo.forEach((e) => {
+            if (e.id == this.info[this.index].id) {
+              this.audio = e.url;
+            }
+          });
+        } else if (this.audiolistInfo.length == 1) {
+          this.load();
+        }
         this.player = true;
       } else if (this.random == 1) {
-        this.index = Math.floor(Math.random() * this.audiolistInfo.length);
-        this.audiolistInfo.forEach((e) => {
-          if (e.id == this.info[this.index].id) {
-            this.audio = e.url;
-          }
-        });
-        this.player = true;
+        if (this.audiolistInfo.length > 1) {
+          let old = this.index;
+          this.index = this.rendomFn(old);
+          this.audiolistInfo.forEach((e) => {
+            if (e.id == this.info[this.index].id) {
+              this.audio = e.url;
+            }
+          });
+          this.player = true;
+        } else if (this.audiolistInfo.length == 1) {
+          this.load();
+        }
       } else if (this.random == 2) {
         this.$refs.audioMin.load();
         this.player = true;
@@ -324,7 +342,7 @@ export default {
     },
     //缓存失败
     error() {
-      this.$router.go(0);
+      this.musicPlay(this.audiolistInfo.map((e) => e.id));
     },
     //打开播放器
     openPlayerFn() {
@@ -368,7 +386,6 @@ export default {
           this.info.splice(i, 1);
         }
       });
-
       this.setMusicInfo(this.info);
       if (this.info.length <= 0) {
         this.audio = null;
@@ -376,6 +393,7 @@ export default {
       } else if (index == this.index) {
         index >= this.info.length - 1 ? (this.index = 0) : null;
         this.audio = this.audiolistInfo[this.index].url;
+        this.$refs.audioMin.load();
       }
     },
     //歌曲排序
@@ -392,6 +410,7 @@ export default {
         });
         this.info = a;
         this.audiolistInfo = b;
+        this.audio = this.audiolistInfo[this.index].url;
       } else {
         let a = [];
         let b = [];
@@ -403,16 +422,26 @@ export default {
         });
         this.info = a;
         this.audiolistInfo = b;
+        this.audio = this.audiolistInfo[this.index].url;
       }
     },
     //歌曲重载
     load() {
       this.$refs.audioMin.load();
     },
+
     //数据相关
     //存储音乐信息
     setMusicInfo(musicInfo) {
       sessionStorage.setItem("musicInfo", JSON.stringify(musicInfo));
+    },
+    rendomFn(old) {
+      let news = Math.floor(Math.random() * this.audiolistInfo.length);
+      if (old == news) {
+        this.rendomFn(old);
+      } else {
+        return news;
+      }
     },
     //读取本地音乐信息
     getMusic() {
@@ -471,34 +500,38 @@ export default {
     },
     //歌词处理
     lyricData(lyricDatas) {
-      this.lyric = [];
-      this.lyricTime = [];
-      lyricDatas.split("\n").forEach((e, i) => {
-        if (e.length >= 1) {
-          let lyricData = e.split("[")[1].split("]");
-          let rg = /^[0-9]{2}:[0-9]{2}.[0-9]{2,10}$/;
+      if (lyricDatas) {
+        this.lyric = [];
+        this.lyricTime = [];
+        lyricDatas.split("\n").forEach((e, i) => {
+          if (e.length >= 1) {
+            let lyricData = e.split("[")[1].split("]");
+            let rg = /^[0-9]{2}:[0-9]{2}.[0-9]{2,10}$/;
 
-          if (!rg.test(lyricData[0])) {
-            this.lyric.push([lyricData[1], i]);
-          } else {
-            let time = lyricData[0].split(".")[0].split(":");
-            let times = time[0] * 60 + parseInt(time[1]);
-            this.lyric.push([lyricData[1], times]);
-          }
-        }
-      });
-      //将处理好的歌词事件保存
-      if (this.lyric.length >= 1) {
-        let lyrics = this.lyric;
-        let index = [];
-
-        lyrics.forEach((e) => {
-          if (e[0].length > 0) {
-            index.push(e);
-            this.lyricTime.push(e[1]);
+            if (!rg.test(lyricData[0])) {
+              this.lyric.push([lyricData[1], i]);
+            } else {
+              let time = lyricData[0].split(".")[0].split(":");
+              let times = time[0] * 60 + parseInt(time[1]);
+              this.lyric.push([lyricData[1], times]);
+            }
           }
         });
-        this.lyric = index;
+        //将处理好的歌词事件保存
+        if (this.lyric.length >= 1) {
+          let lyrics = this.lyric;
+          let index = [];
+
+          lyrics.forEach((e) => {
+            if (e[0].length > 0) {
+              index.push(e);
+              this.lyricTime.push(e[1]);
+            }
+          });
+          this.lyric = index;
+        }
+      } else {
+        this.lyric = null;
       }
     },
 
@@ -509,7 +542,7 @@ export default {
         music(musicId)
           .then((res) => {
             this.audiolistInfo = res.data;
-            this.music = this.audiolistInfo[0].url;
+            this.audio = this.audiolistInfo[this.index].url;
           })
           .catch(() => {});
       }
@@ -518,7 +551,11 @@ export default {
       musicLyric(id)
         .then((res) => {
           console.log(res);
-          this.lyricData(res.lrc.lyric);
+          if (res.lrc) {
+            this.lyricData(res.lrc.lyric);
+          } else {
+            this.lyricData(null);
+          }
         })
         .catch();
     },
@@ -542,6 +579,7 @@ export default {
   display: flex;
   flex-flow: column;
   justify-content: space-between;
+  z-index: 100000;
   .play-item {
     width: 100%;
     height: calc(100vh - 244px);

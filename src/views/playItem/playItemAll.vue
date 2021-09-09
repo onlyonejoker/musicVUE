@@ -318,6 +318,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     position: relative;
+    justify-content: center;
   }
 }
 .active {

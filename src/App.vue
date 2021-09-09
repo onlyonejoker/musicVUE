@@ -19,7 +19,7 @@ import playCreate from "./components/common/play/playCreate.vue";
 import BackTop from "./components/common/backTop.vue";
 import zhuanfa from "./components/common/zhuanfa/zhuanfa.vue";
 import fenxiang from "./components/common/zhuanfa/fenxiang.vue";
-import { loginStatus } from "./request/logoin";
+import { loginStatus, loginRefresh } from "./request/logoin";
 export default {
   name: "app",
   components: {
@@ -46,12 +46,19 @@ export default {
       let user = JSON.parse(sessionStorage.getItem("user")); //刷新保存数据
       this.$store.commit("login", user); //刷新保存数据
       this.$store.commit("token", token); //刷新保存数据
-      loginStatus()
-        .then((res) => {
-          console.log(res.data);
-          this.$store.commit("login", res.data); //更新数据
+
+      loginRefresh()
+        .then(() => {
+          loginStatus()
+            .then((res) => {
+              console.log(res.data);
+              this.$store.commit("login", res.data); //更新数据
+            })
+            .catch();
         })
-        .catch();
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     backTopFn() {

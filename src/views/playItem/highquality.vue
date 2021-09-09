@@ -128,6 +128,7 @@ export default {
     flex-wrap: wrap;
     position: relative;
     margin-top: 20px;
+    justify-content: center;
   }
 }
 .active {

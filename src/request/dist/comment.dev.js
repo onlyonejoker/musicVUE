@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.commentLike = commentLike;
 exports.commentFloor = commentFloor;
+exports.comment = comment;
 
 var _axios = require("@/plugins/axios");
 
@@ -33,6 +34,21 @@ function commentFloor(parentCommentId, id, type, limit, time) {
       type: type,
       limit: limit,
       time: time
+    }
+  });
+} //回复
+
+
+function comment(t, type, id, content, commentId) {
+  return (0, _axios.install)({
+    url: "/comment",
+    method: "post",
+    params: {
+      t: t,
+      type: type,
+      id: id,
+      content: content,
+      commentId: commentId
     }
   });
 }

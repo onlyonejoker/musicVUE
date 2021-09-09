@@ -1,7 +1,7 @@
 <template>
   <div v-if="token" class="user">
     <div class="user-info">
-      <span><img :src="userimg" alt="" /></span>
+      <span><img v-lazy="userimg" alt="" /></span>
       <span @mouseover="mouseover" @mouseout="mouseout">{{ userId }}</span>
     </div>
     <userDetails />
