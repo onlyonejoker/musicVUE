@@ -17,6 +17,8 @@ exports.playlistHighqualityTags = playlistHighqualityTags;
 exports.highquality = highquality;
 exports.relatedPlaylist = relatedPlaylist;
 exports.commentLlaylist = commentLlaylist;
+exports.playlistTrackAdd = playlistTrackAdd;
+exports.songDetail = songDetail;
 
 var _axios = require("@/plugins/axios");
 
@@ -171,6 +173,29 @@ function commentLlaylist(id, limit, offset, before) {
       before: before,
       offset: offset,
       limit: limit
+    }
+  });
+} //添加视频到视频歌单
+
+
+function playlistTrackAdd(pid, ids) {
+  return (0, _axios.install)({
+    url: "/playlist/track/add",
+    method: "post",
+    params: {
+      pid: pid,
+      ids: ids
+    }
+  });
+} //获取歌曲详情
+
+
+function songDetail(ids) {
+  return (0, _axios.install)({
+    url: "/song/detail",
+    method: "post",
+    params: {
+      ids: ids
     }
   });
 }

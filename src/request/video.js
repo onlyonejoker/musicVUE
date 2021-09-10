@@ -246,3 +246,15 @@ export function commentVideo(id, limit, offset) {
     },
   });
 }
+//资源点赞
+export function resourceLike(type, t, id) {
+  return install({
+    url: "/resource/like",
+    method: "post",
+    params: {
+      type,
+      t,
+      id,
+    },
+  });
+}

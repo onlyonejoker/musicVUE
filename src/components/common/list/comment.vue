@@ -171,12 +171,12 @@ export default {
       this.dianzanIndex == 0
         ? (this.dianzanIndex = 1)
         : (this.dianzanIndex = 0);
-      this.commentLike(this.zyId, id, this.dianzanIndex, this.type);
+      commentLike(this.zyId, id, this.dianzanIndex, this.type);
     },
     replydianzanFn(index, id) {
-      this.reply = index;
+      if (this.reply !== index) return;
       this.replyI == 0 ? (this.replyI = 1) : (this.replyI = 0);
-      this.commentLike(this.zyId, id, this.replyI, this.type);
+      commentLike(this.zyId, id, this.replyI, this.type);
     },
     zhuanfa(id, userId) {
       this.$bus.$emit("zhuanfa", id, userId);

@@ -7,6 +7,7 @@
       @canplay="canplay"
       @ended="ended"
       @error="error"
+      @pause="pause"
       crossOrigin="anonymous"
     ></audio>
     <div class="play-item" v-if="openPlayer">
@@ -118,7 +119,10 @@
       <div class="music-playlist">
         <span @click="openPlaylistFn">播放列表</span>
         <ul v-if="openPlaylist">
-          <li><i class="el-icon-sort" @click="playlistSort"></i></li>
+          <li>
+            <span @click="delAll">全部删除</span>
+            <i class="el-icon-sort" @click="playlistSort"></i>
+          </li>
           <li v-for="(item, index) in info" :key="index">
             <span @click="PlaylistBtn(item.id, index)">{{ item.name }}</span>
             <i class="el-icon-delete" @click="delPlaylist(item.id, index)"></i>
@@ -218,6 +222,11 @@ export default {
           this.audio = e.url;
         }
       });
+    },
+    //暂停时候
+    pause() {
+      this.player = false;
+      console.log("暂停" + this.player);
     },
     //上一曲
     previous() {
@@ -396,6 +405,13 @@ export default {
         this.$refs.audioMin.load();
       }
     },
+    delAll() {
+      this.info = [];
+      this.audiolistInfo = [];
+      this.setMusicInfo(this.info);
+      this.audio = null;
+      this.$refs.audioMin.pause();
+    },
     //歌曲排序
     playlistSort() {
       this.sort = !this.sort;
@@ -429,7 +445,6 @@ export default {
     load() {
       this.$refs.audioMin.load();
     },
-
     //数据相关
     //存储音乐信息
     setMusicInfo(musicInfo) {
@@ -534,7 +549,6 @@ export default {
         this.lyric = null;
       }
     },
-
     //请求相关
     //获取音乐
     musicPlay(musicId) {
@@ -838,10 +852,20 @@ export default {
         }
         li:nth-child(1) {
           display: flex;
-          flex-flow: row-reverse;
-          padding: 5px 10px 5px 0;
-          &:hover {
-            color: red;
+          justify-content: space-between;
+          padding: 5px 10px 5px 5px;
+          i {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &:hover {
+              color: red;
+            }
+          }
+          span {
+            &:hover {
+              color: red;
+            }
           }
         }
       }

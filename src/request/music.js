@@ -12,13 +12,35 @@ export function music(id) {
     },
   });
 }
-//请求音乐Url
+//请求音乐歌词
 export function musicLyric(id) {
   return install({
     url: "/lyric",
     method: "post",
     params: {
       id,
+    },
+  });
+}
+//请求音乐评论
+export function musicComment(id, limit, offset) {
+  return install({
+    url: "/comment/music",
+    method: "post",
+    params: {
+      id,
+      limit,
+      offset,
+    },
+  });
+}
+//请求音乐详情
+export function songDetail(ids) {
+  return install({
+    url: "/song/detail",
+    method: "post",
+    params: {
+      ids,
     },
   });
 }

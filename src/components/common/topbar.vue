@@ -3,6 +3,9 @@
     <topBarImg />
     <topbarSearch />
     <topbarLogoing />
+    <div class="github" @click="linkGithug">
+      <img src="@/assets/img/github.svg" alt="" />
+    </div>
     <home-nav />
   </div>
 </template>
@@ -19,6 +22,11 @@ export default {
     topbarSearch,
     topbarLogoing,
     homeNav,
+  },
+  methods: {
+    linkGithug() {
+      window.open("https://github.com/onlyonejoker");
+    },
   },
 };
 </script>

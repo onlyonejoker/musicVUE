@@ -11,29 +11,38 @@
             :text="'评论(' + info.commentCount + ')'"
           />
           <btn
-            @click.native="likedFn"
-            :class="{ sub: sub }"
-            :text="subText + '(' + info.likedCount + ')'"
+            @click.native="mvSub"
+            :class="{ sub: sub == 1 }"
+            :text="sub == 1 ? '已收藏' : '收藏'"
           />
           <btn
             @click.native="shareFn"
             :text="'转发(' + info.shareCount + ')'"
           />
-        </p>
-        <div class="mvComment">
-          <zycomment
-            :comments="comment.comments"
-            :hotComments="comment.hotComments"
-            :type="1"
-            :resourceId="parseInt(uid)"
+          <btn
+            @click.native="likedFn"
+            :class="{ sub: liked }"
+            :text="'点赞(' + info.likedCount + ')'"
           />
-          <page @page="page" :more="more" />
-        </div>
+          <btn @click.native="subPlay" text="收藏到歌单" />
+          <add-play :index="1" :isDispaly="addplay" :ids="uid" />
+        </p>
       </div>
       <div class="simi">
         <h2>相关推荐</h2>
-        <videos v-for="(item, index) in simi" :key="index" :video="item" />
+        <div>
+          <videos v-for="(item, index) in simi" :key="index" :video="item" />
+        </div>
       </div>
+    </div>
+    <div class="mvComment" v-if="comment">
+      <zycomment
+        :comments="comment.comments"
+        :hotComments="comment.hotComments"
+        :type="1"
+        :resourceId="parseInt(uid)"
+      />
+      <page @page="page" :more="more" />
     </div>
   </div>
 </template>
@@ -46,14 +55,16 @@ import {
   mvDetailInfo,
   mvUrl,
   commentMV,
+  resourceLike,
 } from "@/request/video";
 import videos from "../../common/list/video.vue";
 import Btn from "btn/btn.vue";
 import Page from "../../common/page/page.vue";
 import Zycomment from "../../common/comment/zycomment.vue";
+import AddPlay from "../../common/add/addPlay.vue";
 
 export default {
-  components: { videos, Btn, Zycomment, Page },
+  components: { videos, Btn, Zycomment, Page, AddPlay },
   name: "mvDetail",
   computed: {
     uid() {
@@ -63,21 +74,20 @@ export default {
   data() {
     return {
       rate: 1080,
-      sub: false,
+      liked: false,
       videoUrl: null,
       simi: null,
       info: null,
-      subText: "收藏",
       comment: null,
       more: false,
       offset: 0,
+      sub: 0,
+      addplay: 0,
     };
   },
   watch: {
     info(n) {
-      n.liked
-        ? ((this.subText = "已收藏"), (this.sub = true))
-        : ((this.subText = "收藏"), (this.sub = false));
+      n.liked ? (this.liked = true) : (this.liked = false);
     },
     $route() {
       this.mvDetail();
@@ -99,15 +109,20 @@ export default {
           this.videoUrl = res[3].data.url;
           this.comment = res[4];
           this.more = res[4].more;
+          res[1].subed ? (this.sub = 1) : (this.sub = 0);
         })
         .catch();
     },
     mvSub() {
+      this.sub == 1 ? (this.sub = 0) : (this.sub = 1);
       mvSub(this.uid, this.sub)
         .then((res) => {
           console.log(res);
         })
         .catch();
+    },
+    subPlay() {
+      this.addplay == 1 ? (this.addplay = 0) : (this.addplay = 1);
     },
     //事件相关
     commetFn() {
@@ -116,14 +131,12 @@ export default {
         .scrollIntoView({ behavior: "smooth" });
     },
     likedFn() {
-      if (this.sub) {
-        this.subText = "收藏";
-        this.sub = false;
-        mvSub(this.uid, 0);
+      if (this.liked) {
+        this.liked = false;
+        resourceLike(1, 10, this.uid);
       } else {
-        this.subText = "已收藏";
-        this.sub = true;
-        mvSub(this.uid, 1);
+        this.liked = true;
+        resourceLike(1, 1, this.uid);
       }
     },
     shareFn() {
@@ -146,28 +159,42 @@ export default {
 
 <style lang="less" scoped>
 .mvDetail {
-  padding: 0 5%;
   .video {
     display: flex;
     justify-content: center;
     margin-top: 20px;
   }
   .content {
+    padding: 0 10%;
     display: flex;
+    flex-flow: column;
     margin-top: 20px;
     .simi {
-      width: 30%;
+      margin-top: 20px;
+      > div {
+        display: flex;
+        flex-wrap: wrap;
+      }
     }
     .body {
-      width: 70%;
+      p {
+        position: relative;
+        .btn {
+          margin-right: 20px;
+        }
+        .addList {
+          top: 44px;
+          left: 68%;
+        }
+      }
     }
-    .mvComment {
-      position: relative;
-    }
+  }
+  .mvComment {
+    position: relative;
   }
 }
 video {
-  width: 800px;
+  width: 80%;
 }
 .sub {
   background-color: red;

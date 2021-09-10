@@ -67,6 +67,7 @@ export default {
   background-color: #c4c4c4;
   transform: translate(-50%, -50%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.479), 0 0 6px rgba(0, 0, 0, 0.397);
+  z-index: 1000000;
   p {
     text-align: center;
     line-height: 30px;

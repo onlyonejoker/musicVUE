@@ -366,6 +366,32 @@ var video = function video() {
   return Promise.resolve().then(function () {
     return _interopRequireWildcard(require("@/views/videoDetail/video.vue"));
   });
+}; //电台
+
+
+var dj = function dj() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/djDetail/dj.vue"));
+  });
+};
+
+var djDetail = function djDetail() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/djDetail/djDetail.vue"));
+  });
+};
+
+var djPlay = function djPlay() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/djDetail/djPlay.vue"));
+  });
+}; //排行
+
+
+var top = function top() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("@/views/top/top.vue"));
+  });
 };
 
 _vue["default"].use(_vueRouter["default"]);
@@ -439,7 +465,7 @@ var routes = [{
       component: userEvent,
       children: [{
         path: "/user/home/event",
-        redirect: "/user/home/event/comment"
+        redirect: "/user/home/event/events"
       }, {
         path: "comment",
         name: "comment",
@@ -667,6 +693,88 @@ var routes = [{
     name: "videozy",
     component: video
   }]
+}, //电台路由
+{
+  path: "/dj",
+  name: "dj",
+  component: dj,
+  children: [//{
+    //  path: "/mv",
+    //  redirect: "/mv/mv",
+    //},
+    //{
+    //  path: "mv",
+    //  name: "mvzy",
+    //  component: mv,
+    //  children: [
+    //    {
+    //      path: "/mv/mv",
+    //      redirect: "/mv/mv/mvhome",
+    //    },
+    //    {
+    //      path: "mvhome",
+    //      name: "mvhome",
+    //      component: mvhome,
+    //    },
+    //    {
+    //      path: "mvAll",
+    //      name: "mvAll",
+    //      component: mvAll,
+    //    },
+    //  ],
+    //},
+    //{
+    //  path: "video",
+    //  name: "videozy",
+    //  component: video,
+    //},
+  ]
+}, //电台详情路由
+{
+  path: "/djDetail",
+  name: "djDetail",
+  component: djDetail,
+  children: [//{
+    //  path: "/mv",
+    //  redirect: "/mv/mv",
+    //},
+    //{
+    //  path: "mv",
+    //  name: "mvzy",
+    //  component: mv,
+    //  children: [
+    //    {
+    //      path: "/mv/mv",
+    //      redirect: "/mv/mv/mvhome",
+    //    },
+    //    {
+    //      path: "mvhome",
+    //      name: "mvhome",
+    //      component: mvhome,
+    //    },
+    //    {
+    //      path: "mvAll",
+    //      name: "mvAll",
+    //      component: mvAll,
+    //    },
+    //  ],
+    //},
+    //{
+    //  path: "video",
+    //  name: "videozy",
+    //  component: video,
+    //},
+  ]
+}, //电台详情路由
+{
+  path: "/djPlay",
+  name: "djPlay",
+  component: djPlay
+}, //排行榜路由
+{
+  path: "/ranking",
+  name: "top",
+  component: top
 }];
 var router = new _vueRouter["default"]({
   mode: "history",
@@ -678,9 +786,11 @@ router.beforeEach(function (to, from, next) {
 
   if (token || to.path == "/home") {
     //一定要两个判断 否则递归
-    //为什么一定要两个参数，如果只判断token 如果token为空 那么会一直跳转页面，因为一直在跳转一直在回调 所以必须要设置一个跳转到那么页面就不跳了的限制
+    //为什么一定要两个参数，如果只判断token 如果token为空 那么会一直跳转页面，因为一直在跳转一直在回调
+    //所以必须要设置一个跳转到那么页面就不跳了的限制
     next(); //如果有token或者准备前往/home，那么继续
   } else {
+    alert("请登录");
     next("/home"); //如果没有token或者不准备前往/home，那么跳转到home
   }
 });

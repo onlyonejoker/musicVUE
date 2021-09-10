@@ -140,3 +140,24 @@ export function commentLlaylist(id, limit, offset, before) {
     },
   });
 }
+//添加视频到视频歌单
+export function playlistTrackAdd(pid, ids) {
+  return install({
+    url: "/playlist/track/add",
+    method: "post",
+    params: {
+      pid,
+      ids,
+    },
+  });
+}
+//获取歌曲详情
+export function songDetail(ids) {
+  return install({
+    url: "/song/detail",
+    method: "post",
+    params: {
+      ids,
+    },
+  });
+}

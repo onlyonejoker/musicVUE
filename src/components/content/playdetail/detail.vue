@@ -289,7 +289,7 @@ export default {
       }
       .btn-list {
         position: relative;
-        width: 500px;
+        width: 700px;
         .btn {
           margin-right: 5px;
         }
@@ -305,7 +305,7 @@ export default {
         .fall {
           position: absolute;
           top: 38px;
-          right: 0;
+          right: 185px;
           display: flex;
           flex-flow: column;
         }

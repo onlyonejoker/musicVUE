@@ -1,7 +1,7 @@
 <template>
   <div class="eventList" v-if="json">
     <div class="eventList-user">
-      <img :src="eventLists.user.avatarUrl" alt="img" />
+      <img v-lazy="eventLists.user.avatarUrl" alt="img" />
       <div>
         <p>
           <router-link
@@ -66,7 +66,7 @@
           class="fscomment"
         >
           <div class="fscomment-img">
-            <img :src="item.user.avatarUrl" alt="img" />
+            <img v-lazy="item.user.avatarUrl" alt="img" />
           </div>
           <div class="fscomment-info">
             <router-link

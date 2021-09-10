@@ -7,7 +7,9 @@
       <router-link
         :to="{
           path: '/user',
-          query: { id: this.$store.state.login.account.id },
+          query: {
+            id,
+          },
         }"
         active-class="active"
         >我的音乐</router-link
@@ -32,7 +34,7 @@
       <router-link to="/MV" active-class="active"> MV/视频</router-link>
     </div>
     <div>
-      <router-link to="/diantai" active-class="active">电台</router-link>
+      <router-link to="/dj" active-class="active">电台</router-link>
     </div>
   </div>
 </template>
@@ -41,31 +43,19 @@
 export default {
   name: "homeNav",
   data() {
-    return {
-      isActive: 0,
-    };
+    return {};
   },
-
-  methods: {
-    active(i) {
-      this.isActive = i;
-    },
-    router() {
-      this.$route.path.indexOf("playDetails") !== -1
-        ? (this.isActive = 1)
-        : null;
-      this.$route.path.indexOf("artistItem") !== -1
-        ? (this.isActive = 2)
-        : null;
-
-      this.$route.path.indexOf("ranking") !== -1 ? (this.isActive = 3) : null;
-      this.$route.path.indexOf("home") !== -1 ? (this.isActive = 0) : null;
-      this.$route.path.indexOf("MV") !== -1 ? (this.isActive = 4) : null;
+  computed: {
+    id() {
+      if (this.$store.state.login) {
+        return this.$store.state.login.account.id;
+      } else {
+        return null;
+      }
     },
   },
-  mounted() {
-    this.router();
-  },
+  methods: {},
+  mounted() {},
 };
 </script>
 

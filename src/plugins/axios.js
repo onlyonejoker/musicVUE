@@ -5,7 +5,8 @@ import { Notification } from "element-ui";
 
 let config = {
   //baseURL: "https://netease-cloud-music-api-ochre-nine.vercel.app",
-  baseURL: " http://127.0.0.1:3000",
+  //baseURL: " http://127.0.0.1:3000",
+  //baseURL: " http://www.dexie.xyz:3000",
   timeout: 30 * 1000,
   withCredentials: true, // Check cross-site Access-Control
 };

@@ -3,7 +3,7 @@
     <p>播放列队</p>
     <ul>
       <li
-        @click="playAdd(item.id, ids)"
+        @click="playAdd(item.id, ids, item.specialType)"
         v-for="(item, index) in myCreatPlays"
         :key="index"
       >
@@ -17,10 +17,10 @@
 <script>
 import { playlist } from "@/request/user";
 import { Notification } from "element-ui";
-import { playTracks } from "@/request/playList";
+import { playTracks, playlistTrackAdd } from "@/request/playList";
 export default {
   name: "addPlay",
-  props: { isDispaly: Number, index: Number, ids: String },
+  props: { isDispaly: Number, index: Number, ids: [String, Number] },
   data() {
     return {
       myCreatPlays: [{ name: null, id: null }],
@@ -42,6 +42,7 @@ export default {
     myCreatPlay(uid) {
       playlist(uid, 1000, 0)
         .then((res) => {
+          console.log(res);
           let myCreatPlay = [];
           res.playlist.forEach((e) => {
             !e.subscribed ? myCreatPlay.push(e) : null;
@@ -63,13 +64,24 @@ export default {
           }
         });
     },
-    playAdd(pid, tracks) {
-      console.log(pid, tracks);
-      playTracks("add", pid, tracks)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch();
+    playAdd(pid, tracks, type) {
+      console.log(pid, tracks, type);
+      if (type == 5 || type == 0) {
+        playTracks("add", pid, tracks)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch();
+      } else if (type == 200) {
+        playlistTrackAdd(pid, tracks)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log("当前视频不支持收藏到歌单");
+          });
+      }
     },
   },
   mounted() {},

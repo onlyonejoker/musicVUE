@@ -21,7 +21,7 @@
           class="hotItem"
           v-for="(item, index) in searchHots"
           :key="index"
-          @click="linkSearch(index)"
+          @click="linkSearch(item)"
         >
           <div :class="{ Hot: index < 3 }">{{ index + 1 }}</div>
           <div>
@@ -144,31 +144,27 @@ export default {
     },
     linkSong(id) {
       this.$router.push({
-        path: "/song",
+        path: "/songDetail",
         query: { id },
       });
-      this.$router.go(0);
     },
     linkPlay(id) {
       this.$router.push({
         path: "/play",
         query: { id },
       });
-      this.$router.go(0);
     },
     linkartists(id) {
       this.$router.push({
         path: "/artistDetail",
         query: { id },
       });
-      this.$router.go(0);
     },
     linkalbums(id) {
       this.$router.push({
         path: "/albumDetail",
         query: { id },
       });
-      this.$router.go(0);
     },
 
     inputFn() {

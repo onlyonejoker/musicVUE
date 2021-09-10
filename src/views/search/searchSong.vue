@@ -22,6 +22,11 @@ export default {
     songItem,
     page,
   },
+  watch: {
+    $route() {
+      this.searchSong();
+    },
+  },
   methods: {
     searchSong() {
       _search(this.$route.query.keywords, 30, this.page * 30, 1)

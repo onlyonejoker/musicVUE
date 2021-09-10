@@ -22,27 +22,13 @@
       </div>
     </div>
     <div class="albumComment" ref="albumComment">
-      <div>
-        <h2>热评</h2>
-        <comment
-          :comment="item"
-          v-for="(item, index) in hotComments"
-          :key="index"
-          :zyId="info.id"
-          :type="3"
-        />
-      </div>
-      <div>
-        <h2>全部评论</h2>
-        <comment
-          :comment="item"
-          v-for="(item, index) in comment"
-          :key="index"
-          :zyId="info.id"
-          :type="3"
-        />
-        <page @page="page" :more="more" />
-      </div>
+      <zycomment
+        :resourceId="uid"
+        :type="3"
+        :comments="comment"
+        :hotComments="hotComments"
+      />
+      <page @page="page" :more="more" />
     </div>
   </div>
 </template>
@@ -51,17 +37,17 @@
 import topbar from "@/components/common/topbar.vue";
 import albumInfo from "@/components/content/album/albumInfo.vue";
 import songItem from "@/components/common/song/songItem.vue";
-import comment from "../../components/common/list/comment.vue";
 import { album, albumDynamic, commentAlbum } from "@/request/album";
 import page from "page/page.vue";
+import Zycomment from "@/components/common/comment/zycomment.vue";
 export default {
   name: "albumDetail",
   components: {
     topbar,
     albumInfo,
     songItem,
-    comment,
     page,
+    Zycomment,
   },
   computed: {
     uid() {
@@ -138,7 +124,7 @@ export default {
     }
   }
   .albumComment {
-    padding: 0 10%;
+    padding: 0 5%;
     position: relative;
     > div {
       h2 {

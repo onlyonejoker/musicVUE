@@ -1,9 +1,5 @@
 <template>
   <div class="userEvent">
-    <div class="user-event-nav">
-      <router-link active-class="active" to="comment">历史评论</router-link>
-      <router-link active-class="active" to="events">动态</router-link>
-    </div>
     <router-view />
   </div>
 </template>

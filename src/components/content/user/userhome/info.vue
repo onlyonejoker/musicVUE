@@ -116,6 +116,7 @@ export default {
     //获取用户信息
     details() {
       detail(this.uid).then((res) => {
+        console.log(res);
         this.info = res;
         res.profile.followed
           ? (this.followInfo = "已关注")
@@ -153,7 +154,6 @@ export default {
   position: relative;
   .profile {
     width: 100%;
-
     display: flex;
     justify-content: flex-start;
     align-items: center;

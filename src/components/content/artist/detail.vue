@@ -115,7 +115,7 @@ export default {
 
 <style lang="less" scoped>
 .artistDetail {
-  padding: 50px 15%;
+  padding: 50px 10%;
   display: flex;
 
   flex-flow: column;
@@ -143,7 +143,7 @@ export default {
   nav {
     display: flex;
     margin: 30px 0;
-
+    border-bottom: 1px solid white;
     a {
       margin-right: 20px;
       line-height: 50px;

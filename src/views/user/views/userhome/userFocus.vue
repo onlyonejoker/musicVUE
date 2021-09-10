@@ -1,9 +1,5 @@
 <template>
   <div class="userFocus">
-    <div class="user-focus-nav">
-      <router-link active-class="active" to="user">用户</router-link>
-      <router-link active-class="active" to="song">歌手</router-link>
-    </div>
     <router-view />
   </div>
 </template>

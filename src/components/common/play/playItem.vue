@@ -5,10 +5,12 @@
       <section class="shade">
         <i class="el-icon-video-play"> </i>
       </section>
-      <img v-lazy="play.coverImgUrl" alt="play" />
+      <img v-lazy="play.coverImgUrl || play.picUrl" alt="play" />
     </div>
     <p>{{ play.name }}</p>
-    <p class="nickname" @click="linkUser">{{ play.creator.nickname }}</p>
+    <p class="nickname" @click="linkUser" v-if="play.creator">
+      {{ play.creator.nickname }}
+    </p>
   </div>
 </template>
 

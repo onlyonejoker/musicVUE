@@ -26,6 +26,7 @@ exports.mvDetailInfo = mvDetailInfo;
 exports.mvUrl = mvUrl;
 exports.commentMV = commentMV;
 exports.commentVideo = commentVideo;
+exports.resourceLike = resourceLike;
 
 var _axios = require("@/plugins/axios");
 
@@ -291,6 +292,19 @@ function commentVideo(id, limit, offset) {
       id: id,
       limit: limit,
       offset: offset
+    }
+  });
+} //资源点赞
+
+
+function resourceLike(type, t, id) {
+  return (0, _axios.install)({
+    url: "/resource/like",
+    method: "post",
+    params: {
+      type: type,
+      t: t,
+      id: id
     }
   });
 }

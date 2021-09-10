@@ -39,9 +39,13 @@
         {{ item.ar[0].name }}
       </span>
       <span>
-        {{ Math.floor(item.dt / 1000 / 60) }}:
         {{
-          Math.floor((item.dt / 1000) % 60) > 10
+          Math.floor(item.dt / 1000 / 60) >= 10
+            ? Math.floor(item.dt / 1000 / 60)
+            : "0" + Math.floor(item.dt / 1000 / 60)
+        }}:
+        {{
+          Math.floor((item.dt / 1000) % 60) >= 10
             ? Math.floor((item.dt / 1000) % 60)
             : "0" + Math.floor((item.dt / 1000) % 60)
         }}
@@ -100,7 +104,7 @@ export default {
     //事件相关
     //歌曲详情
     songDetail(id) {
-      this.$router.push({ path: "/song", query: { id } });
+      this.$router.push({ path: "/songDetail", query: { id } });
     },
     //歌手详情
     artistDetail(id) {
@@ -205,11 +209,18 @@ export default {
 .song-conter {
   width: 100%;
   min-width: 500px;
+  max-width: 800px;
+  min-height: 500px;
+  margin-top: 10px;
   .song-title {
     .Method;
+    background-color: rgba(255, 255, 255, 0.562);
   }
   .song-body {
     .Method;
+    &:nth-child(odd) {
+      background-color: rgba(255, 255, 255, 0.562);
+    }
     &:hover {
       .play-btn {
         display: flex;
