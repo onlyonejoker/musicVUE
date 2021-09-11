@@ -5,7 +5,7 @@ import { Notification } from "element-ui";
 
 let config = {
   //baseURL: "https://netease-cloud-music-api-ochre-nine.vercel.app",
-  //baseURL: " http://127.0.0.1:3000",
+  baseURL: " http://127.0.0.1:3000",
   //baseURL: " http://www.dexie.xyz:3000",
   timeout: 30 * 1000,
   withCredentials: true, // Check cross-site Access-Control
@@ -14,13 +14,6 @@ let config = {
 const _axios = axios.create(config);
 _axios.interceptors.request.use(
   (config) => {
-    Notification({
-      title: "消息",
-      message: "正在加载",
-      type: "info",
-      duration: 2000,
-      showClose: false,
-    });
     return config;
   },
   (error) => {
@@ -37,13 +30,6 @@ _axios.interceptors.request.use(
 
 _axios.interceptors.response.use(
   (response) => {
-    Notification({
-      title: "成功",
-      message: "加载成功",
-      type: "success",
-      duration: 2000,
-      showClose: false,
-    });
     return response.data;
   },
   (error) => {

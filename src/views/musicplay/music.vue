@@ -12,7 +12,7 @@
     ></audio>
     <div class="play-item" v-if="openPlayer">
       <div><img v-lazy="musicImg()" alt="" /></div>
-      <div class="lyric" v-if="info.length > 0">
+      <div class="lyric" v-if="info && info.length > 0">
         <div class="lyric-title">
           <h2>{{ info[index].name }}</h2>
           <p>{{ info[index].ar[0].name }}</p>

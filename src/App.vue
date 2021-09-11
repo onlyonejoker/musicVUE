@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="display() > 500">
     <router-view></router-view>
     <login />
     <music />
@@ -9,6 +9,7 @@
     <fenxiang />
     <back-top :style="{ display: backTop }" />
   </div>
+  <div id="app" v-else>暂不支持移动端，请前往PC端查看</div>
 </template>
 
 <script>
@@ -68,6 +69,11 @@ export default {
         this.backTop = "none";
       }
     },
+
+    display() {
+      let app = document.querySelector("#app");
+      return app.offsetWidth;
+    },
   },
   created() {
     this.status();
@@ -82,6 +88,7 @@ export default {
         }, 500);
       }
     });
+    this.display();
   },
 };
 </script>

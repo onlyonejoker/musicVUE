@@ -4,7 +4,7 @@
       <section class="shade">
         <i class="el-icon-video-play"></i>
       </section>
-      <img v-lazy="dj.coverUrl" alt="play" />
+      <img v-lazy="dj.coverUrl || dj.picUrl" alt="play" />
     </div>
     <p>{{ dj.name }}</p>
     <p class="nickname" @click="linkUser" v-if="dj.dj">
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import { music } from "@/request/music";
 export default {
   name: "djList",
   props: { dj: Object },
@@ -22,10 +23,16 @@ export default {
   },
   methods: {
     djDetail(id) {
-      this.$router.push({
-        path: "/djDetail",
-        query: { id },
-      });
+      music(id)
+        .then((res) => {
+          console.log(res);
+          if (res.data.url == null) {
+            alert("节目不可用");
+          } else {
+            this.$store.commit("musicInfo", res.data);
+          }
+        })
+        .catch();
     },
     linkUser() {
       this.$router.push({

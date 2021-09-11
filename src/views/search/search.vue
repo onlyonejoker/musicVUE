@@ -51,47 +51,11 @@
       <router-link
         active-class="active"
         :to="{
-          path: 'searchUser',
-          query: { keywords: this.$route.query.keywords },
-        }"
-      >
-        用户
-      </router-link>
-      <router-link
-        active-class="active"
-        :to="{
-          path: 'searchMV',
-          query: { keywords: this.$route.query.keywords },
-        }"
-      >
-        MV
-      </router-link>
-      <router-link
-        active-class="active"
-        :to="{
           path: 'searchLyric',
           query: { keywords: this.$route.query.keywords },
         }"
       >
         歌词
-      </router-link>
-      <router-link
-        active-class="active"
-        :to="{
-          path: 'searchStation',
-          query: { keywords: this.$route.query.keywords },
-        }"
-      >
-        电台
-      </router-link>
-      <router-link
-        active-class="active"
-        :to="{
-          path: 'searchSynthesize',
-          query: { keywords: this.$route.query.keywords },
-        }"
-      >
-        综合
       </router-link>
     </nav>
     <router-view />

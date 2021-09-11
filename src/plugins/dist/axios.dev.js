@@ -13,7 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var config = {
   //baseURL: "https://netease-cloud-music-api-ochre-nine.vercel.app",
-  //baseURL: " http://127.0.0.1:3000",
+  baseURL: " http://127.0.0.1:3000",
   //baseURL: " http://www.dexie.xyz:3000",
   timeout: 30 * 1000,
   withCredentials: true // Check cross-site Access-Control
@@ -23,13 +23,6 @@ var config = {
 var _axios = _axios2["default"].create(config);
 
 _axios.interceptors.request.use(function (config) {
-  (0, _elementUi.Notification)({
-    title: "消息",
-    message: "正在加载",
-    type: "info",
-    duration: 2000,
-    showClose: false
-  });
   return config;
 }, function (error) {
   (0, _elementUi.Notification)({
@@ -43,13 +36,6 @@ _axios.interceptors.request.use(function (config) {
 });
 
 _axios.interceptors.response.use(function (response) {
-  (0, _elementUi.Notification)({
-    title: "成功",
-    message: "加载成功",
-    type: "success",
-    duration: 2000,
-    showClose: false
-  });
   return response.data;
 }, function (error) {
   (0, _elementUi.Notification)({
