@@ -1,11 +1,11 @@
 "use strict";
 import axios from "axios";
 
-import { Notification } from "element-ui";
+import { Message } from "element-ui";
 
 let config = {
-  //baseURL: "https://netease-cloud-music-api-ochre-nine.vercel.app",
-  baseURL: " http://127.0.0.1:3000",
+  baseURL: "https://netease-cloud-music-api-ochre-nine.vercel.app",
+  //baseURL: " http://127.0.0.1:3000",
   //baseURL: " http://www.dexie.xyz:3000",
   timeout: 30 * 1000,
   withCredentials: true, // Check cross-site Access-Control
@@ -17,7 +17,7 @@ _axios.interceptors.request.use(
     return config;
   },
   (error) => {
-    Notification({
+    Message({
       title: "错误",
       message: "请求错误",
       type: "error",
@@ -33,7 +33,7 @@ _axios.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    Notification({
+    Message({
       title: "失败",
       message: "加载失败",
       type: "error",

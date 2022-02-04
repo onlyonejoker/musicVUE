@@ -14,20 +14,17 @@
           </span>
         </p>
       </div>
-      <div
-        class="tag"
-        v-show="show"
-        ref="videoTag"
-        @transitionend="transitionend"
-      >
-        <span
-          @click="active(index, item.id, 1)"
-          v-for="(item, index) in videoTag"
-          :key="index"
-          :class="{ active: tagIndex == index }"
-        >
-          {{ item.name }}
-        </span>
+      <div class="tagBox">
+        <div class="tag" ref="videoTag" :class="{ tagShow: show }">
+          <span
+            @click="active(index, item.id, 1)"
+            v-for="(item, index) in videoTag"
+            :key="index"
+            :class="{ active: tagIndex == index }"
+          >
+            {{ item.name }}
+          </span>
+        </div>
       </div>
     </nav>
     <div class="videoAll">
@@ -78,63 +75,44 @@ export default {
   },
   methods: {
     //请求相关
-    videoListFn() {
-      Promise.all([videoCategory(), videoList(), videoAll(), videoRecommend()])
-        .then((res) => {
-          console.log(res);
-          this.classfly = res[0].data;
-          this.videoTag = res[1].data;
-          this.videoAll = res[2].datas.map((e) => {
-            return e.data;
-          });
-          this.videoRecommend = res[3].datas.map((e) => {
-            return e.data;
-          });
-          this.videoAllMore = res[2].hasmore;
-        })
-        .catch();
+    async videoListFn() {
+      console.log(1);
+      let res = await Promise.all([
+        videoCategory(),
+        videoList(),
+        videoAll(),
+        videoRecommend(),
+      ]);
+      this.classfly = res[0].data;
+      this.videoTag = res[1].data;
+      this.videoAll = res[2].datas.map((e) => e.data);
+      this.videoRecommend = res[3].datas.map((e) => e.data);
+      this.videoAllMore = res[2].hasmore;
     },
     //全部
-    videoAllFn() {
-      videoAll(this.offset)
-        .then((res) => {
-          this.videoAll = res.datas.map((e) => {
-            return e.data;
-          });
-          this.videoAllMore = res.hasmore;
-        })
-        .catch();
+    async videoAllFn() {
+      let res = await videoAll(this.offset);
+      this.videoAll = res.datas.map((e) => e.data);
+      this.videoAllMore = res.hasmore;
     },
     //id选择全部
-    videoGroup(id) {
-      videoGroup(id, this.offset)
-        .then((res) => {
-          this.videoAll = res.datas.map((e) => {
-            return e.data;
-          });
-          this.videoAllMore = res.hasmore;
-        })
-        .catch();
+    async videoGroup(id) {
+      let res = await videoGroup(id, this.offset);
+      this.videoAll = res.datas.map((e) => e.data);
+      this.videoAllMore = res.hasmore;
     },
     //事件相关
     openTag() {
       this.open = !this.open;
-      this.show = true;
-      if (this.open) {
-        this.$nextTick(() => {
-          this.$refs.videoTag.style.height = 600 + "px";
-          this.$refs.videoTag.style.opacity = 1;
-        });
-      } else {
-        this.$refs.videoTag.style.height = 0;
-        this.$refs.videoTag.style.opacity = 0;
-      }
+      this.show = !this.open;
     },
     active(i, id, type) {
       if (type == 0) {
         this.classFlyIndex = i;
         this.videoGroup(id);
-      } else if (type == 1) {
+        return;
+      }
+      if (type == 1) {
         this.tagIndex = i;
         this.videoGroup(id);
       }
@@ -142,11 +120,6 @@ export default {
     page(page) {
       this.offset = page;
       this.videoAllFn();
-    },
-    transitionend() {
-      if (!this.open) {
-        this.show = false;
-      }
     },
   },
   mounted() {
@@ -178,21 +151,23 @@ export default {
     }
   }
   nav {
-    .tag {
-      display: flex;
-      flex-wrap: wrap;
-      height: 0;
-      transition: all 0.3s;
-      opacity: 0;
-      span {
-        width: 9%;
-        height: 4.3%;
-        margin: 1% 0;
-        margin-right: 2%;
+    .tagBox {
+      overflow: hidden;
+      .tag {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 28px 28px;
+        flex-wrap: wrap;
+        height: 0;
+        transition: all 0.3s;
+        span {
+          width: 92px;
+          height: 26px;
+          margin: 10px 0;
+          margin-right: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 28px 28px;
+        }
       }
     }
   }
@@ -214,5 +189,9 @@ export default {
 .active {
   background-color: rgb(255, 225, 225);
   color: red;
+}
+.tagShow {
+  height: 368px !important;
+  transition: all 0.3s;
 }
 </style>
