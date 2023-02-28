@@ -17,6 +17,7 @@ export class Audio {
     AudCtxUrl = AudCtx.createMediaElementSource(a);
     //创建分析机，分析音频数据
     analyze = AudCtx.createAnalyser();
+    console.log(analyze);
     //媒体源和分析机链接
     AudCtxUrl.connect(analyze);
     //输出

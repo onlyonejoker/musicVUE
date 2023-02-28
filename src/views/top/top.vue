@@ -14,7 +14,7 @@
 
 <script>
 import PlayItem from "../../components/common/play/playItem.vue";
-import topbar from "../../components/common/topbar.vue";
+import topbar from "../../components/common/title/topbar.vue";
 import { toplist } from "@/request/home";
 export default {
   components: { topbar, PlayItem },

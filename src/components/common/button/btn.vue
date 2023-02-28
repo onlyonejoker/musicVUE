@@ -9,18 +9,8 @@
 export default {
   name: "btn",
   props: {
-    icon: {
-      type: String,
-      default() {
-        return null;
-      },
-    },
-    text: {
-      type: String,
-      default() {
-        return null;
-      },
-    },
+    icon: String,
+    text: String,
   },
 };
 </script>

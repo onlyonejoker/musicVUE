@@ -19,7 +19,7 @@
 
 <script>
 import { djCatelist, djRecommendType } from "@/request/dj";
-import topbar from "../../components/common/topbar.vue";
+import topbar from "../../components/common/title/topbar.vue";
 import DjList from "../../components/common/list/djList.vue";
 import Page from "../../components/common/page/page.vue";
 export default {

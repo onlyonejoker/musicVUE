@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import topbar from "@/components/common/topbar.vue";
+import topbar from "@/components/common/title/topbar.vue";
 import {
   banner,
   personalized,

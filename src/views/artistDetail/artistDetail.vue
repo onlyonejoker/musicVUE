@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import topbar from "@/components/common/topbar.vue";
+import topbar from "@/components/common/title/topbar.vue";
 import artistDetail from "@/components/content/artist/detail.vue";
 export default {
   name: "artist",

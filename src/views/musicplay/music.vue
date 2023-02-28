@@ -465,14 +465,10 @@ export default {
     //歌曲去重
     nodup(info) {
       let infoCopy = this.Copy.copy(info);
-      for (let i = 0; i < infoCopy.length; i++) {
-        for (let j = i + 1; j < infoCopy.length; j++) {
-          if (infoCopy[i].id == infoCopy[j].id) {
-            infoCopy.splice(j, 1);
-          }
-        }
-      }
-      return infoCopy;
+      let map = new Map();
+      infoCopy.forEach((item) => !map.has(item.id) && map.set(item));
+      console.log(map.values());
+      return map.values();
     },
     //选择音乐图片
     musicImg() {
@@ -575,6 +571,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.musicInfo);
     this.info = this.getMusic();
     this.getMusic() ? this.musicPlay(this.getMusic().map((e) => e.id)) : null;
     //ui控件设置

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import topbar from "../../components/common/topbar.vue";
+import topbar from "../../components/common/title/topbar.vue";
 import MvDetail from "../../components/content/videoDetail/mvDetail.vue";
 import VideoDetailVideo from "../../components/content/videoDetail/videoDetailVideo.vue";
 export default {

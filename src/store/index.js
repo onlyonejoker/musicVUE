@@ -12,7 +12,7 @@ export default new Vuex.Store({
     musicInfo: null,
     others: null,
     myCreatPlay: null,
-    artistUid: null,
+    artistUid: null
   },
   mutations: {
     loading(state) {
@@ -38,8 +38,8 @@ export default new Vuex.Store({
     },
     artistUid(state, data) {
       state.artistUid = data;
-    },
+    }
   },
   actions: {},
-  modules: {},
+  modules: {}
 });

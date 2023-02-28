@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import topbar from "@/components/common/topbar.vue";
+import topbar from "@/components/common/title/topbar.vue";
 import albumInfo from "@/components/content/album/albumInfo.vue";
 import songItem from "@/components/common/song/songItem.vue";
 import { album, albumDynamic, commentAlbum } from "@/request/album";

@@ -8,8 +8,8 @@ export function commentLike(id, cid, t, type) {
       id,
       cid,
       t,
-      type,
-    },
+      type
+    }
   });
 }
 //楼层评论
@@ -22,8 +22,8 @@ export function commentFloor(parentCommentId, id, type, limit, time) {
       id,
       type,
       limit,
-      time,
-    },
+      time
+    }
   });
 }
 //回复
@@ -36,7 +36,7 @@ export function comment(t, type, id, content, commentId) {
       type,
       id,
       content,
-      commentId,
-    },
+      commentId
+    }
   });
 }

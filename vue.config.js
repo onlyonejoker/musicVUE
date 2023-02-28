@@ -6,19 +6,19 @@ module.exports = {
         common: "@/components/common",
         userView: "@/views/user/views",
         userHistory: "@/views/user/views/userHistory",
-        page: "@/components/common/page",
-      },
-    },
+        page: "@/components/common/page"
+      }
+    }
   },
   devServer: {
     proxy: {
-      "/city": {
-        target: "https://quhua.ipchaxun.com/api/areas/data",
+      "/robot/send": {
+        target: "https://oapi.dingtalk.com",
         changeOrigin: true,
         pathRewrite: {
-          "^/city": "",
-        },
-      },
-    },
-  },
+          "^/robot/send": ""
+        }
+      }
+    }
+  }
 };

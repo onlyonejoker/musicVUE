@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import login from "./components/common/login.vue";
+import login from "./components/common/title/login.vue";
 import music from "./views/musicplay/music.vue";
 import footers from "./components/common/footer.vue";
 import playCreate from "./components/common/play/playCreate.vue";
@@ -30,36 +30,27 @@ export default {
     playCreate,
     BackTop,
     zhuanfa,
-    fenxiang,
+    fenxiang
   },
   data() {
     return {
       num: 0,
       falg: true,
-      backTop: "none",
+      backTop: "none"
     };
   },
   methods: {
     //更新信息
-    status() {
-      let token = sessionStorage.getItem("token");
-      if (!token) return; //如果token为空  那么不执行初始化  需要登录
-      let user = JSON.parse(sessionStorage.getItem("user")); //刷新保存数据
-      this.$store.commit("login", user); //刷新保存数据
-      this.$store.commit("token", token); //刷新保存数据
-
-      loginRefresh()
-        .then(() => {
-          loginStatus()
-            .then((res) => {
-              console.log(res.data);
-              this.$store.commit("login", res.data); //更新数据
-            })
-            .catch();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    async status() {
+      // let token = sessionStorage.getItem("token");
+      // if (!token) return; //如果token为空  那么不执行初始化  需要登录
+      // let user = JSON.parse(sessionStorage.getItem("user")); //刷新保存数据
+      // this.$store.commit("login", user); //刷新保存数据
+      // this.$store.commit("token", token); //刷新保存数据
+      let loginRefreshData = await loginRefresh();
+      let loginStatusData = await loginStatus();
+      console.log(loginStatusData.data);
+      this.$store.commit("login", loginStatusData.data); //更新数据
     },
 
     backTopFn() {
@@ -73,7 +64,7 @@ export default {
     display() {
       let app = document.querySelector("#app");
       return app.offsetWidth;
-    },
+    }
   },
   created() {
     this.status();
@@ -89,7 +80,7 @@ export default {
       }
     });
     this.display();
-  },
+  }
 };
 </script>
 

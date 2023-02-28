@@ -91,16 +91,19 @@ export default {
   position: absolute;
   top: 44px;
   width: 100px;
+  height: 0;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  z-index: -999;
+  //z-index: -999;
   background-color: #c4c4c4;
   transition: all 0.5s ease-out;
-  opacity: 0;
+  //opacity: 0;
   line-height: 0px;
+  overflow: hidden;
   div {
     text-align: center;
     font-size: 14px;
     font-family: "宋体";
+    height: 30px;
     &:hover {
       background-color: rgba(226, 226, 226, 0.5);
     }
@@ -108,6 +111,7 @@ export default {
 }
 .over {
   top: 44px;
+  height: 150px;
   line-height: 30px;
   z-index: 999;
   transition: all 0.5 cubic-bezier(0.8, -0.15, 1, 0.71);

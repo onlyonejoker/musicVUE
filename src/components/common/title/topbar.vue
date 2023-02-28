@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import topBarImg from "./topbar/topBarImg.vue";
-import topbarSearch from "./topbar/topbarSearch.vue";
-import topbarLogoing from "./topbar/topbarLogoing.vue";
+import topBarImg from "../topbar/topBarImg.vue";
+import topbarSearch from "../topbar/topbarSearch.vue";
+import topbarLogoing from "../topbar/topbarLogoing.vue";
 import homeNav from "@/components/common/nav/homeNav.vue";
 export default {
   name: "topbar",

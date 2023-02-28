@@ -54,7 +54,7 @@
 <script>
 import Btn from "../../components/common/button/btn.vue";
 import Zycomment from "../../components/common/comment/zycomment.vue";
-import topbar from "../../components/common/topbar.vue";
+import topbar from "../../components/common/title/topbar.vue";
 import { musicComment, songDetail, musicLyric } from "@/request/music";
 import AddPlay from "../../components/common/add/addPlay.vue";
 export default {
