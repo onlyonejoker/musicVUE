@@ -7,7 +7,7 @@
 	margin: 0;
 	box-sizing: border-box;
 }
-:root {}
+
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	user-select: none; /* 禁止用户选中文字 */

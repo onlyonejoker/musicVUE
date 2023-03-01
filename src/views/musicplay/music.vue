@@ -54,7 +54,7 @@
           <i
             :class="{
               'el-icon-arrow-up': !openPlayer,
-              'el-icon-arrow-down': openPlayer,
+              'el-icon-arrow-down': openPlayer
             }"
             @click="openPlayerFn"
           ></i>
@@ -77,7 +77,7 @@
           <i
             :class="{
               'el-icon-video-play': !player,
-              'el-icon-video-pause': player,
+              'el-icon-video-pause': player
             }"
             @click="play"
           >
@@ -167,12 +167,12 @@ export default {
       //歌词
       lyric: [],
       lyricTime: [],
-      lyricTextColor: 0,
+      lyricTextColor: 0
     };
   },
   computed: {
     //获取音乐信息
-    ...mapState(["musicInfo"]),
+    ...mapState(["musicInfo"])
   },
   components: {},
   watch: {
@@ -183,27 +183,23 @@ export default {
           Array.isArray(n) ? info.unshift(...n) : info.unshift(n); //判断是歌单还是单曲
           let nodup = this.nodup(info); //对象去重函数
           sessionStorage.setItem("musicInfo", JSON.stringify(nodup));
-          this.musicPlay(nodup.map((e) => e.id));
+          this.musicPlay(nodup.map(e => e.id));
           this.info = nodup; //添加信息到播放页面
         } else {
           Array.isArray(n) ? n : (n = [n]); //判断是歌单还是单曲
           this.info = n; //添加信息到播放页面
           sessionStorage.setItem("musicInfo", JSON.stringify(n));
-          this.musicPlay(n.map((e) => e.id));
+          this.musicPlay(n.map(e => e.id));
         }
       }
       this.$store.commit("musicInfo", null);
     },
     playTime(n) {
-      if (this.openPlayer) {
-        this.lyricTextScroll(n);
-      }
+      this.openPlayer ? this.lyricTextScroll(n) : null;
     },
     audio(n) {
-      if (!n) {
-        this.next();
-      }
-    },
+      !n ? this.next() : null;
+    }
   },
   methods: {
     //事件相关
@@ -214,47 +210,42 @@ export default {
       //此方法为了保证一致性
       if (!this.player) {
         this.$refs.audioMin.pause();
-      } else if (this.audio != null) {
+      }
+      if (this.audio != null) {
         this.$refs.audioMin.play();
       }
-      this.audiolistInfo.forEach((e) => {
-        if (e.id == this.info[this.index].id) {
-          this.audio = e.url;
-        }
+      this.audiolistInfo.forEach(e => {
+        this.audio = e.id == this.info[this.index].id ? e.url : this.audio;
       });
     },
     //暂停时候
     pause() {
       this.player = false;
-      console.log("暂停" + this.player);
     },
     //上一曲
     previous() {
       if (this.random == 0) {
         this.index--;
-      } else if (this.random == 1) {
+      }
+      if (this.random == 1) {
         this.index = Math.floor(Math.random() * this.audiolistInfo.length);
       }
-      this.index < 0 ? (this.index = this.audiolistInfo.length - 1) : null;
-      this.audiolistInfo.forEach((e) => {
-        if (e.id == this.info[this.index].id) {
-          this.audio = e.url;
-        }
+      this.index = this.index < 0 ? this.audiolistInfo.length - 1 : null;
+      this.audiolistInfo.forEach(e => {
+        this.audio = e.id == this.info[this.index].id ? e.url : this.audio;
       });
       this.player = true;
     },
     //下一曲
     next() {
-      if (this.random == 0) {
-        this.index++;
-      } else if (this.random == 1) {
-        this.index = Math.floor(Math.random() * this.audiolistInfo.length);
-      }
+      this.random == 0
+        ? this.index++
+        : this.random == 1
+        ? (this.index = Math.floor(Math.random() * this.audiolistInfo.length))
+        : null;
       this.index >= this.audiolistInfo.length ? (this.index = 0) : null;
-      this.audiolistInfo.forEach((e) => {
-        if (e.id == this.info[this.index].id) {
-          this.audio = e.url;
-        }
+      this.audiolistInfo.forEach(e => {
+        this.audio = e.id == this.info[this.index].id ? e.url : this.audio;
       });
       this.player = true;
     },
@@ -264,16 +255,10 @@ export default {
       this.$refs.audioMin.play();
       this.player = true;
       this.duration = this.$refs.audioMin.duration;
-      if (this.lyric) {
-        if (this.openPlayer) {
-          this.$refs.lyricText.scrollTop = 0;
-        }
+      if (this.lyric && this.openPlayer) {
+        this.$refs.lyricText.scrollTop = 0;
       }
       this.musicLyric(this.info[this.index].id);
-      document.documentElement.style.setProperty(
-        "--playerBJ",
-        "url(" + this.musicImg() + ")"
-      );
     },
     //自动下一曲
     ended() {
@@ -281,20 +266,18 @@ export default {
         this.index++;
         this.index >= this.audiolistInfo.length ? (this.index = 0) : null;
         if (this.audiolistInfo.length > 1) {
-          this.audiolistInfo.forEach((e) => {
-            if (e.id == this.info[this.index].id) {
-              this.audio = e.url;
-            }
+          this.audiolistInfo.forEach(e => {
+            this.audio = e.id == this.info[this.index].id ? e.url : this.audio;
           });
-        } else if (this.audiolistInfo.length == 1) {
-          this.load();
         }
+        this.audiolistInfo.length == 1 && this.load();
         this.player = true;
-      } else if (this.random == 1) {
+      }
+      if (this.random == 1) {
         if (this.audiolistInfo.length > 1) {
           let old = this.index;
           this.index = this.rendomFn(old);
-          this.audiolistInfo.forEach((e) => {
+          this.audiolistInfo.forEach(e => {
             if (e.id == this.info[this.index].id) {
               this.audio = e.url;
             }
@@ -303,7 +286,8 @@ export default {
         } else if (this.audiolistInfo.length == 1) {
           this.load();
         }
-      } else if (this.random == 2) {
+      }
+      if (this.random == 2) {
         this.$refs.audioMin.load();
         this.player = true;
       }
@@ -351,7 +335,7 @@ export default {
     },
     //缓存失败
     error() {
-      this.musicPlay(this.audiolistInfo.map((e) => e.id));
+      this.musicPlay(this.audiolistInfo.map(e => e.id));
     },
     //打开播放器
     openPlayerFn() {
@@ -375,10 +359,8 @@ export default {
     },
     //播放列表按钮
     PlaylistBtn(data, index) {
-      this.audiolistInfo.forEach((e) => {
-        if (e.id == data) {
-          this.audio = e.url;
-        }
+      this.audiolistInfo.forEach(e => {
+        e.id == data ? (this.audio = e.url) : null;
       });
       this.index = index;
       this.player = true;
@@ -386,20 +368,17 @@ export default {
     //删除歌单
     delPlaylist(data, index) {
       this.audiolistInfo.forEach((e, i) => {
-        if (e.id == data) {
-          this.audiolistInfo.splice(i, 1);
-        }
+        e.id == data && this.audiolistInfo.splice(i, 1);
       });
       this.info.forEach((e, i) => {
-        if (e.id == data) {
-          this.info.splice(i, 1);
-        }
+        e.id == data && this.info.splice(i, 1);
       });
       this.setMusicInfo(this.info);
       if (this.info.length <= 0) {
         this.audio = null;
         this.$refs.audioMin.pause();
-      } else if (index == this.index) {
+      }
+      if (index == this.index) {
         index >= this.info.length - 1 ? (this.index = 0) : null;
         this.audio = this.audiolistInfo[this.index].url;
         this.$refs.audioMin.load();
@@ -414,32 +393,9 @@ export default {
     },
     //歌曲排序
     playlistSort() {
-      this.sort = !this.sort;
-      if (this.sort) {
-        let a = [];
-        let b = [];
-        this.info.forEach((e) => {
-          a.unshift(e);
-        });
-        this.audiolistInfo.forEach((e) => {
-          b.unshift(e);
-        });
-        this.info = a;
-        this.audiolistInfo = b;
-        this.audio = this.audiolistInfo[this.index].url;
-      } else {
-        let a = [];
-        let b = [];
-        this.info.forEach((e) => {
-          a.unshift(e);
-        });
-        this.audiolistInfo.forEach((e) => {
-          b.unshift(e);
-        });
-        this.info = a;
-        this.audiolistInfo = b;
-        this.audio = this.audiolistInfo[this.index].url;
-      }
+      this.info.reverse();
+      this.audiolistInfo.reverse();
+      this.audio = this.audiolistInfo[this.index].url;
     },
     //歌曲重载
     load() {
@@ -466,41 +422,26 @@ export default {
     nodup(info) {
       let infoCopy = this.Copy.copy(info);
       let map = new Map();
-      infoCopy.forEach((item) => !map.has(item.id) && map.set(item));
+      infoCopy.forEach(item => !map.has(item.id) && map.set(item));
       console.log(map.values());
       return map.values();
     },
+
     //选择音乐图片
     musicImg() {
-      let img = null;
-      let id = null;
-      if (this.audiolistInfo && this.info) {
-        this.audiolistInfo.forEach((e) => {
-          if (e.url == this.audio) {
-            id = e.id;
-          }
-        });
-        this.info.forEach((e) => {
-          if (e.id == id) {
-            img = e.al.picUrl;
-          }
-        });
+      if (this.audiolistInfo.length > 0 && this.info) {
+        let id = this.audiolistInfo.filter(e => e.url == this.audio)[0].id;
+        let picUrl = this.info.filter(e => e.id == id)[0].al.picUrl;
+        document.documentElement.style.getPropertyPriority(
+          "--playerBJ",
+          `url(${picUrl})`
+        );
+        return picUrl;
       }
-      return img;
+      document.documentElement.style.getPropertyPriority("--playerBJ", `url()`);
+      return null;
     },
-    //ui控件设置
-    setUi() {
-      document.querySelectorAll(".el-slider__bar").forEach((e) => {
-        e.style.backgroundColor = "red";
-      });
-      document.querySelectorAll(".el-tooltip").forEach((e) => {
-        e.style.backgroundColor = "red";
-      });
-      document.querySelectorAll(".el-slider__runway").forEach((e) => {
-        e.style.margin = 0;
-      });
-      console.log("ui控件设置完毕");
-    },
+
     //画布
     huabu() {
       this.$nextTick(() => {
@@ -533,7 +474,7 @@ export default {
           let lyrics = this.lyric;
           let index = [];
 
-          lyrics.forEach((e) => {
+          lyrics.forEach(e => {
             if (e[0].length > 0) {
               index.push(e);
               this.lyricTime.push(e[1]);
@@ -547,36 +488,21 @@ export default {
     },
     //请求相关
     //获取音乐
-    musicPlay(musicId) {
-      if (this.info.length > 0) {
-        music(musicId)
-          .then((res) => {
-            this.audiolistInfo = res.data;
-            this.audio = this.audiolistInfo[this.index].url;
-          })
-          .catch(() => {});
-      }
+    async musicPlay(musicId) {
+      let res = await music(musicId);
+      this.audiolistInfo = res.data;
+      this.audio = this.audiolistInfo[this.index].url;
     },
-    musicLyric(id) {
-      musicLyric(id)
-        .then((res) => {
-          console.log(res);
-          if (res.lrc) {
-            this.lyricData(res.lrc.lyric);
-          } else {
-            this.lyricData(null);
-          }
-        })
-        .catch();
-    },
+    async musicLyric(id) {
+      let res = await musicLyric(id);
+      res.lrc ? this.lyricData(res.lrc.lyric) : this.lyricData(null);
+    }
   },
   mounted() {
     console.log(this.musicInfo);
     this.info = this.getMusic();
-    this.getMusic() ? this.musicPlay(this.getMusic().map((e) => e.id)) : null;
-    //ui控件设置
-    this.setUi();
-  },
+    this.getMusic() ? this.musicPlay(this.getMusic().map(e => e.id)) : null;
+  }
 };
 </script>
 
@@ -908,4 +834,16 @@ export default {
 .lyricTextColor {
   color: red;
 }
+</style>
+
+<style lang="less">
+// /deep/.el-slider__bar {
+//   background-color: red;
+// }
+// /deep/.el-tooltip {
+//   background-color: red;
+// }
+// /deep/.el-slider__runway {
+//   margin: 0;
+// }
 </style>

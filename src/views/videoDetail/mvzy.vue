@@ -5,14 +5,5 @@
 </template>
 
 <script>
-export default {
-  naem: "mvhome",
-  data() {
-    return {};
-  },
-  methods: {},
-};
+export default { naem: "mvhome" };
 </script>
-
-<style lang="less" scoped>
-</style>

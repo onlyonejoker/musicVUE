@@ -47,11 +47,7 @@ export default {
     },
 
     backTopFn() {
-      if (window.pageYOffset >= 500) {
-        this.backTop = "block";
-      } else if (window.pageYOffset < 500) {
-        this.backTop = "none";
-      }
+      this.backTop = window.pageYOffset >= 500 ? "block" : "none";
     },
 
     display() {

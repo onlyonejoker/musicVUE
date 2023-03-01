@@ -1,7 +1,7 @@
 "use strict";
 import axios from "axios";
 
-import { Notification } from "element-ui";
+import { Message } from "element-ui";
 
 let config = {
   //baseURL: "https://netease-cloud-music-api-ochre-nine.vercel.app",
