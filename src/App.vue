@@ -42,15 +42,8 @@ export default {
   methods: {
     //更新信息
     async status() {
-      // let token = sessionStorage.getItem("token");
-      // if (!token) return; //如果token为空  那么不执行初始化  需要登录
-      // let user = JSON.parse(sessionStorage.getItem("user")); //刷新保存数据
-      // this.$store.commit("login", user); //刷新保存数据
-      // this.$store.commit("token", token); //刷新保存数据
-      let loginRefreshData = await loginRefresh();
-      let loginStatusData = await loginStatus();
-      console.log(loginStatusData.data);
-      this.$store.commit("login", loginStatusData.data); //更新数据
+      let { data: loginStatusData } = await loginStatus();
+      this.$store.commit("login", loginStatusData); //更新数据
     },
 
     backTopFn() {

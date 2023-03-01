@@ -1,7 +1,7 @@
 <template>
-  <div v-if="token" class="user">
+  <div v-if="userState" class="user">
     <div class="user-info">
-      <span><img v-lazy="userimg" alt="" /></span>
+      <span><img v-lazy="userimg" alt=""/></span>
       <span @mouseover="mouseover" @mouseout="mouseout">{{ userId }}</span>
     </div>
     <userDetails />
@@ -14,32 +14,21 @@
 
 <script>
 import userDetails from "./userDetails.vue";
+import { mapState } from "vuex";
 export default {
   name: "logoing",
   data() {
     return {};
   },
   components: {
-    userDetails,
+    userDetails
   },
   computed: {
-    token() {
-      return this.$store.state.token;
-    },
-    userimg() {
-      if (this.$store.state.login !== null) {
-        return this.$store.state.login.profile.avatarUrl;
-      } else {
-        return null;
-      }
-    },
-    userId() {
-      if (this.$store.state.login !== null) {
-        return this.$store.state.login.profile.nickname;
-      } else {
-        return null;
-      }
-    },
+    ...mapState({
+      userimg: state => state.login?.profile?.avatarUrl,
+      userId: state => state.login?.profile?.nickname,
+      userState: state => state.login?.profile
+    })
   },
   methods: {
     login() {
@@ -53,9 +42,17 @@ export default {
     },
     mouseout() {
       this.$bus.$emit("out");
-    },
+    }
   },
-  mounted() {},
+  mounted() {
+    window.$wujie.$on("setIsLoginModalOpen", async value => {
+      if (!value) {
+        let { data: loginStatusData } = await loginStatus();
+        console.log(loginStatusData);
+        this.$store.commit("login", loginStatusData); //更新数据
+      }
+    });
+  }
 };
 </script>
 

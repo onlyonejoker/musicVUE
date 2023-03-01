@@ -82,19 +82,20 @@ const top = () => import("@/views/top/top.vue");
 
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "@/store";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "",
-    redirect: "/home",
+    redirect: "/home"
   },
   //首页相关路由
   {
     path: "/home",
     name: "Home",
-    component: Home,
+    component: Home
   },
   //用户相关路由
   {
@@ -104,7 +105,7 @@ const routes = [
     children: [
       {
         path: "/user",
-        redirect: "/user/home",
+        redirect: "/user/home"
       },
       {
         path: "home",
@@ -113,12 +114,12 @@ const routes = [
         children: [
           {
             path: "/user/home",
-            redirect: "/user/home/like",
+            redirect: "/user/home/like"
           },
           {
             path: "like",
             name: "like",
-            component: userLike,
+            component: userLike
           },
           {
             path: "myPlay",
@@ -127,24 +128,24 @@ const routes = [
             children: [
               {
                 path: "/user/home/myPlay",
-                redirect: "/user/home/myPlay/myCreat",
+                redirect: "/user/home/myPlay/myCreat"
               },
               {
                 path: "myCreat",
                 name: "myCreat",
-                component: myCreat,
+                component: myCreat
               },
               {
                 path: "mySub",
                 name: "mySub",
-                component: mySub,
+                component: mySub
               },
               {
                 path: "myDj",
                 name: "myDj",
-                component: myDj,
-              },
-            ],
+                component: myDj
+              }
+            ]
           },
           {
             path: "focus",
@@ -153,19 +154,19 @@ const routes = [
             children: [
               {
                 path: "/user/home/focus",
-                redirect: "/user/home/focus/user",
+                redirect: "/user/home/focus/user"
               },
               {
                 path: "user",
                 name: "user",
-                component: user,
-              },
-            ],
+                component: user
+              }
+            ]
           },
           {
             path: "fans",
             name: "fans",
-            component: userFans,
+            component: userFans
           },
           {
             path: "event",
@@ -174,26 +175,26 @@ const routes = [
             children: [
               {
                 path: "/user/home/event",
-                redirect: "/user/home/event/events",
+                redirect: "/user/home/event/events"
               },
               {
                 path: "comment",
                 name: "comment",
-                component: comment,
+                component: comment
               },
               {
                 path: "events",
                 name: "events",
-                component: event,
-              },
-            ],
-          },
-        ],
+                component: event
+              }
+            ]
+          }
+        ]
       },
       {
         path: "leave",
         name: "userLeave",
-        component: userLeave,
+        component: userLeave
       },
       {
         path: "set",
@@ -202,26 +203,26 @@ const routes = [
         children: [
           {
             path: "/user/set",
-            redirect: "/user/set/updata",
+            redirect: "/user/set/updata"
           },
           {
             path: "updata",
             name: "updata",
-            component: updata,
+            component: updata
           },
           {
             path: "bind",
             name: "bind",
-            component: bind,
-          },
-        ],
+            component: bind
+          }
+        ]
       },
       {
         path: "history",
         name: "history",
-        component: userHistory,
-      },
-    ],
+        component: userHistory
+      }
+    ]
   },
   //歌单详情路由
   {
@@ -231,31 +232,31 @@ const routes = [
     children: [
       {
         path: "/play",
-        redirect: "/play/Detail",
+        redirect: "/play/Detail"
       },
       {
         path: "Detail",
         name: "playDetail",
-        component: playDetail,
+        component: playDetail
       },
       {
         path: "updata",
         name: "updataPlay",
-        component: playUpdata,
-      },
-    ],
+        component: playUpdata
+      }
+    ]
   },
   //专辑详情路由
   {
     path: "/albumDetail",
     name: "albumDetail",
-    component: albumDetail,
+    component: albumDetail
   },
   //视频详情路由
   {
     path: "/videoDetail",
     name: "videoDetail",
-    component: videoDetail,
+    component: videoDetail
   },
 
   //歌手详情路由
@@ -266,53 +267,53 @@ const routes = [
     children: [
       {
         path: "/artistDetail",
-        redirect: "/artistDetail/album",
+        redirect: "/artistDetail/album"
       },
       {
         path: "album",
         name: "album",
-        component: artistDetailAlbum,
+        component: artistDetailAlbum
       },
       {
         path: "info",
         name: "info",
-        component: artistDetailInfo,
+        component: artistDetailInfo
       },
       {
         path: "mv",
         name: "mv",
-        component: artistDetailmv,
+        component: artistDetailmv
       },
       {
         path: "similarity",
         name: "similarity",
-        component: similarity,
-      },
-    ],
+        component: similarity
+      }
+    ]
   },
   //歌手相关
   {
     path: "/artist",
     name: "artist",
-    component: artist,
+    component: artist
   },
   //歌曲详情路由
   {
     path: "/songDetail",
     name: "songDetail",
-    component: songDetail,
+    component: songDetail
   },
   //动态路由
   {
     path: "/eventsDetail",
     name: "eventsDetail",
-    component: events,
+    component: events
   },
   //热门路由
   {
     path: "/hotDetail",
     name: "hotDetail",
-    component: hotDetail,
+    component: hotDetail
   },
   //歌单列表路由
   {
@@ -322,19 +323,19 @@ const routes = [
     children: [
       {
         path: "/playItem",
-        redirect: "/playItem/all",
+        redirect: "/playItem/all"
       },
       {
         path: "all",
         name: "all",
-        component: playItemAll,
+        component: playItemAll
       },
       {
         path: "highquality",
         name: "highquality",
-        component: highquality,
-      },
-    ],
+        component: highquality
+      }
+    ]
   },
   //收藏路由
   {
@@ -344,29 +345,29 @@ const routes = [
     children: [
       {
         path: "/collect",
-        redirect: "/collect/song",
+        redirect: "/collect/song"
       },
       {
         path: "song",
         name: "song",
-        component: song,
+        component: song
       },
       {
         path: "album",
         name: "albumshoucang",
-        component: album,
+        component: album
       },
       {
         path: "special",
         name: "special",
-        component: special,
+        component: special
       },
       {
         path: "video",
         name: "video",
-        component: subvideo,
-      },
-    ],
+        component: subvideo
+      }
+    ]
   },
   //搜索路由
   {
@@ -376,59 +377,59 @@ const routes = [
     children: [
       {
         path: "/search",
-        redirect: "/search/searchSong",
+        redirect: "/search/searchSong"
       },
       {
         path: "searchSong",
         name: "searchSong",
-        component: searchSong,
+        component: searchSong
       },
       {
         path: "searchAlbum",
         name: "searchAlbum",
-        component: searchAlbum,
+        component: searchAlbum
       },
       {
         path: "searchPlay",
         name: "searchPlay",
-        component: searchPlay,
+        component: searchPlay
       },
       {
         path: "searchArtist",
         name: "searchArtist",
-        component: searchArtist,
+        component: searchArtist
       },
       {
         path: "searchVideo",
         name: "searchVideo",
-        component: searchVideo,
+        component: searchVideo
       },
       {
         path: "searchUser",
         name: "searchUser",
-        component: searchUser,
+        component: searchUser
       },
       {
         path: "searchLyric",
         name: "searchLyric",
-        component: searchLyric,
+        component: searchLyric
       },
       {
         path: "searchStation",
         name: "searchStation",
-        component: searchStation,
+        component: searchStation
       },
       {
         path: "searchMV",
         name: "searchMV",
-        component: searchMV,
+        component: searchMV
       },
       {
         path: "searchSynthesize",
         name: "searchSynthesize",
-        component: searchSynthesize,
-      },
-    ],
+        component: searchSynthesize
+      }
+    ]
   },
   //视频路由
   {
@@ -438,7 +439,7 @@ const routes = [
     children: [
       {
         path: "/mv",
-        redirect: "/mv/mv",
+        redirect: "/mv/mv"
       },
       {
         path: "mv",
@@ -447,26 +448,26 @@ const routes = [
         children: [
           {
             path: "/mv/mv",
-            redirect: "/mv/mv/mvhome",
+            redirect: "/mv/mv/mvhome"
           },
           {
             path: "mvhome",
             name: "mvhome",
-            component: mvhome,
+            component: mvhome
           },
           {
             path: "mvAll",
             name: "mvAll",
-            component: mvAll,
-          },
-        ],
+            component: mvAll
+          }
+        ]
       },
       {
         path: "video",
         name: "videozy",
-        component: video,
-      },
-    ],
+        component: video
+      }
+    ]
   },
   //电台路由
   {
@@ -504,7 +505,7 @@ const routes = [
       //  name: "videozy",
       //  component: video,
       //},
-    ],
+    ]
   },
   //电台详情路由
   {
@@ -542,30 +543,30 @@ const routes = [
       //  name: "videozy",
       //  component: video,
       //},
-    ],
+    ]
   },
   //电台详情路由
   {
     path: "/djPlay",
     name: "djPlay",
-    component: djPlay,
+    component: djPlay
   },
   //排行榜路由
   {
     path: "/ranking",
     name: "top",
-    component: top,
-  },
+    component: top
+  }
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes,
+  routes
 });
 
 router.beforeEach((to, from, next) => {
-  let token = sessionStorage.getItem("token");
+  let token = store.state.login?.profile;
   if (token || to.path == "/home") {
     //一定要两个判断 否则递归
     //为什么一定要两个参数，如果只判断token 如果token为空 那么会一直跳转页面，因为一直在跳转一直在回调

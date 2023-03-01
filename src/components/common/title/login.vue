@@ -1,6 +1,6 @@
 <template>
   <div class="login" v-if="display">
-    <div class="loginBox">
+    <!-- <div class="loginBox">
       <button class="close" @click="closeLogin">×</button>
       <div>
         <label for="userid">账号</label>
@@ -30,7 +30,12 @@
         </p>
       </div>
       <el-button round @click="login">登录</el-button>
-    </div>
+    </div> -->
+    <WujieVue
+      name="react-music-login"
+      url="//localhost:3001/"
+      :sync="true"
+    ></WujieVue>
   </div>
 </template>
 
@@ -46,13 +51,13 @@ export default {
       valify: true,
       valifyP: true,
       a: false,
-      p: false,
+      p: false
     };
   },
   computed: {
     userImg() {
       return this.$bus.login;
-    },
+    }
   },
   methods: {
     loginBox() {
@@ -67,8 +72,7 @@ export default {
     },
     verifyID() {
       this.a = true;
-      let ipone =
-        /^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+      let ipone = /^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
       if (ipone.test(this.input1)) {
         this.valify = true;
       } else {
@@ -89,11 +93,11 @@ export default {
     },
     login() {
       loginPhone(this.input1, this.input2)
-        .then((res) => {
+        .then(res => {
           console.log(res);
           let user = {
             account: res.account,
-            profile: res.profile,
+            profile: res.profile
           };
           if (Object.prototype.hasOwnProperty.call(res, "msg")) {
             this.$bus.$emit("error", "密码");
@@ -109,11 +113,14 @@ export default {
         .catch(() => {
           this.$bus.$emit("error", "登录");
         });
-    },
+    }
   },
   created() {
     this.loginBox();
-  },
+    window.$wujie.$on("setIsLoginModalOpen", value => {
+      this.display = value;
+    });
+  }
 };
 </script>
 
@@ -125,6 +132,7 @@ export default {
   transform: translate(-50%, -50%);
   background-color: #c4c4c4;
   z-index: 100000;
+
   .loginBox {
     position: relative;
     display: flex;
@@ -136,6 +144,7 @@ export default {
     height: 300px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     background-color: rgba(226, 226, 226, 0.5);
+
     .close {
       position: absolute;
       top: 10px;
@@ -150,16 +159,19 @@ export default {
       border-radius: 20px 20px;
       margin: 0;
       background-color: rgb(255, 253, 253);
+
       &:hover {
         border-color: #f7f8fa;
         background-color: #fcfdfd;
       }
     }
+
     .el-button {
       &:hover {
         color: gray;
       }
     }
+
     div {
       position: relative;
       width: 100%;
@@ -168,17 +180,20 @@ export default {
       padding-bottom: 20px;
       justify-content: space-between;
       align-items: center;
+
       label {
         width: 20%;
         display: flex;
         align-items: center;
       }
+
       .el-input {
         display: flex;
         align-items: center;
         margin: 0;
         padding: 0;
       }
+
       p {
         position: absolute;
         left: 50%;

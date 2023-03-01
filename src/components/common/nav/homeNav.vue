@@ -8,8 +8,8 @@
         :to="{
           path: '/user',
           query: {
-            id,
-          },
+            id
+          }
         }"
         active-class="active"
         >我的音乐</router-link
@@ -48,14 +48,15 @@ export default {
   computed: {
     id() {
       if (this.$store.state.login) {
+        console.log(this.$store.state.login, "homenav");
         return this.$store.state.login.account.id;
       } else {
         return null;
       }
-    },
+    }
   },
   methods: {},
-  mounted() {},
+  mounted() {}
 };
 </script>
 

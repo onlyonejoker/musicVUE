@@ -7,8 +7,12 @@ import "./plugins/element.js";
 import VueLazyload from "vue-lazyload";
 import { Audio } from "./util/util";
 import { Copy } from "./util/copy";
+
+import WujieVue from "wujie-vue2";
+
 Vue.config.productionTip = false;
 Vue.prototype.$bus = new Vue();
+
 Vue.prototype.$time = function(time) {
   let date = new Date(time);
   let y = date.getFullYear();
@@ -24,17 +28,25 @@ Vue.prototype.$time = function(time) {
   s < 10 ? (s = "0" + s) : s;
   return y + "年" + m + "月" + d + "日" + "  " + h + ":" + f + ":" + s;
 };
+
 Vue.prototype.$audio = new Audio();
 Vue.prototype.Copy = new Copy();
 Vue.prototype.axios = axios;
+
 Vue.use(VueLazyload, {
   loading: require("./assets/img/loading.gif"),
-  error: require("./assets/img/error.jpg"),
+  error: require("./assets/img/error.jpg")
 });
+
+const { bus } = WujieVue;
+console.log(bus);
+Vue.use(WujieVue);
+window.$wujie = bus;
+
 const vm = new Vue({
-  router,
   store,
-  render: (h) => h(App),
+  router,
+  render: h => h(App)
 }).$mount("#app");
 
 export default vm;
