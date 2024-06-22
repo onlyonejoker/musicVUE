@@ -22,6 +22,7 @@ export default {
   data() {
     return {
       toplist: null,
+      
     };
   },
   methods: {
